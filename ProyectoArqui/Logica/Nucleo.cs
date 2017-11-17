@@ -148,12 +148,15 @@ namespace ProyectoArqui.Logica
 
                     //no hubo hit y va a memoria a cargar bloque
 
-                    for (int j=0;j<4;++j)
+                    for (int j = 0; j < 4; ++j)
                     {
 
                         Instruccion nueva = new Instruccion();
 
-                        nueva.CodigoOp = PC + (j*4);
+                        nueva.CodigoOp = (Utilidades.CodigosInst)(j * 4);
+                        nueva.RF1 = (j * 4) + 1;
+                        nueva.RF2_RD = (j * 4) + 2;
+                        nueva.RD_IMM = (j * 4) + 3;
 
 
                         cacheI.bloqueInstruccion[bloque%4, j] = nueva;
