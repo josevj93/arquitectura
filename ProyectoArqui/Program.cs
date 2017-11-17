@@ -11,6 +11,7 @@ namespace ProyectoArqui
     static class Program
     {
         //asdasdadsasdadasd
+        //comentario tuanis
         public static Form1 Vista;
         public static Controladora controladora = new Controladora();
 
