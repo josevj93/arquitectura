@@ -9,8 +9,9 @@ namespace ProyectoArqui.Logica
     public class Instruccion
     {
         //Codigo de Operacion ya codificada en Utilidades
-        public Utilidades.CodigosInst CodigoOp { get; set; }
-        
+        //public Utilidades.CodigosInst CodigoOp { get; set; }
+        public int CodigoOp { get; set; }
+
         //Registro fuente 1
         public int RF1 = 0;
 

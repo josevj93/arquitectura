@@ -40,51 +40,55 @@ namespace ProyectoArqui.Logica
             bool result = false;
             switch (instruccion.CodigoOp)
             {
-                case Utilidades.CodigosInst.DADDI:
-                    //Rx <-- (Ry) + n
+                case 8:
+                    //DADDI: Rx <-- (Ry) + n
                     Registros[instruccion.RF2_RD] = Registros[instruccion.RF1] + Registros[instruccion.RD_IMM];
                     break;
-                case Utilidades.CodigosInst.DADD:
-                    //Rx <-- (Ry) + (Rz)
+                case 32:
+                    //DADD: Rx <-- (Ry) + (Rz)
                     Registros[instruccion.RD_IMM] = Registros[instruccion.RF1] + Registros[instruccion.RF2_RD];
                     break;
-                case Utilidades.CodigosInst.DSUB:
-                    //Rx <-- (Ry) - (Rz)
+                case 34:
+                    //DSUB: Rx <-- (Ry) - (Rz)
                     Registros[instruccion.RD_IMM] = Registros[instruccion.RF1] - Registros[instruccion.RF2_RD];
                     break;
-                case Utilidades.CodigosInst.DMUL:
-                    //Rx <-- (Ry) * (Rz)
+                case 12:
+                    //DMUL: Rx <-- (Ry) * (Rz)
                     Registros[instruccion.RD_IMM] = Registros[instruccion.RF1] * Registros[instruccion.RF2_RD];
                     break;
-                case Utilidades.CodigosInst.DDIV:
-                    //Rx <-- (Ry) / (Rz)
+                case 14:
+                    //DDIV: Rx <-- (Ry) / (Rz)
                     Registros[instruccion.RD_IMM] = Registros[instruccion.RF1] / Registros[instruccion.RF2_RD];
                     break;
-                case Utilidades.CodigosInst.BEQZ:
-                    //Si Rx == 0 hace un salto de n*4 (tamaño de instruccion)
+                case 4:
+                    //BEQZ: Si Rx == 0 hace un salto de n*4 (tamaño de instruccion)
                     if(Registros[instruccion.RF1] == 0)
                     {
                         PC = PC + (instruccion.RD_IMM * 4); //cambio el PC a la etiqueta
                     }
                     break;
-                case Utilidades.CodigosInst.BNEZ:
-                    //Si Rx != 0 hace un salto de n*4 (tamaño de instruccion)
+                case 5:
+                    //BNEZ: Si Rx != 0 hace un salto de n*4 (tamaño de instruccion)
                     if(Registros[instruccion.RF1] != 0)
                     {
                         PC = PC + (instruccion.RD_IMM * 4); //cambio el PC a la etiqueta
                     }
                     break;
-                case Utilidades.CodigosInst.JAL:
-                    //R31 <-- PC, PC <-- PC + n
+                case 3:
+                    //JAL: R31 <-- PC, PC <-- PC + n
                     Registros[31] = PC;
                     PC = PC + instruccion.RD_IMM;
                     break;
-                case Utilidades.CodigosInst.JR:
-                    //PC <-- (RX)
+                case 2:
+                    //JR: PC <-- (RX)
                     PC = Registros[instruccion.RF1];
                     break;
-                case Utilidades.CodigosInst.FIN:
+                case 63:
+                    //FIN
                     result = true;
+                    break;
+                default:
+                    //si hay un mal codigo deberia de tirar error
                     break;
             }
             return result;
