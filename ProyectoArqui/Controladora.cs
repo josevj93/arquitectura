@@ -73,6 +73,8 @@ namespace ProyectoArqui
         //Directorio procesador 2, 8 bloques x 4 columnas (estado, N0, N1, N2)
         public static int[,] DirectorioP2 = new int[8, 4];
 
+        public static int Quant;
+
         //funcion para simular el tick de reloj
         static void TickReloj()
         {
@@ -80,74 +82,44 @@ namespace ProyectoArqui
             //theForm.AppendReloj(Reloj.ToString());
         }
 
-        public static void cargar(List<List<int>> hilillosP1, List<List<int>> hilillosP2)
+
+        public static void cargar(List<List<int>> hilillos)
         {
             //Carga las instrucciones de los hilillos en la memoria de instrucciones de cada procesador
-            int c = 0;
+            int cont = 0;
+            int contadorP1 = 0, contadorP2 = 0;
 
-            for (int i = 0; i < hilillosP1.Count(); ++i)
+            foreach (List<int> archivo in hilillos)
             {
 
-                ColaContextosP1.Enqueue(new ContextoHilillo(i, c));
-                foreach (int integer in hilillosP1.ElementAt(i))
+                if (cont % 2 == 0)
                 {
-                    MIP1[c++] = integer;
+                    ColaContextosP1.Enqueue(new ContextoHilillo(contadorP1));
+
+                    foreach (int dato in archivo)
+                    {
+                        MIP1[contadorP1++] = dato;
+                    }
+
                 }
+
+                else
+                {
+                    ColaContextosP2.Enqueue(new ContextoHilillo(contadorP2));
+                    foreach (int dato in archivo)
+                    {
+                        MIP2[contadorP2++] = dato;
+                    }
+
+
+                }
+                cont++;
             }
 
-            c = 0;
-
-            for (int i = 0; i < hilillosP2.Count(); ++i)
-            {
-                ColaContextosP2.Enqueue(new ContextoHilillo(i, c));
-                foreach (int integer in hilillosP2.ElementAt(i))
-                {
-                    MIP2[c++] = integer;
-                }
-            }
 
         }
 
-        public static void cargar2 (List<string> hilillo, int numero)
-        {
-            //Carga las instrucciones de los hilillos en la memoria de instrucciones de cada procesador
-            int c = 0;
 
-            if (numero % 2 == 0)
-            {
-                for (int i = 0; i < hilillo.Count()-1; ++i)
-                {
-                    ColaContextosP1.Enqueue(new ContextoHilillo(i, ColaContextosP1.Count));
-                    foreach (char integer in hilillo.ElementAt(i))
-                    {
-                        MIP1[c++] = Convert.ToInt32(integer);
-                    }
-                }
-
-
-
-
-            }
-            else
-            {
-                c = 0;
-
-                for (int i = 0; i < hilillo.Count()-1; ++i)
-                {
-                    ColaContextosP2.Enqueue(new ContextoHilillo(i, c));
-                    foreach (char integer in hilillo.ElementAt(i))
-                    {
-                        MIP2[c++] = Convert.ToInt32(integer);
-                    }
-                }
-
-
-            }
-
-
-
-
-        }
 
 
     }

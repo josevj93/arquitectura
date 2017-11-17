@@ -19,6 +19,7 @@ namespace ProyectoArqui.Logica
 
         //identificador del nucleo donde fue ejecutado
         public int IdNucleo { get; set; }
+        public int IdProcesador { get; set; }
 
         //direccion donde inician las instrucciones del hilillo
         public int DireccionInicial { get; set; }
@@ -27,12 +28,15 @@ namespace ProyectoArqui.Logica
         public bool Finalizado { get; set; }
 
 
-        public ContextoHilillo(int IdNucleo, int DireccionInicial)
+        public ContextoHilillo(int DireccionInicial)
         {
-            this.IdNucleo = IdNucleo;
             this.DireccionInicial = DireccionInicial;
             PC = DireccionInicial;
             Finalizado = false;
+           for(int i = 0; i < Registros.Count(); ++i )
+            {
+                Registros[i] = 0;
+            }
         }
     }
 }

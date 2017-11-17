@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoArqui.Logica
 {
-    class Referencias
+   public class Referencias
     {
         //direccion en memoria
         public int Direccion { get; set; }

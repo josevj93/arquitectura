@@ -8,7 +8,7 @@ namespace ProyectoArqui.Logica
 {
     class Nucleo
     {
-        public Utilidades.CodigosInst IR { get; set; }
+        public Instruccion IR { get; set; }
         public int PC { get; set; }
         public int[] Registros { get; set; }
         public int IdNucleo = -1;
@@ -25,8 +25,6 @@ namespace ProyectoArqui.Logica
         /// 6 ya que el 5 es la etiqueta y el 6 es el estado.
         /// </summary>
         public int[,] CacheDatos = new int[6, 4];
-
-        public Instruccion instruccionActual; //la primera vez será null
 
         public Nucleo(int id)
         {
@@ -45,34 +43,28 @@ namespace ProyectoArqui.Logica
                 case Utilidades.CodigosInst.DADDI:
                     //Rx <-- (Ry) + n
                     Registros[instruccion.RF2_RD] = Registros[instruccion.RF1] + Registros[instruccion.RD_IMM];
-                    result = true;
                     break;
                 case Utilidades.CodigosInst.DADD:
                     //Rx <-- (Ry) + (Rz)
                     Registros[instruccion.RD_IMM] = Registros[instruccion.RF1] + Registros[instruccion.RF2_RD];
-                    result = true;
                     break;
                 case Utilidades.CodigosInst.DSUB:
                     //Rx <-- (Ry) - (Rz)
                     Registros[instruccion.RD_IMM] = Registros[instruccion.RF1] - Registros[instruccion.RF2_RD];
-                    result = true;
                     break;
                 case Utilidades.CodigosInst.DMUL:
                     //Rx <-- (Ry) * (Rz)
                     Registros[instruccion.RD_IMM] = Registros[instruccion.RF1] * Registros[instruccion.RF2_RD];
-                    result = true;
                     break;
                 case Utilidades.CodigosInst.DDIV:
                     //Rx <-- (Ry) / (Rz)
                     Registros[instruccion.RD_IMM] = Registros[instruccion.RF1] / Registros[instruccion.RF2_RD];
-                    result = true;
                     break;
                 case Utilidades.CodigosInst.BEQZ:
                     //Si Rx == 0 hace un salto de n*4 (tamaño de instruccion)
                     if(Registros[instruccion.RF1] == 0)
                     {
                         PC = PC + (instruccion.RD_IMM * 4); //cambio el PC a la etiqueta
-                        result = true;
                     }
                     break;
                 case Utilidades.CodigosInst.BNEZ:
@@ -86,11 +78,12 @@ namespace ProyectoArqui.Logica
                     //R31 <-- PC, PC <-- PC + n
                     Registros[31] = PC;
                     PC = PC + instruccion.RD_IMM;
-                    result = true;
                     break;
                 case Utilidades.CodigosInst.JR:
                     //PC <-- (RX)
                     PC = Registros[instruccion.RF1];
+                    break;
+                case Utilidades.CodigosInst.FIN:
                     result = true;
                     break;
             }
@@ -114,20 +107,20 @@ namespace ProyectoArqui.Logica
         }
 
         //devuelve true si finalizo el Hilillo
-        public ContextoHilillo iniciar(ContextoHilillo contexto, int[] MI, int quantum)
+        public ContextoHilillo iniciar(ContextoHilillo contexto)
         {
             //Inicializa registros y pc del contexto
+            int numInst = Controladora.Quant;
             PC = contexto.PC;
             Registros = contexto.Registros;
-            bool finalizado = contexto.Finalizado;
 
-            while(quantum > 0 /*&& !finalizado*/)
+            while(numInst > 0 && !contexto.Finalizado)
             {
 
                 //saca palabra y bloque del PC
 
                 int bloque = PC / 16;
-                int palabra = PC / 4; // revisar
+                int palabra = (PC %16)/4;
 
                 bool hit = false;
 
@@ -156,9 +149,16 @@ namespace ProyectoArqui.Logica
                     
                 }
 
+
+                //ejecuta instruccion
+
+                if (ejecutarInstruccion(IR)){
+                    contexto.Finalizado = true;
+
+                }
+
+
             }
-
-
 
 
             return contexto;

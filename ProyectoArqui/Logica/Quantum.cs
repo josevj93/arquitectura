@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoArqui.Logica
 {
-    class Quantum
+    public class Quantum
     {
         //valor del quantum
         public int Valor { get; set; }

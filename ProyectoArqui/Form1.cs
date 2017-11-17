@@ -14,9 +14,11 @@ namespace ProyectoArqui
 {
     public partial class Form1 : Form
     {
+
         public Form1()
         {
             InitializeComponent();
+            
         }
 
         //este es un push de prueba hecho por jose valverde
@@ -37,7 +39,9 @@ namespace ProyectoArqui
             {
                 try
                 {
-                    int ValorQuantum = Convert.ToInt32(txtQuantum.Text);
+                    Controladora.Quant = Convert.ToInt32(txtQuantum.Text);
+
+                    
                 }
                 catch (Exception)
                 {
@@ -62,33 +66,24 @@ namespace ProyectoArqui
              
              */
 
-            Controladora.cargar(listaHilillos,);
+            Controladora.cargar(listaHilillos);
 
-            foreach (List<string> listaDatos in listaHilillos)
-            {
-                for (int i = 0; i <= listaHilillos.Count()-1; i++)
-                {
-                    Controladora.cargar2(listaDatos, i);
-                }
-            }
+        
 
             for (int i = 0; i <= Controladora.MIP1.Count()-1; i++)
             {
-                char a = Convert.ToChar(Controladora.MIP1[i]);
-
-                txtMemInstrucciones1.AppendText(a + "-" );
+                txtMemInstrucciones1.AppendText(Controladora.MIP1[i] + "-" );
 
             }
 
             for (int i = 0; i <= Controladora.MIP2.Count()-1; i++)
             {
-                char b = Convert.ToChar(Controladora.MIP2[i]);
-                txtMemInstrucciones2.AppendText(b + "-");
+                txtMemInstrucciones2.AppendText(Controladora.MIP2[i] + "-");
 
             }
             //Controladora.cargar(listaHilillos.ElementAt(0), listaHilillos.ElementAt(1));
         }
-        List<List<String>> listaHilillos = new List<List<String>>();
+        List<List<int>> listaHilillos = new List<List<int>>();
 
 
         private void btnCargarArchivos_Click(object sender, EventArgs e)
@@ -112,7 +107,7 @@ namespace ProyectoArqui
                 foreach (String file in openFileDialog1.FileNames)
                 {
                     //para enviarlo al controlador de hilillos.
-                    List<string> lista = new List<string>();
+                    List<int> lista = new List<int>();
                     string lineasTodoElArchivo = String.Empty;
 
                     //para mostrar en pantalla.
@@ -128,7 +123,7 @@ namespace ProyectoArqui
                         for (int i = 0; i <= parts.Count() - 1; i++)
                         {
                             //txtArchivo.AppendText(parts[i]+"\n");
-                            lista.Add(parts[i]);
+                            lista.Add(Convert.ToInt32(parts[i]));
                         }
 
 
@@ -142,7 +137,7 @@ namespace ProyectoArqui
                 fileStream.Close();
 
                 int cont2 = 1;
-                foreach (List<string> listaDatosArchivos in listaHilillos)
+                foreach (List<int> listaDatosArchivos in listaHilillos)
                 {
                     txtVerLista.AppendText("Archivo " + cont2 + "\n");
                     for (int i = 0; i <= listaDatosArchivos.Count() - 1; i++)
