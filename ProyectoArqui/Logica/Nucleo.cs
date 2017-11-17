@@ -218,6 +218,7 @@ namespace ProyectoArqui.Logica
 
                         nueva.CodigoOp = PC + (j*4);
 
+
                         cacheI.bloqueInstruccion[bloque%4, j] = nueva;
 
 
