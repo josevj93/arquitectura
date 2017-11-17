@@ -90,6 +90,69 @@ namespace ProyectoArqui.Logica
             return result;
         }
 
+        private bool EjecutarLW(Instruccion instruccion, Referencias refMemoria, Quantum quantum)
+        {
+            bool result = false;
+
+            var lockMiCache = new Lock(CacheDatos); //
+            if (lockMiCache.HasLock)
+            {
+                //tick de reloj
+                Controladora.barreraReloj.SignalAndWait();
+                //si esta el bloque en mi cache y esta válido
+                if (CacheDatos[4, refMemoria.PosCache] == refMemoria.Bloque && CacheDatos[4, refMemoria.PosCache] != -1)
+                {
+                    //cargar el valor al registro correspondiente
+                    Registros[instruccion.RF2_RD] = CacheDatos[refMemoria.Palabra, refMemoria.PosCache];
+
+                    //restar quantum
+                    quantum.Valor--;
+                    //ExitoAnterior = true
+                    result = true;
+                    Controladora.barreraReloj.SignalAndWait();
+                }
+                else //fallo de cache
+                {
+                    //bloquear el bus de data
+                    var lockBusData = new Lock(Controladora.BusDatosP1);
+                    //si obtuve el bus de data
+                    if (lockBusData.HasLock)
+                    {
+                        //tick de reloj
+                        Controladora.barreraReloj.SignalAndWait();
+                        //subo el bloque a cache
+                        for (int i = 0; i < 4; i++)
+                        {
+                            CacheDatos[/*refMemoria.Palabra +*/ i, refMemoria.PosCache] =
+                                Controladora.MCP1[((refMemoria.Bloque * 16) + i) / 4];
+                        }
+                        //agrego al registro lo que hay en caché
+                        Registros[instruccion.RF2_RD] = CacheDatos[refMemoria.Palabra, refMemoria.PosCache];
+                        //restar quantum
+                        quantum.Valor--;
+                        //ExitoAnterior = true
+                        result = true;
+                        //4(1 + 5 +1) cargando bloque de memoria a cache.
+                        IncrementarReloj(28);
+                        //libero el bus
+                        lockBusData.Dispose();
+                    }
+                    else
+                    {
+                        //tick de reloj si no tuve el bus
+                        Controladora.barreraReloj.SignalAndWait();
+                    }
+                }
+                lockMiCache.Dispose();
+            }
+            else
+            {
+                //tick de reloj si no obtuve el cacheData
+                Controladora.barreraReloj.SignalAndWait();
+            }
+            return result;
+        }
+
         private void IncrementarReloj(int limiteSuperior)
         {
             for (int i = 0; i < limiteSuperior; i++)
