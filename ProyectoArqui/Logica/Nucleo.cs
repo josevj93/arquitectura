@@ -114,6 +114,8 @@ namespace ProyectoArqui.Logica
             PC = contexto.PC;
             Registros = contexto.Registros;
 
+            int contadorEtiqCache = 0;
+
             while(numInst > 0 && !contexto.Finalizado)
             {
 
@@ -125,12 +127,13 @@ namespace ProyectoArqui.Logica
                 bool hit = false;
 
                 //comienza fetch
-                foreach (int i in cacheI.etiquetas)
+
+                int i = 0;
+                while (i<4 && cacheI.etiquetas[i] != bloque)
                 {
-                    if(i == bloque)
+                    if(cacheI.etiquetas[i] == bloque)
                     {
                         hit = true;
-
                     }
 
                 }
@@ -145,6 +148,19 @@ namespace ProyectoArqui.Logica
 
                     //no hubo hit y va a memoria a cargar bloque
 
+                    for (int j=0;j<4;++j)
+                    {
+
+                        Instruccion nueva = new Instruccion();
+
+                        nueva.CodigoOp = PC + (j*4);
+
+                        cacheI.bloqueInstruccion[bloque%4, j] = nueva;
+
+
+                    }
+
+                    
                     
                     
                 }
