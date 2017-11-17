@@ -10,6 +10,7 @@ namespace ProyectoArqui
 {
     static class Program
     {
+        //asdasdadsasdadasdasdadadasdas
         //asdasdadsasdadasd
         //comentario tuanis
         public static Form1 Vista;
