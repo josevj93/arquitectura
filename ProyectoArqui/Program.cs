@@ -10,7 +10,7 @@ namespace ProyectoArqui
 {
     static class Program
     {
-        //asdasdadsasdadasd
+        //asdasdadsasdadasdasdadadasdas
         public static Form1 Vista;
         public static Controladora controladora = new Controladora();
 
