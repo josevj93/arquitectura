@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace ProyectoArqui.Logica
 {
@@ -15,11 +16,8 @@ namespace ProyectoArqui.Logica
 
         List<Nucleo> nucleos;
 
-        Queue<ContextoHilillo> colaHilos;
 
-        List<ContextoHilillo> hilosFinalizados;
-
-        Procesador(int id, int nNucleos, Queue<ContextoHilillo> cch)
+        Procesador(int id, int nNucleos)
         {
             //asigna el id al Procesador
             this.id = id;
@@ -30,39 +28,37 @@ namespace ProyectoArqui.Logica
                 nucleos.Add(new Nucleo(i,id));
             }
 
-            colaHilos = cch;
         }
 
-        void iniciar(Object o)
+        public void iniciar(Object o)
         {
             //carga los datos compartidos
             shared = (Shared)o;
 
+            int hilosPendientes;
+
+            lock (shared.colasContextos)
+            {
+                hilosPendientes = shared.colasContextos.ElementAt(id).Count();
+            }
+
             //mientras la cola de Hilos tenga hilos pendientes
-            while (colaHilos.Count() < 0)
+            while (hilosPendientes > 0)
             {
 
                 foreach(Nucleo nucleo in nucleos)
                 {
-                    if(colaHilos.Count() < 0)
+
+                    lock (shared.colasContextos)
+                    {
+                        hilosPendientes = shared.colasContextos.ElementAt(id).Count();
+                    }
+
+                    if (hilosPendientes > 0)
                     {
 
-                        ContextoHilillo proximo = colaHilos.Dequeue();
-
-                        if (proximo.Finalizado)
-                        {
-                            //si el hilo termino lo carga en la lista de finalizados
-                            hilosFinalizados.Add(proximo);
-                        }
-                        else
-                        {
-                            //sino, lo carga en el nucleo
-
-                            colaHilos.Enqueue(nucleo.ejecutar(proximo));
-
-                        }
-
-
+                        Thread t = new Thread(nucleo.ejecutar);
+                        t.Start(shared);
 
                     }
 

@@ -15,9 +15,12 @@ namespace ProyectoArqui
     public partial class Form1 : Form
     {
 
+        Controladora controladora;
+
         public Form1()
         {
             InitializeComponent();
+            controladora = new Controladora();
             
         }
 
@@ -65,20 +68,20 @@ namespace ProyectoArqui
              
              
              */
-
-            Controladora.cargar(listaHilillos);
+             
+            controladora.cargar(listaHilillos);
 
         
 
-            for (int i = 0; i <= Controladora.MIP1.Count()-1; i++)
+            for (int i = 0; i <= controladora.shared.memoriaInstrucciones.ElementAt(0).Count()-1; i++)
             {
-                txtMemInstrucciones1.AppendText(Controladora.MIP1[i] + "-" );
+                txtMemInstrucciones1.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(0)[i] + "-" );
 
             }
 
-            for (int i = 0; i <= Controladora.MIP2.Count()-1; i++)
+            for (int i = 0; i <= controladora.shared.memoriaInstrucciones.ElementAt(1).Count()-1; i++)
             {
-                txtMemInstrucciones2.AppendText(Controladora.MIP2[i] + "-");
+                txtMemInstrucciones2.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(1)[i] + "-");
 
             }
             //Controladora.cargar(listaHilillos.ElementAt(0), listaHilillos.ElementAt(1));

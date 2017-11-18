@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoArqui.Logica
 {
-    class ContextoHilillo
+    public class ContextoHilillo
     {
         //arreglo de registros 0-31
         public int[] Registros = new int[32];

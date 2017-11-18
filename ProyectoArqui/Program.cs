@@ -95,6 +95,7 @@ namespace ProyectoArqui
         static void Main()
         {
             
+            /*
             Queue<int> q1 = new Queue<int>();
             Queue<int> q2 = new Queue<int>();
 
@@ -123,16 +124,17 @@ namespace ProyectoArqui
             {
                 Console.Write(element + " ");
             }
-            int a = 3;
+  
             
-    /*
+            */
+    
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Vista = new Form1();
             Application.Run(new Form1());
 
-    */
+    
         }
     }
 }

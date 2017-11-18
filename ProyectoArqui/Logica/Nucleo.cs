@@ -8,6 +8,8 @@ namespace ProyectoArqui.Logica
 {
     class Nucleo
     {
+
+        public Shared shared;
         public Instruccion IR { get; set; }
         public int PC { get; set; }
         public int[] Registros { get; set; }
@@ -176,14 +178,41 @@ namespace ProyectoArqui.Logica
         }
 
         //devuelve true si finalizo el Hilillo
-        public ContextoHilillo ejecutar(ContextoHilillo contexto)
+        public void ejecutar(object o)
         {
-            //Inicializa registros y pc del contexto
-            int numInst = Controladora.Quant;
-            PC = contexto.PC;
-            Registros = contexto.Registros;
+
+            //carga los datos compartidos
+            shared = (Shared)o;
+
+            //hilillo que se va a ejecutar en el nucleo
+            ContextoHilillo proximo;
+
+            do {
+                //bloquea la cola de contextos del Procesador donde esta el nucleo
+                lock (shared.colasContextos.ElementAt(IdProce))
+                {
+                    //carga el hilo de la cola de hilos pendientes
+                    proximo = shared.colasContextos.ElementAt(IdProce).Dequeue();
+                }
+                if (proximo.Finalizado)
+                {
+                    lock (shared.hilosFinalizados)
+                    {
+                        //si el hilo esta finalizado, lo guarda en la lista de hilos finalizados
+                        shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
+                    }
+                }
+
+            } while (proximo.Finalizado);
+
+            //REVISAR EL CASO EN QUE TODOS LOS HILOS ESTEN FINALIZADOS Y QUEDE VACIA LA COLA PORQUE SE PUEDE ENCLICLAR
+
+            //si no es un hilo finalizado, inicializa registros y pc del contexto
+            int numInst = Controladora.Quant; // GUARDAR QUANTUM EN SHARED
+            PC = proximo.PC;
+            Registros = proximo.Registros;
             
-            while(numInst > 0 && !contexto.Finalizado)
+            while(numInst > 0 && !proximo.Finalizado)
             {
 
                 //saca palabra y bloque del PC
