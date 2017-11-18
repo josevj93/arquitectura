@@ -35,12 +35,10 @@ namespace ProyectoArqui
         //cola que tendra los contextos de los hilillos del Procesador 2
         public static Queue<ContextoHilillo> ColaContextosP2 = new Queue<ContextoHilillo>();
 
-        //16 bloques [0-252] = 16 bloques x 4 entradas = 64 enteros
-        public static int[] MCP1 = new int[64]; //Memoria compartida del procesador 1
+        
         //24 bloques [256-636] (96 instrucciones) = 24 bloques x 16 entradas = 384 enteros
         public static int[] MIP1 = new int[384]; //Memoria de instrucciones del procesador 1
-        //8 bloques [256-380] = 8 bloques x 4 entradas = 32 enteros
-        public static int[] MCP2 = new int[32]; //Memoria compartida del procesador 2
+        
         //16 bloques [128-380] (64 instrucciones) = 16 bloques x 16 enteros = 256 enteros
         public static int[] MIP2 = new int[256]; //Memoria de instrucciones del procesador 2
 
@@ -67,11 +65,6 @@ namespace ProyectoArqui
         public static Instruccion[,] CacheInstN3 = new Instruccion[5, 4];
         //contador de las instrucciones completas permitidas por hilo o simplemente, el quantum
         public static Quantum QuantumN3 = new Quantum();
-
-        //Directorio procesador 1, 16 bloques x 4 columnas (estado, N0, N1, N2)
-        public static int[,] DirectorioP1 = new int[16, 4];
-        //Directorio procesador 2, 8 bloques x 4 columnas (estado, N0, N1, N2)
-        public static int[,] DirectorioP2 = new int[8, 4];
 
         public static int Quant;
 

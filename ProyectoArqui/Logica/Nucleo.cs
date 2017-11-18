@@ -11,8 +11,8 @@ namespace ProyectoArqui.Logica
         public Instruccion IR { get; set; }
         public int PC { get; set; }
         public int[] Registros { get; set; }
-        public int IdNucleo = -1;
-
+        public int IdNucleo;
+        public int IdProce;
         /// <summary>
         /// 5 ya que el ultimo es la etiqueta.
         /// </summary>
@@ -22,13 +22,15 @@ namespace ProyectoArqui.Logica
 
         
         /// <summary>
-        /// 6 ya que el 5 es la etiqueta y el 6 es el estado.
+        /// 6 ya que el 5 es la
+        /// etiqueta y el 6 es el estado.
         /// </summary>
         public int[,] CacheDatos = new int[6, 4];
 
-        public Nucleo(int id)
+        public Nucleo(int idn, int idp)
         {
-            IdNucleo = id;
+            IdNucleo = idn;
+            IdProce = idp;
         }
 
         //Ejecuta instrucciones del ALU
@@ -127,8 +129,8 @@ namespace ProyectoArqui.Logica
                         //subo el bloque a cache
                         for (int i = 0; i < 4; i++)
                         {
-                            CacheDatos[/*refMemoria.Palabra +*/ i, refMemoria.PosCache] =
-                                Controladora.MCP1[((refMemoria.Bloque * 16) + i) / 4];
+                            //CacheDatos[/*refMemoria.Palabra +*/ i, refMemoria.PosCache] =
+                                //Controladora.MCP1[((refMemoria.Bloque * 16) + i) / 4];
                         }
                         //agrego al registro lo que hay en caché
                         Registros[instruccion.RF2_RD] = CacheDatos[refMemoria.Palabra, refMemoria.PosCache];

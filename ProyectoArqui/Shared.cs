@@ -9,7 +9,7 @@ namespace ProyectoArqui
     class Shared
     {
 
-        public List<String> lista { get; set; }
+        public List<int> lista { get; set; }
 
     }
 }

@@ -10,21 +10,21 @@ namespace ProyectoArqui
     {
 
         public Shared shared;
-        Queue<String> queue;
+        Queue<int> queue;
         private int id;
 
-        public Hilo(int n, Shared s, Queue<String> q)
+        public Hilo(int n, Queue<int> q)
         {
             id = n;
-            shared = s;
+            //shared = s;
             queue = q;
         }
 
-        public void insertar(String s)
+        public void insertar(int n)
         {
-            lock (shared)
+            lock (shared.lista)
             {
-                shared.lista.Add(s);
+                shared.lista.Add(n);
             }
             
         }
@@ -40,9 +40,10 @@ namespace ProyectoArqui
             Console.WriteLine("");
         }
         */
-        public void iniciar()
+        public void iniciar(object o)
         {
-            if(queue.Count() > 0)
+            shared =((Shared)o);
+            while(queue.Count() > 0)
             {
                 insertar(queue.Dequeue());
             }

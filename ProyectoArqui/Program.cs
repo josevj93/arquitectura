@@ -94,34 +94,45 @@ namespace ProyectoArqui
         [STAThread]
         static void Main()
         {
-            /*
-            Queue<String> q1 = new Queue<String>();
-            Queue<String> q2 = new Queue<String>();
+            
+            Queue<int> q1 = new Queue<int>();
+            Queue<int> q2 = new Queue<int>();
 
-            q1.Enqueue("Hola");
-            q1.Enqueue("mundo");
-            q1.Enqueue("1");
 
-            q2.Enqueue("Soy");
-            q2.Enqueue("Hilo");
-            q2.Enqueue("2");
-
+            for(int i = 0; i < 1000000; ++i)
+            {
+                q1.Enqueue(i);
+                q2.Enqueue(i+3000000);
+            }
+            
             Shared s = new Shared();
-            s.lista = new List<String>();
+            s.lista = new List<int>();
 
-            Hilo h1 = new Hilo(0, s,q1);
-            Hilo h2 = new Hilo(1, s,q2);
+            Hilo h1 = new Hilo(0, q1);
+            Hilo h2 = new Hilo(1, q2);
 
-            Thread t1 = new Thread(new ThreadStart(h1.iniciar));
-            t1.Start();
-            Thread t2 = new Thread(new ThreadStart(h2.iniciar));
-            t2.Start();
-            */
+            Thread t1 = new Thread(h1.iniciar);
+            t1.Start(s);
+            Thread t2 = new Thread(h2.iniciar);
+            t2.Start(s);
+
+            t1.Join();
+            t2.Join();
+
+            foreach(int element in s.lista)
+            {
+                Console.Write(element + " ");
+            }
+            int a = 3;
+            
+    /*
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Vista = new Form1();
             Application.Run(new Form1());
+
+    */
         }
     }
 }
