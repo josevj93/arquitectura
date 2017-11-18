@@ -174,15 +174,13 @@ namespace ProyectoArqui.Logica
         }
 
         //devuelve true si finalizo el Hilillo
-        public ContextoHilillo iniciar(ContextoHilillo contexto)
+        public ContextoHilillo ejecutar(ContextoHilillo contexto)
         {
             //Inicializa registros y pc del contexto
             int numInst = Controladora.Quant;
             PC = contexto.PC;
             Registros = contexto.Registros;
-
-            int contadorEtiqCache = 0;
-
+            
             while(numInst > 0 && !contexto.Finalizado)
             {
 
@@ -205,12 +203,7 @@ namespace ProyectoArqui.Logica
 
                 }
 
-                if (hit)
-                {
-                    //hit en cache 
-                    //cacheI.bloqueInstruccion;
-                }
-                else
+                if (!hit)
                 {
 
                     //no hubo hit y va a memoria a cargar bloque
@@ -220,22 +213,37 @@ namespace ProyectoArqui.Logica
 
                         Instruccion nueva = new Instruccion();
 
-                        nueva.CodigoOp = (Utilidades.CodigosInst)(j * 4);
-                        nueva.RF1 = (j * 4) + 1;
-                        nueva.RF2_RD = (j * 4) + 2;
-                        nueva.RD_IMM = (j * 4) + 3;
+                        if (contexto.IdProcesador == 0)
+                        {
+                            nueva.CodigoOp = Controladora.MIP1[bloque + (j * 4)];
+                            nueva.RF1 = Controladora.MIP1[bloque + (j * 4) + 1];
+                            nueva.RF2_RD = Controladora.MIP1[bloque + (j * 4)  + 2];
+                            nueva.RD_IMM = Controladora.MIP1[bloque + (j * 4) + 3];
+
+                        }
+                        else
+                        {
+                            nueva.CodigoOp = Controladora.MIP2[bloque + (j * 4)];
+                            nueva.RF1 = Controladora.MIP2[bloque + (j * 4) + 1];
+                            nueva.RF2_RD = Controladora.MIP2[bloque + (j * 4) + 2];
+                            nueva.RD_IMM = Controladora.MIP2[bloque + (j * 4) + 3];
 
 
+                        }
+                        
                         cacheI.bloqueInstruccion[bloque%4, j] = nueva;
 
 
                     }
 
-                    
-                    
+                    //Guarda la etiqueta del bloque subido
+                    cacheI.etiquetas[bloque % 4] = bloque;
                     
                 }
 
+                //Carga instruccion al IR de la cache
+
+                IR = cacheI.bloqueInstruccion[bloque, palabra];
 
                 //ejecuta instruccion
 
@@ -246,7 +254,6 @@ namespace ProyectoArqui.Logica
 
 
             }
-
 
             return contexto;
 

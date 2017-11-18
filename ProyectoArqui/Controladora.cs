@@ -120,6 +120,15 @@ namespace ProyectoArqui
         }
 
 
+        public static void iniciar()
+        {
+
+
+
+
+        }
+
+
 
 
     }
