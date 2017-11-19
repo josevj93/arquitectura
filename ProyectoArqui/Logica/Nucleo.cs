@@ -98,8 +98,70 @@ namespace ProyectoArqui.Logica
             return result;
         }
 
-        private bool EjecutarLW(Instruccion instruccion, Referencias refMemoria, Quantum quantum)
+        //Hay que definir lo de los estados, en este caso estoy proponiendo que: -1 = I, 0 = C, 1 = M
+        private bool EjecutarLW(Instruccion instruccion, /*Referencias refMemoria,*/ Quantum quantum)
         {
+            bool result = false;
+
+            //se obtiene direccion de memoria
+            int direccion = instruccion.RF1 + instruccion.RD_IMM;
+
+            //se convierte a bloque y palabra posicion en cache
+            int bloque = direccion / 16;
+            int palabra = (direccion % 16) / 4;
+            int posCache = bloque % 4;
+
+            //se trata de bloquear el caché
+            var lockCache = new Lock(CacheDatos);
+
+            //si se pudo bloquear sigue con la lectura
+            if (lockCache.HasLock)
+            {
+                //tick de reloj
+                Controladora.barreraReloj.SignalAndWait();
+                //si esta el bloque en mi cache y esta válido
+                if (CacheDatos[4, posCache] == bloque && CacheDatos[5, posCache] != -1)
+                {
+                    //cargar el valor al registro correspondiente
+                    Registros[instruccion.RF2_RD] = CacheDatos[palabra, posCache];
+                    
+                    //restar quantum
+                    quantum.Valor--;
+                    result = true;
+                    Controladora.barreraReloj.SignalAndWait();
+                }
+                else //fallo de cache (no se encuentra el bloque en cache o no esta valido)
+                {
+                    //tick de reloj
+                    Controladora.barreraReloj.SignalAndWait();
+
+                    //se debe de revisar el estado del bloque para saber si esta modificado
+                    if(CacheDatos[5, posCache] == 1)
+                    {
+
+                    }
+                    else
+                    {
+                        //es compartido?
+                        if (CacheDatos[5, posCache] == 0)
+                        {
+
+                        }
+                        else //es invalido
+                        {
+
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                //sino se pudo obtener el cache hay tick de reloj
+                Controladora.barreraReloj.SignalAndWait();
+            }
+
+            /*
             bool result = false;
 
             var lockMiCache = new Lock(CacheDatos); //
@@ -131,7 +193,7 @@ namespace ProyectoArqui.Logica
                         //subo el bloque a cache
                         for (int i = 0; i < 4; i++)
                         {
-                            //CacheDatos[/*refMemoria.Palabra +*/ i, refMemoria.PosCache] =
+                            //CacheDatos[/*refMemoria.Palabra +* i, refMemoria.PosCache] =
                                 //Controladora.MCP1[((refMemoria.Bloque * 16) + i) / 4];
                         }
                         //agrego al registro lo que hay en caché
@@ -157,7 +219,7 @@ namespace ProyectoArqui.Logica
             {
                 //tick de reloj si no obtuve el cacheData
                 Controladora.barreraReloj.SignalAndWait();
-            }
+            }*/
             return result;
         }
 
