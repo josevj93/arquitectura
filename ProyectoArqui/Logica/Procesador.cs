@@ -16,8 +16,9 @@ namespace ProyectoArqui.Logica
 
         List<Nucleo> nucleos;
 
+        private int v;
 
-        Procesador(int id, int nNucleos)
+        public Procesador(int id, int nNucleos)
         {
             //asigna el id al Procesador
             this.id = id;
@@ -28,6 +29,11 @@ namespace ProyectoArqui.Logica
                 nucleos.Add(new Nucleo(i,id));
             }
 
+        }
+
+        public Procesador(int v)
+        {
+            this.v = v;
         }
 
         public void iniciar(Object o)

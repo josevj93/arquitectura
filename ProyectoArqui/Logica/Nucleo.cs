@@ -99,7 +99,7 @@ namespace ProyectoArqui.Logica
         }
 
         //Hay que definir lo de los estados, en este caso estoy proponiendo que: -1 = I, 0 = C, 1 = M
-        private bool EjecutarLW(Instruccion instruccion, /*Referencias refMemoria,*/ Quantum quantum)
+        private bool EjecutarLW(Instruccion instruccion /*Referencias refMemoria,*/ )
         {
             bool result = false;
 
@@ -126,7 +126,7 @@ namespace ProyectoArqui.Logica
                     Registros[instruccion.RF2_RD] = CacheDatos[palabra, posCache];
                     
                     //restar quantum
-                    quantum.Valor--;
+                    //quantum.Valor--; LO COMENTE PARA QUE NO DIERA ERRORES
                     result = true;
                     Controladora.barreraReloj.SignalAndWait();
                 }
@@ -270,7 +270,13 @@ namespace ProyectoArqui.Logica
             //REVISAR EL CASO EN QUE TODOS LOS HILOS ESTEN FINALIZADOS Y QUEDE VACIA LA COLA PORQUE SE PUEDE ENCLICLAR
 
             //si no es un hilo finalizado, inicializa registros y pc del contexto
-            int numInst = Controladora.Quant; // GUARDAR QUANTUM EN SHARED
+            int numInst;
+
+            lock (shared)
+            {
+                numInst = shared.quantum; // Trae el quantum definido para ejecutar
+            }
+                
             PC = proximo.PC;
             Registros = proximo.Registros;
 

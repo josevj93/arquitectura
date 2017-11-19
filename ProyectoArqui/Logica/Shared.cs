@@ -21,6 +21,8 @@ namespace ProyectoArqui.Logica
 
         public List<int[]> memoriaInstrucciones;
 
+        public int quantum { get; set; }
+
 
         public Shared()
         {
@@ -67,6 +69,7 @@ namespace ProyectoArqui.Logica
             hilosFinalizados.Add(new List<ContextoHilillo>());
             //lista de hilos que han finalizado en el Procesador 2
             hilosFinalizados.Add(new List<ContextoHilillo>());
+            
 
             //incializar memorias compartidas, directorios y caches de datos
         }

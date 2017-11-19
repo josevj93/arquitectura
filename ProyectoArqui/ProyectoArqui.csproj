@@ -60,7 +60,6 @@
     <Compile Include="Logica\Lock.cs" />
     <Compile Include="Logica\Nucleo.cs" />
     <Compile Include="Logica\Procesador.cs" />
-    <Compile Include="Logica\Quantum.cs" />
     <Compile Include="Logica\Referencias.cs" />
     <Compile Include="Logica\Shared.cs" />
     <Compile Include="Logica\Utilidades.cs" />

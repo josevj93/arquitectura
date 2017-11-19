@@ -42,9 +42,7 @@ namespace ProyectoArqui
             {
                 try
                 {
-                    Controladora.Quant = Convert.ToInt32(txtQuantum.Text);
-
-                    
+                    controladora.setQuantum(Convert.ToInt32(txtQuantum.Text));
                 }
                 catch (Exception)
                 {
@@ -71,8 +69,6 @@ namespace ProyectoArqui
              
             controladora.cargar(listaHilillos);
 
-        
-
             for (int i = 0; i <= controladora.shared.memoriaInstrucciones.ElementAt(0).Count()-1; i++)
             {
                 txtMemInstrucciones1.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(0)[i] + "-" );
@@ -85,7 +81,15 @@ namespace ProyectoArqui
 
             }
             //Controladora.cargar(listaHilillos.ElementAt(0), listaHilillos.ElementAt(1));
+
+            //AQUII COMIENZA HACIENDO LOS PROCES
+
+            //controladora.iniciar();
+
+
         }
+
+
         List<List<int>> listaHilillos = new List<List<int>>();
 
 

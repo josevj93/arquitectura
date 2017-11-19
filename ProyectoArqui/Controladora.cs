@@ -13,8 +13,6 @@ namespace ProyectoArqui
 
         public Shared shared = new Shared();
 
-        public static List<Nucleo> Procesador1 = new List<Nucleo>();
-        public static List<Nucleo> Procesador2 = new List<Nucleo>();
 
         //contador de ciclos de reloj para la ejecucion
         public static int Reloj = 0;
@@ -28,37 +26,20 @@ namespace ProyectoArqui
         public static readonly object BusDatosP2 = new object();
         public static readonly object BusInstruccionesP2 = new object();
         
-        //Nucleo 1
-        //caché de datos, matriz de 6 filas (4 palabras + 1 para etiqueta de bloque + 1 para estado) x 4 columnas de enteros
-        public static int[,] CacheN1 = new int[6, 4];
-        //cache de instrucciones, cada celda tiene una instruccion
-        public static Instruccion[,] CacheInstN1 = new Instruccion[5, 4];
-        //contador de las instrucciones completas permitidas por hilo o simplemente, el quantum
-        public static Quantum QuantumN1 = new Quantum();
-
-        //Nucleo 2
-        //caché de datos, matriz de 6 filas (4 palabras + 1 para etiqueta de bloque + 1 para estado) x 4 columnas de enteros
-        public static int[,] CacheN2 = new int[6, 4];
-        //cache de instrucciones, cada celda tiene una instruccion
-        public static Instruccion[,] CacheInstN2 = new Instruccion[5, 4];
-        //contador de las instrucciones completas permitidas por hilo o simplemente, el quantum
-        public static Quantum QuantumN2 = new Quantum();
-
-        //Nucleo 3
-        //caché de datos, matriz de 6 filas (4 palabras + 1 para etiqueta de bloque + 1 para estado) x 4 columnas de enteros
-        public static int[,] CacheN3 = new int[6, 4];
-        //cache de instrucciones, cada celda tiene una instruccion
-        public static Instruccion[,] CacheInstN3 = new Instruccion[5, 4];
-        //contador de las instrucciones completas permitidas por hilo o simplemente, el quantum
-        public static Quantum QuantumN3 = new Quantum();
-
-        public static int Quant;
-
+        
         //funcion para simular el tick de reloj
         static void TickReloj()
         {
             Reloj++;
             //theForm.AppendReloj(Reloj.ToString());
+        }
+
+        public void setQuantum(int q)
+        {
+            lock (shared)
+            {
+                shared.quantum = q;
+            }
         }
 
 
@@ -101,9 +82,15 @@ namespace ProyectoArqui
 
         public void iniciar()
         {
+            //Inicia el procesador 0 con 2 nucleos
+            Procesador p0 = new Procesador(0,2);
+            Procesador p1 = new Procesador(0,2);
 
+            Thread tp0 = new Thread(p0.iniciar);
+            tp0.Start(shared);
 
-
+            Thread tp1 = new Thread(p1.iniciar);
+            tp1.Start(shared);
 
         }
 
