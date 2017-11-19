@@ -46,7 +46,7 @@ namespace ProyectoArqui.Logica
             {
                 case 8:
                     //DADDI: Rx <-- (Ry) + n
-                    Registros[instruccion.RF2_RD] = Registros[instruccion.RF1] + Registros[instruccion.RD_IMM];
+                    Registros[instruccion.RF2_RD] = Registros[instruccion.RF1] + instruccion.RD_IMM;
                     break;
                 case 32:
                     //DADD: Rx <-- (Ry) + (Rz)
@@ -299,7 +299,7 @@ namespace ProyectoArqui.Logica
                     {
                         hit = true;
                     }
-
+                    i++;
                 }
 
                 if (!hit)
