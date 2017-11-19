@@ -20,7 +20,7 @@ namespace ProyectoArqui.Logica
         public CacheInstrucciones()
         {
             //inicializamos las etiquetas en -1
-            for (int i = 0; i <= 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 etiquetas[i] = -1;
             }

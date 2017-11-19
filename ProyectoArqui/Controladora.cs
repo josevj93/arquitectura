@@ -84,7 +84,7 @@ namespace ProyectoArqui
         {
             //Inicia el procesador 0 con 2 nucleos
             Procesador p0 = new Procesador(0,2);
-            Procesador p1 = new Procesador(0,2);
+            Procesador p1 = new Procesador(1,1);
 
             Thread tp0 = new Thread(p0.iniciar);
             tp0.Start(shared);
