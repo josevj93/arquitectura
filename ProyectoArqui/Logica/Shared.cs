@@ -49,12 +49,13 @@ namespace ProyectoArqui.Logica
 
             // crea una lista de caches de datos (cada cache es de un nucleo)
             cachesDatos = new List<int[,]>();
-            //Cache Nucleo 1, (16 bytes + etiqueta + estado) x 4 columnas (espacios de cache)
-            cachesDatos.Add(new int[18,4]);
-            //Cache Nucleo 2, (16 bytes + etiqueta + estado) x 4 columnas (espacios de cache)
-            cachesDatos.Add(new int[18,4]);
-            //Cache Nucleo 3, (16 bytes + etiqueta + estado) x 4 columnas (espacios de cache)
-            cachesDatos.Add(new int[18,4]);
+            //queda la duda sobre si son 18 o 6
+            //Cache Nucleo 1, (4 enteros + etiqueta + estado) x 4 columnas (espacios de cache)
+            cachesDatos.Add(new int[6,4]);
+            //Cache Nucleo 2, (4 enteros + etiqueta + estado) x 4 columnas (espacios de cache)
+            cachesDatos.Add(new int[6,4]);
+            //Cache Nucleo 3, (4 enteros + etiqueta + estado) x 4 columnas (espacios de cache)
+            cachesDatos.Add(new int[6,4]);
 
             // crea una lista de colas de contextos (cada cola de contextos es de un procesador)
             colasContextos = new List<Queue<ContextoHilillo>>();
