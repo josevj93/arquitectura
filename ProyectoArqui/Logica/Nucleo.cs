@@ -570,6 +570,15 @@ public void ejecutar(object o)
             }
 
         }
+                int i = 0;
+                while (i < 4 && cacheI.etiquetas[i] != bloque)
+                {
+                    if (cacheI.etiquetas[i] == bloque)
+                    {
+                        hit = true;
+                    }
+                    i++;
+                }
 
         if (!hit)
         {

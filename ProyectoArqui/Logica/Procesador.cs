@@ -14,7 +14,7 @@ namespace ProyectoArqui.Logica
 
         Shared shared;
 
-        List<Nucleo> nucleos;
+        List<Nucleo> nucleos = new List<Nucleo>();
 
         private int v;
 
@@ -26,7 +26,8 @@ namespace ProyectoArqui.Logica
             //Crea todos los nucleos de este Procesador
             for(int i=0; i < nNucleos; ++i)
             {
-                nucleos.Add(new Nucleo(i,id));
+                Nucleo nuevoNucleo = new Nucleo(i,id);
+                nucleos.Add(nuevoNucleo);
             }
 
         }
