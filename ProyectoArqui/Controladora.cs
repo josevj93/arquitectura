@@ -92,6 +92,9 @@ namespace ProyectoArqui
             Thread tp1 = new Thread(p1.iniciar);
             tp1.Start(shared);
 
+            tp0.Join();
+            tp1.Join();
+
         }
 
 
