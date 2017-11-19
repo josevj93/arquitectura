@@ -196,7 +196,7 @@ namespace ProyectoArqui.Logica
                 }
                 if (proximo.Finalizado)
                 {
-                    lock (shared.hilosFinalizados)
+                    lock (shared.hilosFinalizados.ElementAt(IdProce))
                     {
                         //si el hilo esta finalizado, lo guarda en la lista de hilos finalizados
                         shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
@@ -211,23 +211,23 @@ namespace ProyectoArqui.Logica
             int numInst = Controladora.Quant; // GUARDAR QUANTUM EN SHARED
             PC = proximo.PC;
             Registros = proximo.Registros;
-            
-            while(numInst > 0 && !proximo.Finalizado)
+
+            while (numInst > 0 && !proximo.Finalizado)
             {
 
                 //saca palabra y bloque del PC
 
                 int bloque = PC / 16;
-                int palabra = (PC %16)/4;
+                int palabra = (PC % 16) / 4;
 
                 bool hit = false;
 
                 //comienza fetch
 
                 int i = 0;
-                while (i<4 && cacheI.etiquetas[i] != bloque)
+                while (i < 4 && cacheI.etiquetas[i] != bloque)
                 {
-                    if(cacheI.etiquetas[i] == bloque)
+                    if (cacheI.etiquetas[i] == bloque)
                     {
                         hit = true;
                     }
@@ -244,49 +244,54 @@ namespace ProyectoArqui.Logica
 
                         Instruccion nueva = new Instruccion();
 
-                        if (contexto.IdProcesador == 0)
+                        lock (shared.memoriaInstrucciones.ElementAt(IdProce))
                         {
-                            nueva.CodigoOp = Controladora.MIP1[bloque + (j * 4)];
-                            nueva.RF1 = Controladora.MIP1[bloque + (j * 4) + 1];
-                            nueva.RF2_RD = Controladora.MIP1[bloque + (j * 4)  + 2];
-                            nueva.RD_IMM = Controladora.MIP1[bloque + (j * 4) + 3];
-
+                            nueva.CodigoOp = shared.memoriaInstrucciones.ElementAt(IdProce)[bloque + (j * 4)];
+                            nueva.RF1 = shared.memoriaInstrucciones.ElementAt(IdProce)[bloque + (j * 4) + 1];
+                            nueva.RF2_RD = shared.memoriaInstrucciones.ElementAt(IdProce)[bloque + (j * 4) + 2];
+                            nueva.RD_IMM = shared.memoriaInstrucciones.ElementAt(IdProce)[bloque + (j * 4) + 3];
                         }
-                        else
-                        {
-                            nueva.CodigoOp = Controladora.MIP2[bloque + (j * 4)];
-                            nueva.RF1 = Controladora.MIP2[bloque + (j * 4) + 1];
-                            nueva.RF2_RD = Controladora.MIP2[bloque + (j * 4) + 2];
-                            nueva.RD_IMM = Controladora.MIP2[bloque + (j * 4) + 3];
 
-
-                        }
-                        
-                        cacheI.bloqueInstruccion[bloque%4, j] = nueva;
+                        cacheI.bloqueInstruccion[bloque % 4, j] = nueva;
 
 
                     }
 
                     //Guarda la etiqueta del bloque subido
                     cacheI.etiquetas[bloque % 4] = bloque;
-                    
+
                 }
 
                 //Carga instruccion al IR de la cache
 
                 IR = cacheI.bloqueInstruccion[bloque, palabra];
 
+                PC += 4; //COMPROBAR SI EL INCREMENTO ESTA BIEN
+
                 //ejecuta instruccion
 
                 if (ejecutarInstruccion(IR)){
-                    contexto.Finalizado = true;
+                    proximo.Finalizado = true;
 
                 }
 
+                numInst--;
 
             }
 
-            return contexto;
+            if (proximo.Finalizado)
+            {
+                lock (shared.hilosFinalizados.ElementAt(IdProce))
+                {
+                    shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
+                }
+            }else
+            {
+                lock (shared.colasContextos.ElementAt(IdProce))
+                {
+                    shared.colasContextos.ElementAt(IdProce).Enqueue(proximo);
+                }
+            }
 
         }
     }

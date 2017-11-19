@@ -37,7 +37,7 @@ namespace ProyectoArqui.Logica
 
             int hilosPendientes;
 
-            lock (shared.colasContextos)
+            lock (shared.colasContextos.ElementAt(id))
             {
                 hilosPendientes = shared.colasContextos.ElementAt(id).Count();
             }
@@ -49,7 +49,7 @@ namespace ProyectoArqui.Logica
                 foreach(Nucleo nucleo in nucleos)
                 {
 
-                    lock (shared.colasContextos)
+                    lock (shared.colasContextos.ElementAt(id))
                     {
                         hilosPendientes = shared.colasContextos.ElementAt(id).Count();
                     }
@@ -60,6 +60,7 @@ namespace ProyectoArqui.Logica
                         Thread t = new Thread(nucleo.ejecutar);
                         t.Start(shared);
 
+                        t.Join();
                     }
 
 
