@@ -31,9 +31,10 @@ namespace ProyectoArqui.Logica
             //8 bloques [256-380] = 8 bloques x 4 entradas = 32 enteros
             memoriasCompartida.Add(new int[32]);     //Memoria compartida del procesador 2
 
+            // crea una lista de memorias de instrucciones (cada memoria es de un procesador)
+            memoriaInstrucciones = new List<int[]>();
             //24 bloques [256-636] (96 instrucciones) = 24 bloques x 16 entradas = 384 enteros
             memoriaInstrucciones.Add(new int[384]); //Memoria de instrucciones del procesador 1
-
             //16 bloques [128-380] (64 instrucciones) = 16 bloques x 16 enteros = 256 enteros
             memoriaInstrucciones.Add(new int[256]); //Memoria de instrucciones del procesador 2
 
@@ -53,15 +54,17 @@ namespace ProyectoArqui.Logica
             //Cache Nucleo 3, (16 bytes + etiqueta + estado) x 4 columnas (espacios de cache)
             cachesDatos.Add(new int[18,4]);
 
+            // crea una lista de colas de contextos (cada cola de contextos es de un procesador)
+            colasContextos = new List<Queue<ContextoHilillo>>();
             //cola que tendra los contextos de los hilillos del Procesador 1
             colasContextos.Add(new Queue<ContextoHilillo>());
-
             //cola que tendra los contextos de los hilillos del Procesador 2
             colasContextos.Add(new Queue<ContextoHilillo>());
 
+            // crea una lista de listas de contextos que finalizaron (cada lista de contextos es de un procesador)
+            hilosFinalizados = new List<List<ContextoHilillo>>();
             //lista de hilos que han finalizado en el Procesador 1
             hilosFinalizados.Add(new List<ContextoHilillo>());
-
             //lista de hilos que han finalizado en el Procesador 2
             hilosFinalizados.Add(new List<ContextoHilillo>());
 

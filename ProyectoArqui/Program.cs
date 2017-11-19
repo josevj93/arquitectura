@@ -14,7 +14,7 @@ namespace ProyectoArqui
         //asdasdadsasdadasd
         //comentario tuanis
         public static Form1 Vista;
-        public static Controladora controladora = new Controladora();
+        //public static Controladora controladora = new Controladora();
 
         /*
         public static List<Nucleo> Procesador1 = new List<Nucleo>();
