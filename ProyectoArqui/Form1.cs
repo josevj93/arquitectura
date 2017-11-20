@@ -88,10 +88,25 @@ namespace ProyectoArqui
             controladora.iniciar();
             //controladora.iniciarLoad();
 
-            foreach (ContextoHilillo contexto in controladora.shared.hilosFinalizados)
+            int cont = 1;
+            foreach (List<ContextoHilillo> contexto in controladora.shared.hilosFinalizados)
             {
+                txtHilillosFinalizados.AppendText("Lista" + cont);
+                for (int i = 0; i <= contexto.Count() - 1; i++)
+                {
+                    for (int j = 0; j <= contexto.ElementAt(i).Registros.Count() - 1; j++)
+                    {
+                        if (j % 8 == 0)
+                        {
+                            txtHilillosFinalizados.AppendText("\n");
+                        }
+                        txtHilillosFinalizados.AppendText(contexto.ElementAt(i).Registros[j] + "-");
+                    }
+                }
+                txtHilillosFinalizados.AppendText("\n");
 
 
+                cont++;
             }
             //controladora.shared.hilosFinalizados;
            
