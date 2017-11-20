@@ -97,7 +97,39 @@ namespace ProyectoArqui
 
         }
 
-
+        public void iniciarLoad()
+        {
+            Instruccion instr = new Instruccion
+            {
+                //35 4 11 4
+                CodigoOp = 35,
+                RF1 = 4,
+                RF2_RD = 11,
+                RD_IMM = 4
+            };
+            Nucleo nucleo = new Nucleo(1, 1);
+            shared.memoriasCompartida.ElementAt(0)[2] = 10;
+            shared.memoriasCompartida.ElementAt(0)[1] = 15;
+            shared.memoriasCompartida.ElementAt(0)[0] = 2;
+            //imprime bloque de memoria
+            for (int i = 0; i < 4; i++)
+            {
+                Console.Write("memoria: {0}\n", shared.memoriasCompartida.ElementAt(0)[i]);
+            }
+            Console.Write("antes del load: {0}\n", nucleo.Registros[11]);
+            nucleo.EjecutarLW(instr, shared.cachesDatos.ElementAt(0));
+            Console.Write("despues del load: {0}\n", nucleo.Registros[11]);
+            Instruccion instr2 = new Instruccion
+            {
+                //35 4 11 0
+                CodigoOp = 35,
+                RF1 = 4,
+                RF2_RD = 11,
+                RD_IMM = 0
+            };
+            nucleo.EjecutarLW(instr2, shared.cachesDatos.ElementAt(0));
+            Console.Write("load con hit: {0}\n", nucleo.Registros[11]);
+        }
 
 
     }

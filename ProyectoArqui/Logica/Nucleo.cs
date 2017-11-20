@@ -27,13 +27,12 @@ namespace ProyectoArqui.Logica
         /// 6 ya que el 5 es la
         /// etiqueta y el 6 es el estado.
         /// </summary>
-        public int[,] CacheDatos = new int[6, 4];
+        public int[,] cacheDatos = new int[6, 4];
 
         public Nucleo(int idn, int idp)
         {
             IdNucleo = idn;
             IdProce = idp;
-            shared = new Shared();
             //se inicializan los registros en 0
             Registros = new int[32];
             for (int i = 0; i < 32; i++)
@@ -45,12 +44,12 @@ namespace ProyectoArqui.Logica
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    CacheDatos[i, j] = 0;
+                    cacheDatos[i, j] = 0;
                 }
             }
             for (int i = 0; i < 4; i++)
             {
-                CacheDatos[5, i] = -1;
+                cacheDatos[5, i] = -1;
             }
         }
 
@@ -119,7 +118,7 @@ namespace ProyectoArqui.Logica
 
         //Hay que definir lo de los estados, en este caso estoy proponiendo que: -1 = I, 0 = C, 1 = M para la cache
         //para el directorio sería -1 = U, 0 = C, 1 = M
-        public bool EjecutarLW(Instruccion instruccion /*Referencias refMemoria,*/ )
+        public bool EjecutarLW(Instruccion instruccion, int[,] CacheDatos)
         {
             bool result = false;
 
