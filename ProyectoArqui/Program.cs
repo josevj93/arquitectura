@@ -14,6 +14,7 @@ namespace ProyectoArqui
         //asdasdadsasdadasd
         //comentario tuanis
         public static Form1 Vista;
+        public static Shared shared = new Shared();
         //public static Controladora controladora = new Controladora();
 
         /*
@@ -94,7 +95,7 @@ namespace ProyectoArqui
         [STAThread]
         static void Main()
         {
-            
+
             /*
             Queue<int> q1 = new Queue<int>();
             Queue<int> q2 = new Queue<int>();
@@ -127,14 +128,44 @@ namespace ProyectoArqui
   
             
             */
-    
 
+            Instruccion instr = new Instruccion
+            {
+                //35 4 11 4
+                CodigoOp = 35,
+                RF1 = 4,
+                RF2_RD = 11,
+                RD_IMM = 4
+            };
+            Nucleo nucleo = new Nucleo(1, 1);
+            shared.memoriasCompartida.ElementAt(0)[2] = 10;
+            shared.memoriasCompartida.ElementAt(0)[1] = 15;
+            shared.memoriasCompartida.ElementAt(0)[0] = 2;
+            //imprime bloque de memoria
+            for (int i = 0; i < 4; i++)
+            {
+                Console.Write("memoria: {0}\n", shared.memoriasCompartida.ElementAt(0)[i]);
+            }
+            Console.Write("antes del load: {0}\n", nucleo.Registros[11]);
+            nucleo.EjecutarLW(instr);
+            Console.Write("despues del load: {0}\n", nucleo.Registros[11]);
+            Instruccion instr2 = new Instruccion
+            {
+                //35 4 11 0
+                CodigoOp = 35,
+                RF1 = 4,
+                RF2_RD = 11,
+                RD_IMM = 0
+            };
+            nucleo.EjecutarLW(instr2);
+            Console.Write("load con hit: {0}\n", nucleo.Registros[11]);
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Vista = new Form1();
             Application.Run(new Form1());
+            
 
-    
         }
     }
 }
