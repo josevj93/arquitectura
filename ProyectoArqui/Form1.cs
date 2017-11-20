@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using ProyectoArqui.Logica;
 
 namespace ProyectoArqui
 {
@@ -66,16 +67,16 @@ namespace ProyectoArqui
              
              
              */
-             
+
             controladora.cargar(listaHilillos);
 
-            for (int i = 0; i <= controladora.shared.memoriaInstrucciones.ElementAt(0).Count()-1; i++)
+            for (int i = 0; i <= controladora.shared.memoriaInstrucciones.ElementAt(0).Count() - 1; i++)
             {
-                txtMemInstrucciones1.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(0)[i] + "-" );
+                txtMemInstrucciones1.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(0)[i] + "-");
 
             }
 
-            for (int i = 0; i <= controladora.shared.memoriaInstrucciones.ElementAt(1).Count()-1; i++)
+            for (int i = 0; i <= controladora.shared.memoriaInstrucciones.ElementAt(1).Count() - 1; i++)
             {
                 txtMemInstrucciones2.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(1)[i] + "-");
 
@@ -87,6 +88,13 @@ namespace ProyectoArqui
             controladora.iniciar();
             //controladora.iniciarLoad();
 
+            foreach (ContextoHilillo contexto in controladora.shared.hilosFinalizados)
+            {
+
+
+            }
+            //controladora.shared.hilosFinalizados;
+           
 
         }
 
@@ -165,6 +173,11 @@ namespace ProyectoArqui
                 txtArchivo.AppendText(Ex.ToString());
 
             }
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            //shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
         }
     }
 }
