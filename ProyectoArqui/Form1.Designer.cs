@@ -33,16 +33,17 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtQuantum = new System.Windows.Forms.TextBox();
             this.btnIniciar = new System.Windows.Forms.Button();
+            this.btnCargarArchivos = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.txtArchivo = new System.Windows.Forms.TextBox();
-            this.btnCargarArchivos = new System.Windows.Forms.Button();
             this.txtVerLista = new System.Windows.Forms.TextBox();
             this.txtMemInstrucciones1 = new System.Windows.Forms.TextBox();
             this.txtMemInstrucciones2 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtHilillosFinalizados = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,6 +97,16 @@
             this.btnIniciar.UseVisualStyleBackColor = true;
             this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
             // 
+            // btnCargarArchivos
+            // 
+            this.btnCargarArchivos.Location = new System.Drawing.Point(92, 143);
+            this.btnCargarArchivos.Name = "btnCargarArchivos";
+            this.btnCargarArchivos.Size = new System.Drawing.Size(134, 23);
+            this.btnCargarArchivos.TabIndex = 4;
+            this.btnCargarArchivos.Text = "Cargar Archivos";
+            this.btnCargarArchivos.UseVisualStyleBackColor = true;
+            this.btnCargarArchivos.Click += new System.EventHandler(this.btnCargarArchivos_Click);
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -108,16 +119,6 @@
             this.txtArchivo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtArchivo.Size = new System.Drawing.Size(312, 189);
             this.txtArchivo.TabIndex = 4;
-            // 
-            // btnCargarArchivos
-            // 
-            this.btnCargarArchivos.Location = new System.Drawing.Point(92, 143);
-            this.btnCargarArchivos.Name = "btnCargarArchivos";
-            this.btnCargarArchivos.Size = new System.Drawing.Size(134, 23);
-            this.btnCargarArchivos.TabIndex = 4;
-            this.btnCargarArchivos.Text = "Cargar Archivos";
-            this.btnCargarArchivos.UseVisualStyleBackColor = true;
-            this.btnCargarArchivos.Click += new System.EventHandler(this.btnCargarArchivos_Click);
             // 
             // txtVerLista
             // 
@@ -172,19 +173,30 @@
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
-            // textBox1
+            // txtHilillosFinalizados
             // 
-            this.textBox1.Location = new System.Drawing.Point(329, 411);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(514, 20);
-            this.textBox1.TabIndex = 10;
+            this.txtHilillosFinalizados.Location = new System.Drawing.Point(329, 411);
+            this.txtHilillosFinalizados.Multiline = true;
+            this.txtHilillosFinalizados.Name = "txtHilillosFinalizados";
+            this.txtHilillosFinalizados.Size = new System.Drawing.Size(635, 87);
+            this.txtHilillosFinalizados.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(326, 395);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(88, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Hilillos finalizados";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(980, 539);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txtHilillosFinalizados);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -222,7 +234,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtHilillosFinalizados;
+        private System.Windows.Forms.Label label5;
     }
 }
 
