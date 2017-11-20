@@ -109,6 +109,12 @@ namespace ProyectoArqui.Logica
                     //FIN
                     result = true;
                     break;
+                case 35:
+                    EjecutarLW(instruccion, shared.cachesDatos.ElementAt(IdNucleo));
+                    break;
+                case 43:
+                    EjecutarSW(instruccion, shared.cachesDatos.ElementAt(IdNucleo));
+                    break;
                 default:
                     //si hay un mal codigo deberia de tirar error
                     break;
@@ -241,6 +247,15 @@ namespace ProyectoArqui.Logica
                             //Controladora.barreraReloj.SignalAndWait();
                             var lockDirVictima = new Lock(shared.directorios.ElementAt(0));
                             shared.directorios.ElementAt(0)[bloqueVictima, IdNucleo] = 0;
+                            CacheDatos[5, posCache] = -1;
+                            //se debe de actualizar el valor del directorio por si todo esta en 0
+                            if(shared.directorios.ElementAt(0)[bloqueVictima, 1] == 0 &&
+                               shared.directorios.ElementAt(0)[bloqueVictima, 2] == 0 &&
+                               shared.directorios.ElementAt(0)[bloqueVictima, 3] == 0)
+                            {
+                                //Si entra aqui es porque el bloque esta uncached y se debe actualizar el estado con un -1
+                                shared.directorios.ElementAt(0)[bloqueVictima, 0] = -1;
+                            }
                             lockDirVictima.Dispose();
                         }
                         else
@@ -249,6 +264,15 @@ namespace ProyectoArqui.Logica
                             //Controladora.barreraReloj.SignalAndWait();
                             var lockDirVictima = new Lock(shared.directorios.ElementAt(1));
                             shared.directorios.ElementAt(1)[bloqueVictima, IdNucleo] = 0;
+                            CacheDatos[5, posCache] = -1;
+                            //se debe de actualizar el valor del directorio por si todo esta en 0
+                            if (shared.directorios.ElementAt(1)[bloqueVictima, 1] == 0 &&
+                                shared.directorios.ElementAt(1)[bloqueVictima, 2] == 0 &&
+                                shared.directorios.ElementAt(1)[bloqueVictima, 3] == 0)
+                            {
+                                //Si entra aqui es porque el bloque esta uncached y se debe actualizar el estado con un -1
+                                shared.directorios.ElementAt(1)[bloqueVictima, 0] = -1;
+                            }
                             lockDirVictima.Dispose();
                         }
                     }
@@ -645,7 +669,6 @@ namespace ProyectoArqui.Logica
                             //se desbloquea todo
                             lockCache.Dispose();
                             lockDir.Dispose();
-
                         }
                     }
                 }
@@ -741,6 +764,15 @@ namespace ProyectoArqui.Logica
                             //Controladora.barreraReloj.SignalAndWait();
                             var lockDirVictima = new Lock(shared.directorios.ElementAt(0));
                             shared.directorios.ElementAt(0)[bloqueVictima, IdNucleo] = 0;
+                            CacheDatos[5, posCache] = -1;
+                            //se debe de actualizar el valor del directorio por si todo esta en 0
+                            if (shared.directorios.ElementAt(0)[bloqueVictima, 1] == 0 &&
+                               shared.directorios.ElementAt(0)[bloqueVictima, 2] == 0 &&
+                               shared.directorios.ElementAt(0)[bloqueVictima, 3] == 0)
+                            {
+                                //Si entra aqui es porque el bloque esta uncached y se debe actualizar el estado con un -1
+                                shared.directorios.ElementAt(0)[bloqueVictima, 0] = -1;
+                            }
                             lockDirVictima.Dispose();
                         }
                         else
@@ -749,6 +781,15 @@ namespace ProyectoArqui.Logica
                             //Controladora.barreraReloj.SignalAndWait();
                             var lockDirVictima = new Lock(shared.directorios.ElementAt(1));
                             shared.directorios.ElementAt(1)[bloqueVictima, IdNucleo] = 0;
+                            CacheDatos[5, posCache] = -1;
+                            //se debe de actualizar el valor del directorio por si todo esta en 0
+                            if (shared.directorios.ElementAt(1)[bloqueVictima, 1] == 0 &&
+                               shared.directorios.ElementAt(1)[bloqueVictima, 2] == 0 &&
+                               shared.directorios.ElementAt(1)[bloqueVictima, 3] == 0)
+                            {
+                                //Si entra aqui es porque el bloque esta uncached y se debe actualizar el estado con un -1
+                                shared.directorios.ElementAt(1)[bloqueVictima, 0] = -1;
+                            }
                             lockDirVictima.Dispose();
                         }
                     }
@@ -783,11 +824,12 @@ namespace ProyectoArqui.Logica
                                 {
                                     shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(0)[i, posCache];
                                 }
-                                //Se actualiza el estado del bloque a compartido
-                                shared.cachesDatos.ElementAt(0)[5, posCache] = 0;
-                                //Se actualiza el estado del directorio como compartido
-                                shared.directorios.ElementAt(0)[bloque, 0] = 0;
-                                //se deja el 1 que ya estaba en el directorio
+                                //Se invalida el bloque
+                                shared.cachesDatos.ElementAt(0)[5, posCache] = -1;
+                                //Se pone 0 en el nucleo invalidado
+                                shared.directorios.ElementAt(0)[bloque, 1] = 0;
+                                //Pongo como uncached
+                                shared.directorios.ElementAt(0)[bloque, 0] = -1;
 
                                 //se libera la memoria
                                 lockMem.Dispose();
@@ -808,11 +850,12 @@ namespace ProyectoArqui.Logica
                                 {
                                     shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(1)[i, posCache];
                                 }
-                                //Se actualiza el estado del bloque a compartido
-                                shared.cachesDatos.ElementAt(1)[5, posCache] = 0;
-                                //Se actualiza el estado del directorio como compartido
-                                shared.directorios.ElementAt(0)[bloque, 0] = 0;
-                                //se deja el 1 que ya estaba en el directorio
+                                //Se invalida el bloque
+                                shared.cachesDatos.ElementAt(1)[5, posCache] = -1;
+                                //Se pone 0 en el nucleo invalidado
+                                shared.directorios.ElementAt(0)[bloque, 2] = 0;
+                                //Pongo como uncached
+                                shared.directorios.ElementAt(0)[bloque, 0] = -1;
 
                                 //se libera la memoria
                                 lockMem.Dispose();
@@ -833,11 +876,12 @@ namespace ProyectoArqui.Logica
                                 {
                                     shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(2)[i, posCache];
                                 }
-                                //Se actualiza el estado del bloque a compartido
-                                shared.cachesDatos.ElementAt(2)[5, posCache] = 0;
-                                //Se actualiza el estado del directorio como compartido
-                                shared.directorios.ElementAt(0)[bloque, 0] = 0;
-                                //se deja el 1 que ya estaba en el directorio
+                                //Se invalida el bloque
+                                shared.cachesDatos.ElementAt(2)[5, posCache] = -1;
+                                //Se pone 0 en el nucleo invalidado
+                                shared.directorios.ElementAt(0)[bloque, 3] = 0;
+                                //Pongo como uncached
+                                shared.directorios.ElementAt(0)[bloque, 0] = -1;
 
                                 //se libera la memoria
                                 lockMem.Dispose();
@@ -876,11 +920,12 @@ namespace ProyectoArqui.Logica
                                     shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / +i - 64] = shared.cachesDatos.ElementAt(0)[i, posCache];
                                     //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
                                 }
-                                //Se actualiza el estado del bloque a compartido
-                                shared.cachesDatos.ElementAt(0)[5, posCache] = 0;
-                                //Se actualiza el estado del directorio como compartido
-                                shared.directorios.ElementAt(1)[bloque, 0] = 0;
-                                //se deja el 1 que ya estaba en el directorio
+                                //Se invalida el bloque
+                                shared.cachesDatos.ElementAt(0)[5, posCache] = -1;
+                                //Se pone 0 en el nucleo invalidado
+                                shared.directorios.ElementAt(1)[bloque, 1] = 0;
+                                //Pongo como uncached
+                                shared.directorios.ElementAt(0)[bloque, 0] = -1;
 
                                 //se libera la memoria
                                 lockMem.Dispose();
@@ -902,11 +947,12 @@ namespace ProyectoArqui.Logica
                                     shared.memoriasCompartida.ElementAt(1)[((bloque * 16) + i) / 4 - 64] = shared.cachesDatos.ElementAt(1)[i, posCache];
                                     //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
                                 }
-                                //Se actualiza el estado del bloque a compartido
-                                shared.cachesDatos.ElementAt(1)[5, posCache] = 0;
-                                //Se actualiza el estado del directorio como compartido
-                                shared.directorios.ElementAt(1)[bloque, 0] = 0;
-                                //se deja el 1 que ya estaba en el directorio
+                                //Se invalida el bloque
+                                shared.cachesDatos.ElementAt(1)[5, posCache] = -1;
+                                //Se pone 0 en el nucleo invalidado
+                                shared.directorios.ElementAt(1)[bloque, 2] = 0;
+                                //Pongo como uncached
+                                shared.directorios.ElementAt(0)[bloque, 0] = -1;
 
                                 //se libera la memoria
                                 lockMem.Dispose();
@@ -928,11 +974,12 @@ namespace ProyectoArqui.Logica
                                     shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / +i - 64] = shared.cachesDatos.ElementAt(2)[i, posCache];
                                     //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
                                 }
-                                //Se actualiza el estado del bloque a compartido
-                                shared.cachesDatos.ElementAt(2)[5, posCache] = 0;
-                                //Se actualiza el estado del directorio como compartido
-                                shared.directorios.ElementAt(1)[bloque, 0] = 0;
-                                //se deja el 1 que ya estaba en el directorio
+                                //Se invalida el bloque
+                                shared.cachesDatos.ElementAt(2)[5, posCache] = -1;
+                                //Se pone 0 en el nucleo invalidado
+                                shared.directorios.ElementAt(1)[bloque, 3] = 0;
+                                //Pongo como uncached
+                                shared.directorios.ElementAt(0)[bloque, 0] = -1;
 
                                 //se libera la memoria
                                 lockMem.Dispose();
@@ -959,11 +1006,22 @@ namespace ProyectoArqui.Logica
                         }
                         //actualizo el valor del bloque y el del estado
                         CacheDatos[4, posCache] = bloque;
-                        CacheDatos[5, posCache] = 0; //0 por estar compartido
+                        //finalmente puedo escribir
+                        //agrego al caché lo que hay en registro
+                        CacheDatos[palabra, posCache] = Registros[instruccion.RF2_RD];
+                        //restar quantum
+                        //quantum.Valor--;
+                        //ExitoAnterior = true
+                        result = true;
+                        //4(1 + 5 +1) cargando bloque de memoria a cache.
+                        //IncrementarReloj(28);
+                        //libero el bus
+                        lockBusDatos1.Dispose();
+                        CacheDatos[5, posCache] = 1; //1 por estar modificado
 
                         //actualizo el directorio casa
-                        //pongo un 0 en estado, que significa que esta compartido
-                        shared.directorios.ElementAt(0)[bloque, 0] = 0;
+                        //pongo un 1 en estado, que significa que esta modificado
+                        shared.directorios.ElementAt(0)[bloque, 0] = 1;
                         shared.directorios.ElementAt(0)[bloque, IdNucleo] = 1;
 
                         lockMem.Dispose();
@@ -983,28 +1041,27 @@ namespace ProyectoArqui.Logica
                         }
                         //actualizo el valor del bloque y el del estado
                         CacheDatos[4, posCache] = bloque;
-                        CacheDatos[5, posCache] = 0; //0 por estar compartido
+                        //finalmente puedo escribir
+                        //agrego al caché lo que hay en registro
+                        CacheDatos[palabra, posCache] = Registros[instruccion.RF2_RD];
+                        //restar quantum
+                        //quantum.Valor--;
+                        //ExitoAnterior = true
+                        result = true;
+                        //4(1 + 5 +1) cargando bloque de memoria a cache.
+                        //IncrementarReloj(28);
+                        //libero el bus
+                        lockBusDatos1.Dispose();
+                        CacheDatos[5, posCache] = 1; //1 por estar modificado
 
                         //actualizo el directorio casa
-                        //pongo un 0 en estado, que significa que esta compartido
-                        shared.directorios.ElementAt(1)[bloque, 0] = 0;
+                        //pongo un 1 en estado, que significa que esta modificado
+                        shared.directorios.ElementAt(1)[bloque, 0] = 1;
                         shared.directorios.ElementAt(1)[bloque, IdNucleo] = 1;
 
                         lockMem.Dispose();
                         lockDirCasa.Dispose();
                     }
-                    //finalmente puedo leer
-                    //agrego al registro lo que hay en caché
-                    Registros[instruccion.RF2_RD] = CacheDatos[palabra, posCache];
-                    Console.Write("Registro: {0}\n", Registros[instruccion.RF2_RD]);
-                    //restar quantum
-                    //quantum.Valor--;
-                    //ExitoAnterior = true
-                    result = true;
-                    //4(1 + 5 +1) cargando bloque de memoria a cache.
-                    //IncrementarReloj(28);
-                    //libero el bus
-                    lockBusDatos1.Dispose();
                 }
                 //libero la cache
                 lockCache.Dispose();
