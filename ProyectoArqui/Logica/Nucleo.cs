@@ -656,6 +656,7 @@ namespace ProyectoArqui.Logica
                     {
                         //lock (shared.hilosFinalizados.ElementAt(IdProce))
                         {
+                            proximo.PC = PC;
                             shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
                         }
                     }
