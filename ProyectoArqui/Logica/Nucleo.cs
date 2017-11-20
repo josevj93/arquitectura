@@ -33,6 +33,25 @@ namespace ProyectoArqui.Logica
         {
             IdNucleo = idn;
             IdProce = idp;
+            shared = new Shared();
+            //se inicializan los registros en 0
+            Registros = new int[32];
+            for (int i = 0; i < 32; i++)
+            {
+                Registros[i] = 0;
+            }
+            //se inicializa la cache en 0, con todos los bloques inválidos
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    CacheDatos[i, j] = 0;
+                }
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                CacheDatos[5, i] = -1;
+            }
         }
 
         //Ejecuta instrucciones del ALU
@@ -100,7 +119,7 @@ namespace ProyectoArqui.Logica
 
         //Hay que definir lo de los estados, en este caso estoy proponiendo que: -1 = I, 0 = C, 1 = M para la cache
         //para el directorio sería -1 = U, 0 = C, 1 = M
-        private bool EjecutarLW(Instruccion instruccion /*Referencias refMemoria,*/ )
+        public bool EjecutarLW(Instruccion instruccion /*Referencias refMemoria,*/ )
         {
             bool result = false;
 
@@ -119,7 +138,7 @@ namespace ProyectoArqui.Logica
             if (lockCache.HasLock)
             {
                 //tick de reloj
-                Controladora.barreraReloj.SignalAndWait();
+                //Controladora.barreraReloj.SignalAndWait();
                 //si esta el bloque en mi cache y esta válido
                 if (CacheDatos[4, posCache] == bloque && CacheDatos[5, posCache] != -1)
                 {
@@ -129,21 +148,21 @@ namespace ProyectoArqui.Logica
                     //restar quantum
                     //quantum.Valor--; LO COMENTE PARA QUE NO DIERA ERRORES
                     result = true;
-                    Controladora.barreraReloj.SignalAndWait();
+                    //Controladora.barreraReloj.SignalAndWait();
                 }
                 else //fallo de cache (no se encuentra el bloque en cache o no esta valido)
                 {
                     //tick de reloj
-                    Controladora.barreraReloj.SignalAndWait();
+                    //Controladora.barreraReloj.SignalAndWait();
 
                     //se obtienen los datos del bloque victima
-                    int bloqueVictima = CacheDatos[5, posCache];
+                    int bloqueVictima = CacheDatos[4, posCache];
 
                     //se debe de revisar el estado del bloque para saber si esta modificado
                     if (CacheDatos[5, posCache] == 1)
                     {
                         //tick de reloj
-                        Controladora.barreraReloj.SignalAndWait();
+                        //Controladora.barreraReloj.SignalAndWait();
                         //bloquear el bus de data
                         var lockBusDatos = new Lock(Controladora.BusDatosP1);
                         //si obtuve el bus de data
@@ -151,13 +170,13 @@ namespace ProyectoArqui.Logica
                         {
 
                             //tick de reloj
-                            Controladora.barreraReloj.SignalAndWait();
+                            //Controladora.barreraReloj.SignalAndWait();
 
                             //bloquear el directorio casa del bloque victima
                             if (bloqueVictima < 16)
                             {
                                 //tick de reloj
-                                Controladora.barreraReloj.SignalAndWait();
+                                //Controladora.barreraReloj.SignalAndWait();
                                 //si el bloqueVictima es de 0 a 15 significa que hay que revisar el directorio del procesador0
                                 var lockDirVictima = new Lock(shared.directorios.ElementAt(0));
                                 //se debe de bloquear la memoria para escribir en ella
@@ -166,7 +185,7 @@ namespace ProyectoArqui.Logica
                                 //se actualiza el valor en memoria del bloque victima
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    shared.memoriasCompartida.ElementAt(0)[((bloqueVictima * 16) + i) / 4] = CacheDatos[i, posCache];
+                                    shared.memoriasCompartida.ElementAt(0)[((bloqueVictima * 16) / 4) + i] = CacheDatos[i, posCache];
                                 }
 
                                 //se actualiza el directorio casa con 0´s y una U en el estado del bloque victima
@@ -183,7 +202,7 @@ namespace ProyectoArqui.Logica
                             else
                             {
                                 //tick de reloj
-                                Controladora.barreraReloj.SignalAndWait();
+                                //Controladora.barreraReloj.SignalAndWait();
                                 //sino se bloquea el directorio casa del procesador1
                                 var lockDirVictima = new Lock(shared.directorios.ElementAt(1));
                                 //se debe de bloquear la memoria para escribir en ella
@@ -192,7 +211,7 @@ namespace ProyectoArqui.Logica
                                 //se actualiza el valor en memoria del bloque victima
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    shared.memoriasCompartida.ElementAt(1)[((bloqueVictima * 16) + i) / 4 - 64] = CacheDatos[i, posCache];
+                                    shared.memoriasCompartida.ElementAt(1)[((bloqueVictima * 16) / 4) + i - 64] = CacheDatos[i, posCache];
                                     //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
                                 }
                                 //se actualiza el directorio casa con 0´s y una U en el estado del bloque victima
@@ -214,13 +233,13 @@ namespace ProyectoArqui.Logica
                     else if (CacheDatos[5, posCache] == 0)
                     {
                         //tick de reloj
-                        Controladora.barreraReloj.SignalAndWait();
+                        //Controladora.barreraReloj.SignalAndWait();
                         //pone un 0 en el directorio casa del bloque victima
                         //se pregunta cual es el directorio casa
                         if (bloqueVictima < 16)
                         {
                             //tick de reloj
-                            Controladora.barreraReloj.SignalAndWait();
+                            //Controladora.barreraReloj.SignalAndWait();
                             var lockDirVictima = new Lock(shared.directorios.ElementAt(0));
                             shared.directorios.ElementAt(0)[bloqueVictima, IdNucleo] = 0;
                             lockDirVictima.Dispose();
@@ -228,7 +247,7 @@ namespace ProyectoArqui.Logica
                         else
                         {
                             //tick de reloj
-                            Controladora.barreraReloj.SignalAndWait();
+                            //Controladora.barreraReloj.SignalAndWait();
                             var lockDirVictima = new Lock(shared.directorios.ElementAt(1));
                             shared.directorios.ElementAt(1)[bloqueVictima, IdNucleo] = 0;
                             lockDirVictima.Dispose();
@@ -241,19 +260,19 @@ namespace ProyectoArqui.Logica
                     if (bloque < 16) //significa que el directorio casa es el del procesador 0
                     {
                         //tick de reloj
-                        Controladora.barreraReloj.SignalAndWait();
+                        //Controladora.barreraReloj.SignalAndWait();
                         var lockDirFuente = new Lock(shared.directorios.ElementAt(0));
 
                         //se debe de preguntar en el directorio si el bloque fuente está modificado en alguna otra caché
                         if (shared.directorios.ElementAt(0)[bloque, 0] == 1)
                         {
                             //tick de reloj
-                            Controladora.barreraReloj.SignalAndWait();
+                            //Controladora.barreraReloj.SignalAndWait();
                             //se debe de preguntar en cual caché está modificado, además se debe de bloquear esa caché
                             if (shared.directorios.ElementAt(0)[bloque, 1] == 1) //Nucleo0
                             {
                                 //tick de reloj
-                                Controladora.barreraReloj.SignalAndWait();
+                                //Controladora.barreraReloj.SignalAndWait();
                                 var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(0));
 
                                 //se debe de mandar a escribir a memoria
@@ -263,7 +282,7 @@ namespace ProyectoArqui.Logica
                                 //se actualiza el valor en memoria del bloque
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    shared.memoriasCompartida.ElementAt(0)[((bloque * 16) + i) / 4] = CacheDatos[i, posCache];
+                                    shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(0)[i, posCache];
                                 }
                                 //se actualiza el directorio casa con 0´s y una U en el estado del bloque
                                 shared.directorios.ElementAt(0)[bloque, 0] = -1;
@@ -275,10 +294,10 @@ namespace ProyectoArqui.Logica
                                 lockMem.Dispose();
                                 lockCacheFuente.Dispose();
                             }
-                            else if(shared.directorios.ElementAt(0)[bloque, 2] == 1) //Nucleo 1
+                            else if (shared.directorios.ElementAt(0)[bloque, 2] == 1) //Nucleo 1
                             {
                                 //tick de reloj
-                                Controladora.barreraReloj.SignalAndWait();
+                                //Controladora.barreraReloj.SignalAndWait();
                                 var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(1));
 
                                 //se debe de mandar a escribir a memoria
@@ -288,7 +307,7 @@ namespace ProyectoArqui.Logica
                                 //se actualiza el valor en memoria del bloque
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    shared.memoriasCompartida.ElementAt(0)[((bloque * 16) + i) / 4] = CacheDatos[i, posCache];
+                                    shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(1)[i, posCache];
                                 }
                                 //se actualiza el directorio casa con 0´s y una U en el estado del bloque
                                 shared.directorios.ElementAt(0)[bloque, 0] = -1;
@@ -303,7 +322,7 @@ namespace ProyectoArqui.Logica
                             else //Nucleo2
                             {
                                 //tick de reloj
-                                Controladora.barreraReloj.SignalAndWait();
+                                //Controladora.barreraReloj.SignalAndWait();
                                 var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(2));
 
                                 //se debe de mandar a escribir a memoria
@@ -313,7 +332,7 @@ namespace ProyectoArqui.Logica
                                 //se actualiza el valor en memoria del bloque
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    shared.memoriasCompartida.ElementAt(0)[((bloque * 16) + i) / 4 ] = CacheDatos[i, posCache];
+                                    shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(2)[i, posCache];
                                 }
                                 //se actualiza el directorio casa con 0´s y una U en el estado del bloque
                                 shared.directorios.ElementAt(0)[bloque, 0] = -1;
@@ -333,19 +352,19 @@ namespace ProyectoArqui.Logica
                     else //directorio casa es del procesador 1
                     {
                         //tick de reloj
-                        Controladora.barreraReloj.SignalAndWait();
+                        //Controladora.barreraReloj.SignalAndWait();
                         var lockDirFuente = new Lock(shared.directorios.ElementAt(1));
 
                         //se debe de preguntar en el directorio si el bloque fuente está modificado en alguna otra caché
                         if (shared.directorios.ElementAt(1)[bloque, 0] == 1)
                         {
                             //tick de reloj
-                            Controladora.barreraReloj.SignalAndWait();
+                            //Controladora.barreraReloj.SignalAndWait();
                             //se debe de preguntar en cual caché está modificado, además se debe de bloquear esa caché
                             if (shared.directorios.ElementAt(1)[bloque, 1] == 1) //Nucleo0
                             {
                                 //tick de reloj
-                                Controladora.barreraReloj.SignalAndWait();
+                                //Controladora.barreraReloj.SignalAndWait();
                                 var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(0));
 
                                 //se debe de mandar a escribir a memoria
@@ -355,7 +374,7 @@ namespace ProyectoArqui.Logica
                                 //se actualiza el valor en memoria del bloque
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    shared.memoriasCompartida.ElementAt(1)[((bloque * 16) + i) / 4 - 64] = shared.cachesDatos.ElementAt(0)[i, posCache];
+                                    shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / + i - 64] = shared.cachesDatos.ElementAt(0)[i, posCache];
                                     //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
                                 }
                                 //se actualiza el directorio casa con 0´s y una U en el estado del bloque
@@ -371,7 +390,7 @@ namespace ProyectoArqui.Logica
                             else if (shared.directorios.ElementAt(1)[bloque, 2] == 1) //Nucleo 1
                             {
                                 //tick de reloj
-                                Controladora.barreraReloj.SignalAndWait();
+                                //Controladora.barreraReloj.SignalAndWait();
                                 var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(1));
 
                                 //se debe de mandar a escribir a memoria
@@ -397,7 +416,7 @@ namespace ProyectoArqui.Logica
                             else //Nucleo2
                             {
                                 //tick de reloj
-                                Controladora.barreraReloj.SignalAndWait();
+                                //Controladora.barreraReloj.SignalAndWait();
                                 var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(2));
 
                                 //se debe de mandar a escribir a memoria
@@ -407,7 +426,7 @@ namespace ProyectoArqui.Logica
                                 //se actualiza el valor en memoria del bloque
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    shared.memoriasCompartida.ElementAt(1)[((bloque * 16) + i) / 4 - 64] = shared.cachesDatos.ElementAt(2)[i, posCache];
+                                    shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / + i - 64] = shared.cachesDatos.ElementAt(2)[i, posCache];
                                     //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
                                 }
                                 //se actualiza el directorio casa con 0´s y una U en el estado del bloque 
@@ -429,14 +448,19 @@ namespace ProyectoArqui.Logica
                     if (bloque < 16) //significa que el dato se encuentra en la memoria del procesador 0
                     {
                         //tick de reloj
-                        Controladora.barreraReloj.SignalAndWait();
+                        //Controladora.barreraReloj.SignalAndWait();
                         var lockMem = new Lock(shared.memoriasCompartida.ElementAt(0));
                         var lockDirCasa = new Lock(shared.directorios.ElementAt(0));
                         //subo el bloque a cache
                         for (int i = 0; i < 4; i++)
                         {
-                            CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(0)[((bloque * 16) + i) / 4];
+                            //AQUI NO ESTÁ LEYENDO BIEN MEMORIA PORQUE DICE QUE HAY 0´S
+                            CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i];
+                            Console.Write("CacheDatos: {0}\n", CacheDatos[i, posCache]);
                         }
+                        //actualizo el valor del bloque y el del estado
+                        CacheDatos[4, posCache] = bloque;
+                        CacheDatos[5, posCache] = 0; //0 por estar compartido
 
                         //actualizo el directorio casa
                         //pongo un 0 en estado, que significa que esta compartido
@@ -449,13 +473,13 @@ namespace ProyectoArqui.Logica
                     else //esta en la memoria del procesador 1
                     {
                         //tick de reloj
-                        Controladora.barreraReloj.SignalAndWait();
+                        //Controladora.barreraReloj.SignalAndWait();
                         var lockMem = new Lock(shared.memoriasCompartida.ElementAt(0));
                         var lockDirCasa = new Lock(shared.directorios.ElementAt(0));
                         //subo el bloque a cache
                         for (int i = 0; i < 4; i++)
                         {
-                            CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(0)[((bloque * 16) + i) / 4 - 64];
+                            CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(0)[((bloque * 16) /4) / + i - 64];
                             //-64 porque esta es la memoria del procesador 0, la cual realmente comienza desde 0
                         }
 
@@ -470,12 +494,13 @@ namespace ProyectoArqui.Logica
                     //finalmente puedo leer
                     //agrego al registro lo que hay en caché
                     Registros[instruccion.RF2_RD] = CacheDatos[palabra, posCache];
+                    Console.Write("Registro: {0}\n", Registros[instruccion.RF2_RD]);
                     //restar quantum
                     //quantum.Valor--;
                     //ExitoAnterior = true
                     result = true;
                     //4(1 + 5 +1) cargando bloque de memoria a cache.
-                    IncrementarReloj(28);
+                    //IncrementarReloj(28);
                     //libero el bus
                     lockBusDatos1.Dispose();
                 }
@@ -485,37 +510,37 @@ namespace ProyectoArqui.Logica
             else
             {
                 //sino se pudo obtener el cache hay tick de reloj
-                Controladora.barreraReloj.SignalAndWait();
+                //Controladora.barreraReloj.SignalAndWait();
             }
             return result;
         }
 
-private void IncrementarReloj(int limiteSuperior)
-{
-    for (int i = 0; i < limiteSuperior; i++)
-        Controladora.barreraReloj.SignalAndWait();
-}
+        private void IncrementarReloj(int limiteSuperior)
+        {
+            for (int i = 0; i < limiteSuperior; i++)
+                Controladora.barreraReloj.SignalAndWait();
+        }
 
-public void fetch()
-{
-    //pregunta en la cache si esta en el bloque i, 
-    //si si está entonces, busca y carga la instruccion al IR,
-    //sino esta lo traigo de la memoria de instrucciones (el bloque).
-
-
+        public void fetch()
+        {
+            //pregunta en la cache si esta en el bloque i, 
+            //si si está entonces, busca y carga la instruccion al IR,
+            //sino esta lo traigo de la memoria de instrucciones (el bloque).
 
 
-}
 
-//devuelve true si finalizo el Hilillo
-public void ejecutar(object o)
-{
 
-    //carga los datos compartidos
-    shared = (Shared)o;
+        }
 
-    //hilillo que se va a ejecutar en el nucleo
-    ContextoHilillo proximo;
+        //devuelve true si finalizo el Hilillo
+        public void ejecutar(object o)
+        {
+
+            //carga los datos compartidos
+            shared = (Shared)o;
+
+            //hilillo que se va a ejecutar en el nucleo
+            ContextoHilillo proximo;
 
     do
     {
@@ -534,32 +559,32 @@ public void ejecutar(object o)
             }
         }
 
-    } while (proximo.Finalizado);
+            } while (proximo.Finalizado);
 
-    //REVISAR EL CASO EN QUE TODOS LOS HILOS ESTEN FINALIZADOS Y QUEDE VACIA LA COLA PORQUE SE PUEDE ENCLICLAR
+            //REVISAR EL CASO EN QUE TODOS LOS HILOS ESTEN FINALIZADOS Y QUEDE VACIA LA COLA PORQUE SE PUEDE ENCLICLAR
 
-    //si no es un hilo finalizado, inicializa registros y pc del contexto
-    int numInst;
+            //si no es un hilo finalizado, inicializa registros y pc del contexto
+            int numInst;
 
     //lock (shared)
     {
         numInst = shared.quantum; // Trae el quantum definido para ejecutar
     }
 
-    PC = proximo.PC;
-    Registros = proximo.Registros;
+            PC = proximo.PC;
+            Registros = proximo.Registros;
 
-    while (numInst > 0 && !proximo.Finalizado)
-    {
+            while (numInst > 0 && !proximo.Finalizado)
+            {
 
-        //saca palabra y bloque del PC
+                //saca palabra y bloque del PC
 
-        int bloque = PC / 16;
-        int palabra = (PC % 16) / 4;
+                int bloque = PC / 16;
+                int palabra = (PC % 16) / 4;
 
-        bool hit = false;
+                bool hit = false;
 
-        //comienza fetch
+                //comienza fetch
 
         int i = 0;
         
@@ -576,10 +601,10 @@ public void ejecutar(object o)
         {
             //no hubo hit y va a memoria a cargar bloque
 
-            for (int j = 0; j < 4; ++j)
-            {
+                    for (int j = 0; j < 4; ++j)
+                    {
 
-                Instruccion nueva = new Instruccion();
+                        Instruccion nueva = new Instruccion();
 
                 lock (Program.BusInstrucciones[IdProce])
                 {
@@ -589,33 +614,33 @@ public void ejecutar(object o)
                     nueva.RD_IMM = shared.memoriaInstrucciones.ElementAt(IdProce)[bloque + (j * 4) + 3];
                 }
 
-                cacheI.bloqueInstruccion[bloque % 4, j] = nueva;
+                        cacheI.bloqueInstruccion[bloque % 4, j] = nueva;
 
 
-            }
+                    }
 
-            //Guarda la etiqueta del bloque subido
-            cacheI.etiquetas[bloque % 4] = bloque;
+                    //Guarda la etiqueta del bloque subido
+                    cacheI.etiquetas[bloque % 4] = bloque;
 
-        }
+                }
 
-        //Carga instruccion al IR de la cache
+                //Carga instruccion al IR de la cache
 
         IR = cacheI.bloqueInstruccion[bloque % 4, palabra];
 
-        PC += 4; //COMPROBAR SI EL INCREMENTO ESTA BIEN
+                PC += 4; //COMPROBAR SI EL INCREMENTO ESTA BIEN
 
-        //ejecuta instruccion
+                //ejecuta instruccion
 
-        if (ejecutarInstruccion(IR))
-        {
-            proximo.Finalizado = true;
+                if (ejecutarInstruccion(IR))
+                {
+                    proximo.Finalizado = true;
 
-        }
+                }
 
-        numInst--;
+                numInst--;
 
-    }
+            }
 
     if (proximo.Finalizado)
     {
@@ -632,6 +657,6 @@ public void ejecutar(object o)
         }
     }
 
-}
+        }
     }
 }
