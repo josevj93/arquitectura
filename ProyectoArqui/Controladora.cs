@@ -55,7 +55,7 @@ namespace ProyectoArqui
                 if (cont % 2 == 0)
                 {
                     shared.colasContextos.ElementAt(0).Enqueue(new ContextoHilillo(contadorP1));
-
+                    shared.hilosTotales[0]++;
                     foreach (int dato in archivo)
                     {
                         shared.memoriaInstrucciones.ElementAt(0)[contadorP1++] = dato;
@@ -66,6 +66,7 @@ namespace ProyectoArqui
                 else
                 {
                     shared.colasContextos.ElementAt(1).Enqueue(new ContextoHilillo(contadorP2));
+                    shared.hilosTotales[1]++;
                     foreach (int dato in archivo)
                     {
                         shared.memoriaInstrucciones.ElementAt(1)[contadorP2++] = dato;
@@ -75,7 +76,6 @@ namespace ProyectoArqui
                 }
                 cont++;
             }
-
 
         }
 

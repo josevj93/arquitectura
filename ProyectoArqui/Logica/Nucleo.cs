@@ -373,7 +373,7 @@ namespace ProyectoArqui.Logica
                                 //se actualiza el valor en memoria del bloque
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / + i - 64] = shared.cachesDatos.ElementAt(0)[i, posCache];
+                                    shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / +i - 64] = shared.cachesDatos.ElementAt(0)[i, posCache];
                                     //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
                                 }
                                 //se actualiza el directorio casa con 0´s y una U en el estado del bloque
@@ -425,7 +425,7 @@ namespace ProyectoArqui.Logica
                                 //se actualiza el valor en memoria del bloque
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / + i - 64] = shared.cachesDatos.ElementAt(2)[i, posCache];
+                                    shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / +i - 64] = shared.cachesDatos.ElementAt(2)[i, posCache];
                                     //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
                                 }
                                 //se actualiza el directorio casa con 0´s y una U en el estado del bloque 
@@ -478,7 +478,7 @@ namespace ProyectoArqui.Logica
                         //subo el bloque a cache
                         for (int i = 0; i < 4; i++)
                         {
-                            CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(0)[((bloque * 16) /4) / + i - 64];
+                            CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) / +i - 64];
                             //-64 porque esta es la memoria del procesador 0, la cual realmente comienza desde 0
                         }
 
@@ -541,121 +541,135 @@ namespace ProyectoArqui.Logica
             //hilillo que se va a ejecutar en el nucleo
             ContextoHilillo proximo;
 
-    do
-    {
-        //bloquea la cola de contextos del Procesador donde esta el nucleo
-        lock (Program.BusContextos)
-        {
-            //carga el hilo de la cola de hilos pendientes
-            proximo = shared.colasContextos.ElementAt(IdProce).Dequeue();
-        }
-        if (proximo.Finalizado)
-        {
-            //lock (shared.hilosFinalizados.ElementAt(IdProce))
-            {
-                //si el hilo esta finalizado, lo guarda en la lista de hilos finalizados
-                shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
-            }
-        }
-
-            } while (proximo.Finalizado);
-
-            //REVISAR EL CASO EN QUE TODOS LOS HILOS ESTEN FINALIZADOS Y QUEDE VACIA LA COLA PORQUE SE PUEDE ENCLICLAR
-
-            //si no es un hilo finalizado, inicializa registros y pc del contexto
-            int numInst;
-
-    //lock (shared)
-    {
-        numInst = shared.quantum; // Trae el quantum definido para ejecutar
-    }
-
-            PC = proximo.PC;
-            Registros = proximo.Registros;
-
-            while (numInst > 0 && !proximo.Finalizado)
+            while (shared.hilosTotales[IdProce] != shared.hilosFinalizados.ElementAt(IdProce).Count())
             {
 
-                //saca palabra y bloque del PC
+                proximo = null;
 
-                int bloque = PC / 16;
-                int palabra = (PC % 16) / 4;
-
-                bool hit = false;
-
-                //comienza fetch
-
-        int i = 0;
-        
-        do{
-            if (cacheI.etiquetas[i] == bloque)
-            {
-                hit = true;
-            }
-
-            ++i;
-        }while (i < 4 && !hit) ;
-          
-        if (!hit)
-        {
-            //no hubo hit y va a memoria a cargar bloque
-
-                    for (int j = 0; j < 4; ++j)
-                    {
-
-                        Instruccion nueva = new Instruccion();
-
-                lock (Program.BusInstrucciones[IdProce])
+                //bloquea la cola de contextos del Procesador donde esta el nucleo
+                lock (Program.BusContextos)
                 {
-                    nueva.CodigoOp = shared.memoriaInstrucciones.ElementAt(IdProce)[bloque + (j * 4)];
-                    nueva.RF1 = shared.memoriaInstrucciones.ElementAt(IdProce)[bloque + (j * 4) + 1];
-                    nueva.RF2_RD = shared.memoriaInstrucciones.ElementAt(IdProce)[bloque + (j * 4) + 2];
-                    nueva.RD_IMM = shared.memoriaInstrucciones.ElementAt(IdProce)[bloque + (j * 4) + 3];
+                    //carga el hilo de la cola de hilos pendientes
+                    if (shared.colasContextos.ElementAt(IdProce).Count() > 0)
+                        proximo = shared.colasContextos.ElementAt(IdProce).Dequeue();
                 }
 
-                        cacheI.bloqueInstruccion[bloque % 4, j] = nueva;
+                if (proximo != null)
+                {
+                    /*
+                    do
+                    {
+                        //bloquea la cola de contextos del Procesador donde esta el nucleo
+                        lock (Program.BusContextos)
+                        {
+                            //carga el hilo de la cola de hilos pendientes
+                            proximo = shared.colasContextos.ElementAt(IdProce).Dequeue();
+                        }
+                        if (proximo.Finalizado)
+                        {
+                            //lock (shared.hilosFinalizados.ElementAt(IdProce))
+                            {
+                                //si el hilo esta finalizado, lo guarda en la lista de hilos finalizados
+                                shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
+                            }
+                        }
 
+                    } while (proximo.Finalizado);
+                    */
+                    //REVISAR EL CASO EN QUE TODOS LOS HILOS ESTEN FINALIZADOS Y QUEDE VACIA LA COLA PORQUE SE PUEDE ENCLICLAR
+
+                    //inicializa registros y pc del contexto
+                    int numInst;
+
+                    //lock (shared)
+                    {
+                        numInst = shared.quantum; // Trae el quantum definido para ejecutar
+                    }
+
+                    PC = proximo.PC;
+                    Registros = proximo.Registros;
+
+                    while (numInst > 0 && !proximo.Finalizado)
+                    {
+
+                        //saca palabra y bloque del PC
+
+                        int bloque = PC / 16;
+                        int palabra = (PC % 16) / 4;
+
+                        bool hit = false;
+
+                        //comienza fetch
+
+                        if (cacheI.etiquetas[bloque % 4] == bloque)
+                        {
+                            hit = true;
+                        }
+
+                        if (!hit)
+                        {
+                            //no hubo hit y va a memoria a cargar bloque
+
+                            for (int j = 0; j < 4; ++j)
+                            {
+
+                                Instruccion nueva = new Instruccion();
+
+                                lock (Program.BusInstrucciones[IdProce])
+                                {
+                                    nueva.CodigoOp = shared.memoriaInstrucciones.ElementAt(IdProce)[(bloque * 16) + (j * 4)];
+                                    nueva.RF1 = shared.memoriaInstrucciones.ElementAt(IdProce)[(bloque * 16) + (j * 4) + 1];
+                                    nueva.RF2_RD = shared.memoriaInstrucciones.ElementAt(IdProce)[(bloque * 16) + (j * 4) + 2];
+                                    nueva.RD_IMM = shared.memoriaInstrucciones.ElementAt(IdProce)[(bloque * 16) + (j * 4) + 3];
+                                }
+
+                                cacheI.bloqueInstruccion[bloque % 4, j] = nueva;
+
+
+                            }
+
+                            //Guarda la etiqueta del bloque subido
+                            cacheI.etiquetas[bloque % 4] = bloque;
+
+                        }
+
+                        //Carga instruccion al IR de la cache
+
+                        IR = cacheI.bloqueInstruccion[bloque % 4, palabra];
+
+                        PC += 4; //COMPROBAR SI EL INCREMENTO ESTA BIEN
+
+                        //ejecuta instruccion
+
+                        if (ejecutarInstruccion(IR))
+                        {
+                            proximo.Finalizado = true;
+
+                        }
+
+                        numInst--;
 
                     }
 
-                    //Guarda la etiqueta del bloque subido
-                    cacheI.etiquetas[bloque % 4] = bloque;
+                    if (proximo.Finalizado)
+                    {
+                        //lock (shared.hilosFinalizados.ElementAt(IdProce))
+                        {
+                            proximo.PC = PC;
+                            shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
+                        }
+                    }
+                    else
+                    {
+                        //lock (shared.colasContextos.ElementAt(IdProce))
+                        {
+                            proximo.PC = PC;
+                            shared.colasContextos.ElementAt(IdProce).Enqueue(proximo);
+                        }
+                    }
 
                 }
-
-                //Carga instruccion al IR de la cache
-
-        IR = cacheI.bloqueInstruccion[bloque % 4, palabra];
-
-                PC += 4; //COMPROBAR SI EL INCREMENTO ESTA BIEN
-
-                //ejecuta instruccion
-
-                if (ejecutarInstruccion(IR))
-                {
-                    proximo.Finalizado = true;
-
-                }
-
-                numInst--;
-
             }
-
-    if (proximo.Finalizado)
-    {
-        //lock (shared.hilosFinalizados.ElementAt(IdProce))
-        {
-            shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
-        }
-    }
-    else
-    {
-        //lock (shared.colasContextos.ElementAt(IdProce))
-        {
-            shared.colasContextos.ElementAt(IdProce).Enqueue(proximo);
-        }
-    }
-
         }
     }
 }

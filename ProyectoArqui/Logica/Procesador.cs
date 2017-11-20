@@ -22,10 +22,9 @@ namespace ProyectoArqui.Logica
             this.id = id;
 
             //Crea todos los nucleos de este Procesador
-            for(int i=0; i < nNucleos; ++i)
+            for (int i = 0; i < nNucleos; ++i)
             {
-                Nucleo nuevoNucleo = new Nucleo(i,id);
-                nucleos.Add(nuevoNucleo);
+                nucleos.Add(new Nucleo(i, id));
             }
 
         }
@@ -36,41 +35,64 @@ namespace ProyectoArqui.Logica
             //carga los datos compartidos
             shared = (Shared)o;
 
-            int hilosPendientes;
+            Thread[] hilos = new Thread[nucleos.Count()];
 
-            lock (Program.BusContextos)
+
+            for (int i = 0; i < nucleos.Count(); ++i)
             {
-                hilosPendientes = shared.colasContextos.ElementAt(id).Count();
+                Thread t = new Thread(nucleos[i].ejecutar);
+                hilos[i] = t;
             }
 
-            //mientras la cola de Hilos tenga hilos pendientes
-            while (hilosPendientes > 0)
+            for (int i = 0; i < nucleos.Count(); ++i)
             {
-
-                foreach(Nucleo nucleo in nucleos)
-                {
-
-                    lock (Program.BusContextos)
-                    {
-                        hilosPendientes = shared.colasContextos.ElementAt(id).Count();
-                    }
-
-                    if (hilosPendientes > 0)
-                    {
-
-                        Thread t = new Thread(nucleo.ejecutar);
-                        t.Start(shared);
-
-                        t.Join();
-                    }
-
-
-                }
-                
-
+                hilos[i].Start(shared);
             }
 
+            foreach (var t in hilos)
+            {
+                t.Join();
+            }
+
+
+
+        /*
+
+        int hilosPendientes;
+
+        lock (Program.BusContextos)
+        {
+            hilosPendientes = shared.colasContextos.ElementAt(id).Count();
         }
 
+        //mientras la cola de Hilos tenga hilos pendientes
+        while (hilosPendientes > 0)
+        {
+            int a = 0;
+            foreach(Nucleo nucleo in nucleos)
+            {
+
+                lock (Program.BusContextos)
+                {
+                    hilosPendientes = shared.colasContextos.ElementAt(id).Count();
+                }
+
+                if (hilosPendientes > 0)
+                {
+
+                    Thread t = new Thread(nucleo.ejecutar);
+                    t.Start(shared);
+
+                    t.Join();
+                }
+
+
+            }
+
+
+        }
+        */
     }
+
+}
 }
