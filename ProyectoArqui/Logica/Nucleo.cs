@@ -138,7 +138,7 @@ namespace ProyectoArqui.Logica
             {
                 //tick de reloj
                 //Controladora.barreraReloj.SignalAndWait();
-                //si esta el bloque en mi cache y esta válido
+                //si esta el bloque en mi cache y esta válido (hit)
                 if (CacheDatos[4, posCache] == bloque && CacheDatos[5, posCache] != -1)
                 {
                     //cargar el valor al registro correspondiente
@@ -283,12 +283,12 @@ namespace ProyectoArqui.Logica
                                 {
                                     shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(0)[i, posCache];
                                 }
-                                //se actualiza el directorio casa con 0´s y una U en el estado del bloque
-                                shared.directorios.ElementAt(0)[bloque, 0] = -1;
-                                for (int i = 1; i < 4; i++)
-                                {
-                                    shared.directorios.ElementAt(0)[bloque, i] = 0;
-                                }
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(0)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(0)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
                                 //se libera la memoria
                                 lockMem.Dispose();
                                 lockCacheFuente.Dispose();
@@ -308,12 +308,12 @@ namespace ProyectoArqui.Logica
                                 {
                                     shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(1)[i, posCache];
                                 }
-                                //se actualiza el directorio casa con 0´s y una U en el estado del bloque
-                                shared.directorios.ElementAt(0)[bloque, 0] = -1;
-                                for (int i = 1; i < 4; i++)
-                                {
-                                    shared.directorios.ElementAt(0)[bloque, i] = 0;
-                                }
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(1)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(0)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
                                 //se libera la memoria
                                 lockMem.Dispose();
                                 lockCacheFuente.Dispose();
@@ -333,12 +333,12 @@ namespace ProyectoArqui.Logica
                                 {
                                     shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(2)[i, posCache];
                                 }
-                                //se actualiza el directorio casa con 0´s y una U en el estado del bloque
-                                shared.directorios.ElementAt(0)[bloque, 0] = -1;
-                                for (int i = 1; i < 4; i++)
-                                {
-                                    shared.directorios.ElementAt(0)[bloque, i] = 0;
-                                }
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(2)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(0)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
                                 //se libera la memoria
                                 lockMem.Dispose();
                                 lockCacheFuente.Dispose();
@@ -376,12 +376,12 @@ namespace ProyectoArqui.Logica
                                     shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / +i - 64] = shared.cachesDatos.ElementAt(0)[i, posCache];
                                     //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
                                 }
-                                //se actualiza el directorio casa con 0´s y una U en el estado del bloque
-                                shared.directorios.ElementAt(1)[bloque, 0] = -1;
-                                for (int i = 1; i < 4; i++)
-                                {
-                                    shared.directorios.ElementAt(1)[bloque, i] = 0;
-                                }
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(0)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(1)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
                                 //se libera la memoria
                                 lockMem.Dispose();
                                 lockCacheFuente.Dispose();
@@ -402,12 +402,12 @@ namespace ProyectoArqui.Logica
                                     shared.memoriasCompartida.ElementAt(1)[((bloque * 16) + i) / 4 - 64] = shared.cachesDatos.ElementAt(1)[i, posCache];
                                     //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
                                 }
-                                //se actualiza el directorio casa con 0´s y una U en el estado del bloque
-                                shared.directorios.ElementAt(1)[bloque, 0] = -1;
-                                for (int i = 1; i < 4; i++)
-                                {
-                                    shared.directorios.ElementAt(1)[bloque, i] = 0;
-                                }
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(1)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(1)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
                                 //se libera la memoria
                                 lockMem.Dispose();
                                 lockCacheFuente.Dispose();
@@ -428,12 +428,512 @@ namespace ProyectoArqui.Logica
                                     shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / +i - 64] = shared.cachesDatos.ElementAt(2)[i, posCache];
                                     //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
                                 }
-                                //se actualiza el directorio casa con 0´s y una U en el estado del bloque 
-                                shared.directorios.ElementAt(1)[bloque, 0] = -1;
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(2)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(1)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
+                                //se libera la memoria
+                                lockMem.Dispose();
+                                lockCacheFuente.Dispose();
+
+                            }
+                        }
+                        lockDirFuente.Dispose();
+                        //si no es porque está compartido o invalido y se le puede caer sin problema
+                    }
+                    //Ahora que no hay conflictos con los estados se puede finalmente escribir en la cache para la lectura
+                    if (bloque < 16) //significa que el dato se encuentra en la memoria del procesador 0
+                    {
+                        //tick de reloj
+                        //Controladora.barreraReloj.SignalAndWait();
+                        var lockMem = new Lock(shared.memoriasCompartida.ElementAt(0));
+                        var lockDirCasa = new Lock(shared.directorios.ElementAt(0));
+                        //subo el bloque a cache
+                        for (int i = 0; i < 4; i++)
+                        {
+                            //AQUI NO ESTÁ LEYENDO BIEN MEMORIA PORQUE DICE QUE HAY 0´S
+                            CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i];
+                            Console.Write("CacheDatos: {0}\n", CacheDatos[i, posCache]);
+                        }
+                        //actualizo el valor del bloque y el del estado
+                        CacheDatos[4, posCache] = bloque;
+                        CacheDatos[5, posCache] = 0; //0 por estar compartido
+
+                        //actualizo el directorio casa
+                        //pongo un 0 en estado, que significa que esta compartido
+                        shared.directorios.ElementAt(0)[bloque, 0] = 0;
+                        shared.directorios.ElementAt(0)[bloque, IdNucleo] = 1;
+
+                        lockMem.Dispose();
+                        lockDirCasa.Dispose();
+                    }
+                    else //esta en la memoria del procesador 1
+                    {
+                        //tick de reloj
+                        //Controladora.barreraReloj.SignalAndWait();
+                        var lockMem = new Lock(shared.memoriasCompartida.ElementAt(0));
+                        var lockDirCasa = new Lock(shared.directorios.ElementAt(0));
+                        //subo el bloque a cache
+                        for (int i = 0; i < 4; i++)
+                        {
+                            CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) / + i - 64];
+                            //-64 porque esta es la memoria del procesador 0, la cual realmente comienza desde 0
+                        }
+                        //actualizo el valor del bloque y el del estado
+                        CacheDatos[4, posCache] = bloque;
+                        CacheDatos[5, posCache] = 0; //0 por estar compartido
+
+                        //actualizo el directorio casa
+                        //pongo un 0 en estado, que significa que esta compartido
+                        shared.directorios.ElementAt(1)[bloque, 0] = 0;
+                        shared.directorios.ElementAt(1)[bloque, IdNucleo] = 1;
+
+                        lockMem.Dispose();
+                        lockDirCasa.Dispose();
+                    }
+                    //finalmente puedo leer
+                    //agrego al registro lo que hay en caché
+                    Registros[instruccion.RF2_RD] = CacheDatos[palabra, posCache];
+                    Console.Write("Registro: {0}\n", Registros[instruccion.RF2_RD]);
+                    //restar quantum
+                    //quantum.Valor--;
+                    //ExitoAnterior = true
+                    result = true;
+                    //4(1 + 5 +1) cargando bloque de memoria a cache.
+                    //IncrementarReloj(28);
+                    //libero el bus
+                    lockBusDatos1.Dispose();
+                }
+                //libero la cache
+                lockCache.Dispose();
+            }
+            else
+            {
+                //sino se pudo obtener el cache hay tick de reloj
+                //Controladora.barreraReloj.SignalAndWait();
+            }
+            return result;
+        }
+
+        //Hay que definir lo de los estados, en este caso estoy proponiendo que: -1 = I, 0 = C, 1 = M para la cache
+        //para el directorio sería -1 = U, 0 = C, 1 = M
+        public bool EjecutarSW(Instruccion instruccion, int[,] CacheDatos)
+        {
+            bool result = false;
+
+            //se obtiene direccion de memoria
+            int direccion = instruccion.RF1 + instruccion.RD_IMM;
+
+            //se convierte a bloque y palabra posicion en cache
+            int bloque = direccion / 16;
+            int palabra = (direccion % 16) / 4;
+            int posCache = bloque % 4;
+
+            //se trata de bloquear el caché
+            var lockCache = new Lock(CacheDatos);
+
+            //si se pudo bloquear sigue con la lectura
+            if (lockCache.HasLock)
+            {
+                //tick de reloj
+                //Controladora.barreraReloj.SignalAndWait();
+                //si esta el bloque en mi cache y esta válido (hit)
+                if (CacheDatos[4, posCache] == bloque && CacheDatos[5, posCache] != -1)
+                {
+                    //Se debe de preguntar si el estado del bloque es modificado
+                    if(CacheDatos[5, posCache] == 1)
+                    {
+                        //se modifica el dato en la cache actual
+                        CacheDatos[palabra, posCache] = Registros[instruccion.RF2_RD];
+                        result = true;
+                        //no se actualiza directorio ni estado de la cache pues ya estaba modificado
+                        //se desbloquea todo
+                        lockCache.Dispose();
+                    }
+                    else //el bloque es compartido
+                    {
+                        //se debe de bloquear el directorio casa del bloque
+                        if (bloque < 16) //significa que pertenece al directorio 0
+                        {
+                            var lockDir = new Lock(shared.directorios.ElementAt(0));
+                            //se debe de preguntar si se encuentra compartido en otra cache (como es compartido puede estar en las 3, pero minimo en una, la actual)
+                            if (shared.directorios.ElementAt(0)[bloque, 1] == 1)//Nucleo0
+                            {
+                                //se bloquea la cache donde esta el bloque
+                                var lockCache2 = new Lock(shared.cachesDatos.ElementAt(0));
+                                //invalida el bloque de la cache y el directorio
+                                shared.cachesDatos.ElementAt(0)[5, posCache] = -1;
+                                shared.directorios.ElementAt(0)[bloque, 1] = 0;
+                                lockCache2.Dispose();
+
+                            }
+                            if (shared.directorios.ElementAt(0)[bloque, 2] == 1)//Nucleo1
+                            {
+                                //se bloquea la cache donde esta el bloque
+                                var lockCache2 = new Lock(shared.cachesDatos.ElementAt(1));
+                                //invalida el bloque de la cache y el directorio
+                                shared.cachesDatos.ElementAt(1)[5, posCache] = -1;
+                                shared.directorios.ElementAt(0)[bloque, 1] = 0;
+                                lockCache2.Dispose();
+                            }
+                            if (shared.directorios.ElementAt(0)[bloque, 3] == 1)//Nucleo2
+                            {
+                                //se bloquea la cache donde esta el bloque
+                                var lockCache2 = new Lock(shared.cachesDatos.ElementAt(2));
+                                //invalida el bloque de la cache y el directorio
+                                shared.cachesDatos.ElementAt(2)[5, posCache] = -1;
+                                shared.directorios.ElementAt(0)[bloque, 1] = 0;
+                                lockCache2.Dispose();
+                            }
+                            //Cuando llega aquí ya invalidó todos los posibles bloques compartidos y ya puede se modificar
+                            //se modifica el dato en la cache actual
+                            CacheDatos[palabra, posCache] = Registros[instruccion.RF2_RD];
+                            //actualiza su estado en cache
+                            CacheDatos[5, posCache] = 1;
+                            result = true;
+                            //se actualiza el directorio
+                            shared.directorios.ElementAt(0)[bloque, 0] = 1;
+                            shared.directorios.ElementAt(0)[bloque, IdNucleo] = 1;
+                            //se desbloquea todo
+                            lockCache.Dispose();
+                            lockDir.Dispose();
+
+                        }
+                        else //pertenece al directorio1
+                        {
+                            var lockDir = new Lock(shared.directorios.ElementAt(1));
+                            //se debe de preguntar si se encuentra compartido en otra cache (como es compartido puede estar en las 3, pero minimo en una, la actual)
+                            if (shared.directorios.ElementAt(1)[bloque, 1] == 1)//Nucleo0
+                            {
+                                //se bloquea la cache donde esta el bloque
+                                var lockCache2 = new Lock(shared.cachesDatos.ElementAt(0));
+                                //invalida el bloque de la cache y el directorio
+                                shared.cachesDatos.ElementAt(0)[5, posCache] = -1;
+                                shared.directorios.ElementAt(1)[bloque, 1] = 0;
+                                lockCache2.Dispose();
+
+                            }
+                            if (shared.directorios.ElementAt(1)[bloque, 2] == 1)//Nucleo1
+                            {
+                                //se bloquea la cache donde esta el bloque
+                                var lockCache2 = new Lock(shared.cachesDatos.ElementAt(1));
+                                //invalida el bloque de la cache y el directorio
+                                shared.cachesDatos.ElementAt(1)[5, posCache] = -1;
+                                shared.directorios.ElementAt(1)[bloque, 1] = 0;
+                                lockCache2.Dispose();
+                            }
+                            if (shared.directorios.ElementAt(1)[bloque, 3] == 1)//Nucleo2
+                            {
+                                //se bloquea la cache donde esta el bloque
+                                var lockCache2 = new Lock(shared.cachesDatos.ElementAt(2));
+                                //invalida el bloque de la cache y el directorio
+                                shared.cachesDatos.ElementAt(2)[5, posCache] = -1;
+                                shared.directorios.ElementAt(1)[bloque, 1] = 0;
+                                lockCache2.Dispose();
+                            }
+                            //Cuando llega aquí ya invalidó todos los posibles bloques compartidos y ya puede se modificar
+                            //se modifica el dato en la cache actual
+                            CacheDatos[palabra, posCache] = Registros[instruccion.RF2_RD];
+                            //actualiza su estado en cache
+                            CacheDatos[5, posCache] = 1;
+                            result = true;
+                            //se actualiza el directorio
+                            shared.directorios.ElementAt(1)[bloque, 0] = 1;
+                            shared.directorios.ElementAt(1)[bloque, IdNucleo] = 1;
+                            //se desbloquea todo
+                            lockCache.Dispose();
+                            lockDir.Dispose();
+
+                        }
+                    }
+                }
+                else //fallo de cache (no se encuentra el bloque en cache o no esta valido) FALTA! REVISAR!
+                {
+                    //tick de reloj
+                    //Controladora.barreraReloj.SignalAndWait();
+
+                    //se obtienen los datos del bloque victima
+                    int bloqueVictima = CacheDatos[4, posCache];
+
+                    //se debe de revisar el estado del bloque para saber si esta modificado
+                    if (CacheDatos[5, posCache] == 1)
+                    {
+                        //tick de reloj
+                        //Controladora.barreraReloj.SignalAndWait();
+                        //bloquear el bus de data
+                        var lockBusDatos = new Lock(Controladora.BusDatosP1);
+                        //si obtuve el bus de data
+                        if (lockBusDatos.HasLock)
+                        {
+
+                            //tick de reloj
+                            //Controladora.barreraReloj.SignalAndWait();
+
+                            //bloquear el directorio casa del bloque victima
+                            if (bloqueVictima < 16)
+                            {
+                                //tick de reloj
+                                //Controladora.barreraReloj.SignalAndWait();
+                                //si el bloqueVictima es de 0 a 15 significa que hay que revisar el directorio del procesador0
+                                var lockDirVictima = new Lock(shared.directorios.ElementAt(0));
+                                //se debe de bloquear la memoria para escribir en ella
+                                var lockMem = new Lock(shared.memoriasCompartida.ElementAt(0));
+
+                                //se actualiza el valor en memoria del bloque victima
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    shared.memoriasCompartida.ElementAt(0)[((bloqueVictima * 16) / 4) + i] = CacheDatos[i, posCache];
+                                }
+
+                                //se actualiza el directorio casa con 0´s y una U en el estado del bloque victima
+                                shared.directorios.ElementAt(0)[bloqueVictima, 0] = -1;
                                 for (int i = 1; i < 4; i++)
                                 {
-                                    shared.directorios.ElementAt(1)[bloque, i] = 0;
+                                    shared.directorios.ElementAt(0)[bloqueVictima, i] = 0;
                                 }
+
+                                //se libera el directorio casa del bloque victima
+                                lockDirVictima.Dispose();
+                                lockMem.Dispose();
+                            }
+                            else
+                            {
+                                //tick de reloj
+                                //Controladora.barreraReloj.SignalAndWait();
+                                //sino se bloquea el directorio casa del procesador1
+                                var lockDirVictima = new Lock(shared.directorios.ElementAt(1));
+                                //se debe de bloquear la memoria para escribir en ella
+                                var lockMem = new Lock(shared.memoriasCompartida.ElementAt(1));
+
+                                //se actualiza el valor en memoria del bloque victima
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    shared.memoriasCompartida.ElementAt(1)[((bloqueVictima * 16) / 4) + i - 64] = CacheDatos[i, posCache];
+                                    //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
+                                }
+                                //se actualiza el directorio casa con 0´s y una U en el estado del bloque victima
+                                shared.directorios.ElementAt(1)[bloqueVictima, 0] = -1;
+                                for (int i = 1; i < 4; i++)
+                                {
+                                    shared.directorios.ElementAt(1)[bloqueVictima, i] = 0;
+                                }
+                                //se libera el directorio casa del bloque victima
+                                lockDirVictima.Dispose();
+                                lockMem.Dispose();
+                            }
+                            //se invalida el estado de la cache del bloque victima
+                            CacheDatos[5, posCache] = -1;
+                        }
+                        //se libera el bus
+                        lockBusDatos.Dispose();
+                    }
+                    else if (CacheDatos[5, posCache] == 0)
+                    {
+                        //tick de reloj
+                        //Controladora.barreraReloj.SignalAndWait();
+                        //pone un 0 en el directorio casa del bloque victima
+                        //se pregunta cual es el directorio casa
+                        if (bloqueVictima < 16)
+                        {
+                            //tick de reloj
+                            //Controladora.barreraReloj.SignalAndWait();
+                            var lockDirVictima = new Lock(shared.directorios.ElementAt(0));
+                            shared.directorios.ElementAt(0)[bloqueVictima, IdNucleo] = 0;
+                            lockDirVictima.Dispose();
+                        }
+                        else
+                        {
+                            //tick de reloj
+                            //Controladora.barreraReloj.SignalAndWait();
+                            var lockDirVictima = new Lock(shared.directorios.ElementAt(1));
+                            shared.directorios.ElementAt(1)[bloqueVictima, IdNucleo] = 0;
+                            lockDirVictima.Dispose();
+                        }
+                    }
+
+                    //se bloquea el bus
+                    var lockBusDatos1 = new Lock(Controladora.BusDatosP1);
+                    //se bloquea el directorio casa del bloque fuente
+                    if (bloque < 16) //significa que el directorio casa es el del procesador 0
+                    {
+                        //tick de reloj
+                        //Controladora.barreraReloj.SignalAndWait();
+                        var lockDirFuente = new Lock(shared.directorios.ElementAt(0));
+
+                        //se debe de preguntar en el directorio si el bloque fuente está modificado en alguna otra caché
+                        if (shared.directorios.ElementAt(0)[bloque, 0] == 1)
+                        {
+                            //tick de reloj
+                            //Controladora.barreraReloj.SignalAndWait();
+                            //se debe de preguntar en cual caché está modificado, además se debe de bloquear esa caché
+                            if (shared.directorios.ElementAt(0)[bloque, 1] == 1) //Nucleo0
+                            {
+                                //tick de reloj
+                                //Controladora.barreraReloj.SignalAndWait();
+                                var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(0));
+
+                                //se debe de mandar a escribir a memoria
+                                //se debe de bloquear la memoria para escribir en ella
+                                var lockMem = new Lock(shared.memoriasCompartida.ElementAt(0));
+
+                                //se actualiza el valor en memoria del bloque
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(0)[i, posCache];
+                                }
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(0)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(0)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
+                                //se libera la memoria
+                                lockMem.Dispose();
+                                lockCacheFuente.Dispose();
+                            }
+                            else if (shared.directorios.ElementAt(0)[bloque, 2] == 1) //Nucleo 1
+                            {
+                                //tick de reloj
+                                //Controladora.barreraReloj.SignalAndWait();
+                                var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(1));
+
+                                //se debe de mandar a escribir a memoria
+                                //se debe de bloquear la memoria para escribir en ella
+                                var lockMem = new Lock(shared.memoriasCompartida.ElementAt(0));
+
+                                //se actualiza el valor en memoria del bloque
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(1)[i, posCache];
+                                }
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(1)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(0)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
+                                //se libera la memoria
+                                lockMem.Dispose();
+                                lockCacheFuente.Dispose();
+                            }
+                            else //Nucleo2
+                            {
+                                //tick de reloj
+                                //Controladora.barreraReloj.SignalAndWait();
+                                var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(2));
+
+                                //se debe de mandar a escribir a memoria
+                                //se debe de bloquear la memoria para escribir en ella
+                                var lockMem = new Lock(shared.memoriasCompartida.ElementAt(0));
+
+                                //se actualiza el valor en memoria del bloque
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(2)[i, posCache];
+                                }
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(2)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(0)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
+                                //se libera la memoria
+                                lockMem.Dispose();
+                                lockCacheFuente.Dispose();
+
+                            }
+                        }
+                        lockDirFuente.Dispose();
+                        //si no es porque está compartido o invalido y se le puede caer sin problema
+                    }
+                    else //directorio casa es del procesador 1
+                    {
+                        //tick de reloj
+                        //Controladora.barreraReloj.SignalAndWait();
+                        var lockDirFuente = new Lock(shared.directorios.ElementAt(1));
+
+                        //se debe de preguntar en el directorio si el bloque fuente está modificado en alguna otra caché
+                        if (shared.directorios.ElementAt(1)[bloque, 0] == 1)
+                        {
+                            //tick de reloj
+                            //Controladora.barreraReloj.SignalAndWait();
+                            //se debe de preguntar en cual caché está modificado, además se debe de bloquear esa caché
+                            if (shared.directorios.ElementAt(1)[bloque, 1] == 1) //Nucleo0
+                            {
+                                //tick de reloj
+                                //Controladora.barreraReloj.SignalAndWait();
+                                var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(0));
+
+                                //se debe de mandar a escribir a memoria
+                                //se debe de bloquear la memoria para escribir en ella
+                                var lockMem = new Lock(shared.memoriasCompartida.ElementAt(1));
+
+                                //se actualiza el valor en memoria del bloque
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / +i - 64] = shared.cachesDatos.ElementAt(0)[i, posCache];
+                                    //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
+                                }
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(0)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(1)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
+                                //se libera la memoria
+                                lockMem.Dispose();
+                                lockCacheFuente.Dispose();
+                            }
+                            else if (shared.directorios.ElementAt(1)[bloque, 2] == 1) //Nucleo 1
+                            {
+                                //tick de reloj
+                                //Controladora.barreraReloj.SignalAndWait();
+                                var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(1));
+
+                                //se debe de mandar a escribir a memoria
+                                //se debe de bloquear la memoria para escribir en ella
+                                var lockMem = new Lock(shared.memoriasCompartida.ElementAt(1));
+
+                                //se actualiza el valor en memoria del bloque
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    shared.memoriasCompartida.ElementAt(1)[((bloque * 16) + i) / 4 - 64] = shared.cachesDatos.ElementAt(1)[i, posCache];
+                                    //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
+                                }
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(1)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(1)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
+                                //se libera la memoria
+                                lockMem.Dispose();
+                                lockCacheFuente.Dispose();
+                            }
+                            else //Nucleo2
+                            {
+                                //tick de reloj
+                                //Controladora.barreraReloj.SignalAndWait();
+                                var lockCacheFuente = new Lock(shared.cachesDatos.ElementAt(2));
+
+                                //se debe de mandar a escribir a memoria
+                                //se debe de bloquear la memoria para escribir en ella
+                                var lockMem = new Lock(shared.memoriasCompartida.ElementAt(1));
+
+                                //se actualiza el valor en memoria del bloque
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    shared.memoriasCompartida.ElementAt(1)[((bloque * 16) / 4) / +i - 64] = shared.cachesDatos.ElementAt(2)[i, posCache];
+                                    //el -64 es porque hay que recordar que esa memoria empieza desde 0 en realidad, aunque en el papel empieza inmediatamente despues de la primera memoria compartida 
+                                }
+                                //Se actualiza el estado del bloque a compartido
+                                shared.cachesDatos.ElementAt(2)[5, posCache] = 0;
+                                //Se actualiza el estado del directorio como compartido
+                                shared.directorios.ElementAt(1)[bloque, 0] = 0;
+                                //se deja el 1 que ya estaba en el directorio
+
                                 //se libera la memoria
                                 lockMem.Dispose();
                                 lockCacheFuente.Dispose();
@@ -481,6 +981,9 @@ namespace ProyectoArqui.Logica
                             CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(0)[((bloque * 16) / 4) / +i - 64];
                             //-64 porque esta es la memoria del procesador 0, la cual realmente comienza desde 0
                         }
+                        //actualizo el valor del bloque y el del estado
+                        CacheDatos[4, posCache] = bloque;
+                        CacheDatos[5, posCache] = 0; //0 por estar compartido
 
                         //actualizo el directorio casa
                         //pongo un 0 en estado, que significa que esta compartido
