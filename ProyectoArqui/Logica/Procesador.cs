@@ -46,7 +46,7 @@ namespace ProyectoArqui.Logica
             //mientras la cola de Hilos tenga hilos pendientes
             while (hilosPendientes > 0)
             {
-
+                int a = 0;
                 foreach(Nucleo nucleo in nucleos)
                 {
 

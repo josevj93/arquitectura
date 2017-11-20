@@ -112,7 +112,7 @@ namespace ProyectoArqui
   
             
             */
-
+            /*
             Instruccion instr = new Instruccion
             {
                 //35 4 11 4
@@ -143,7 +143,16 @@ namespace ProyectoArqui
             };
             nucleo.EjecutarLW(instr2);
             Console.Write("load con hit: {0}\n", nucleo.Registros[11]);
-            
+            */
+
+            //incializa buses
+
+            for(int i=0;i<2;++i)
+            {
+                BusInstrucciones[i] = new object();
+                BusDatos[i] = new object();
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Vista = new Form1();
