@@ -53,6 +53,31 @@ namespace ProyectoArqui.Logica
             }
         }
 
+        public Nucleo(int idn, int idp, Controladora controladora)
+        {
+            IdNucleo = idn;
+            IdProce = idp;
+            shared = controladora.shared;
+            //se inicializan los registros en 0
+            Registros = new int[32];
+            for (int i = 0; i < 32; i++)
+            {
+                Registros[i] = 0;
+            }
+            //se inicializa la cache en 0, con todos los bloques inválidos
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    cacheDatos[i, j] = 0;
+                }
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                cacheDatos[5, i] = -1;
+            }
+        }
+
         //Ejecuta instrucciones del ALU
         public bool ejecutarInstruccion(Instruccion instruccion)
         {

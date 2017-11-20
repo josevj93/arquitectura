@@ -86,6 +86,7 @@ namespace ProyectoArqui
             //AQUII COMIENZA HACIENDO LOS PROCES
 
             controladora.iniciar();
+            controladora.iniciarLoad();
             //controladora.iniciarLoad();
 
             int cont = 1;
