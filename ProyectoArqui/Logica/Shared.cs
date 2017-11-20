@@ -23,11 +23,16 @@ namespace ProyectoArqui.Logica
 
         public int quantum { get; set; }
 
+        public int[] hilosTotales { get; set; }
+        
         /// <summary>
         /// se va a inicializar todo con 0´s
         /// </summary>
         public Shared()
         {
+
+            hilosTotales = new int[2];
+
             // crea una lista de memorias compartidas (cada memoria es de un procesador)
             memoriasCompartida = new List<int[]>();
             //16 bloques [0-252] = 16 bloques x 4 entradas = 64 enteros
