@@ -520,14 +520,14 @@ public void ejecutar(object o)
     do
     {
         //bloquea la cola de contextos del Procesador donde esta el nucleo
-        lock (shared.colasContextos.ElementAt(IdProce))
+        lock (Program.BusContextos)
         {
             //carga el hilo de la cola de hilos pendientes
             proximo = shared.colasContextos.ElementAt(IdProce).Dequeue();
         }
         if (proximo.Finalizado)
         {
-            lock (shared.hilosFinalizados.ElementAt(IdProce))
+            //lock (shared.hilosFinalizados.ElementAt(IdProce))
             {
                 //si el hilo esta finalizado, lo guarda en la lista de hilos finalizados
                 shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
@@ -541,7 +541,7 @@ public void ejecutar(object o)
     //si no es un hilo finalizado, inicializa registros y pc del contexto
     int numInst;
 
-    lock (shared)
+    //lock (shared)
     {
         numInst = shared.quantum; // Trae el quantum definido para ejecutar
     }
@@ -562,27 +562,18 @@ public void ejecutar(object o)
         //comienza fetch
 
         int i = 0;
-        while (i < 4 && cacheI.etiquetas[i] != bloque)
-        {
+        
+        do{
             if (cacheI.etiquetas[i] == bloque)
             {
                 hit = true;
             }
 
-        }
-                int i = 0;
-                while (i < 4 && cacheI.etiquetas[i] != bloque)
-                {
-                    if (cacheI.etiquetas[i] == bloque)
-                    {
-                        hit = true;
-                    }
-                    i++;
-                }
-
+            ++i;
+        }while (i < 4 && !hit) ;
+          
         if (!hit)
         {
-
             //no hubo hit y va a memoria a cargar bloque
 
             for (int j = 0; j < 4; ++j)
@@ -590,7 +581,7 @@ public void ejecutar(object o)
 
                 Instruccion nueva = new Instruccion();
 
-                lock (shared.memoriaInstrucciones.ElementAt(IdProce))
+                lock (Program.BusInstrucciones[IdProce])
                 {
                     nueva.CodigoOp = shared.memoriaInstrucciones.ElementAt(IdProce)[bloque + (j * 4)];
                     nueva.RF1 = shared.memoriaInstrucciones.ElementAt(IdProce)[bloque + (j * 4) + 1];
@@ -610,7 +601,7 @@ public void ejecutar(object o)
 
         //Carga instruccion al IR de la cache
 
-        IR = cacheI.bloqueInstruccion[bloque, palabra];
+        IR = cacheI.bloqueInstruccion[bloque % 4, palabra];
 
         PC += 4; //COMPROBAR SI EL INCREMENTO ESTA BIEN
 
@@ -628,14 +619,14 @@ public void ejecutar(object o)
 
     if (proximo.Finalizado)
     {
-        lock (shared.hilosFinalizados.ElementAt(IdProce))
+        //lock (shared.hilosFinalizados.ElementAt(IdProce))
         {
             shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
         }
     }
     else
     {
-        lock (shared.colasContextos.ElementAt(IdProce))
+        //lock (shared.colasContextos.ElementAt(IdProce))
         {
             shared.colasContextos.ElementAt(IdProce).Enqueue(proximo);
         }

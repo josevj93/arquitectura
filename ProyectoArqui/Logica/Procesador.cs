@@ -16,8 +16,6 @@ namespace ProyectoArqui.Logica
 
         List<Nucleo> nucleos = new List<Nucleo>();
 
-        private int v;
-
         public Procesador(int id, int nNucleos)
         {
             //asigna el id al Procesador
@@ -32,10 +30,6 @@ namespace ProyectoArqui.Logica
 
         }
 
-        public Procesador(int v)
-        {
-            this.v = v;
-        }
 
         public void iniciar(Object o)
         {
@@ -44,7 +38,7 @@ namespace ProyectoArqui.Logica
 
             int hilosPendientes;
 
-            lock (shared.colasContextos.ElementAt(id))
+            lock (Program.BusContextos)
             {
                 hilosPendientes = shared.colasContextos.ElementAt(id).Count();
             }
@@ -56,7 +50,7 @@ namespace ProyectoArqui.Logica
                 foreach(Nucleo nucleo in nucleos)
                 {
 
-                    lock (shared.colasContextos.ElementAt(id))
+                    lock (Program.BusContextos)
                     {
                         hilosPendientes = shared.colasContextos.ElementAt(id).Count();
                     }

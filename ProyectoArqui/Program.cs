@@ -10,9 +10,13 @@ namespace ProyectoArqui
 {
     static class Program
     {
-        //asdasdadsasdadasdasdadadasdas
-        //asdasdadsasdadasd
-        //comentario tuanis
+
+
+        //buses
+        public static readonly object[] BusDatos = new object[2];
+        public static readonly object[] BusInstrucciones = new object[2];
+        public static readonly object BusContextos = new object();
+
         public static Form1 Vista;
         //public static Controladora controladora = new Controladora();
 
@@ -26,12 +30,7 @@ namespace ProyectoArqui
         //public static List<Barrier> barrerasDeReloj = new List<Barrier>();//(3, barrier => Reloj++);
         public static Barrier barreraReloj = new Barrier(3, barrier => TickReloj());
 
-        //buses
-        public static readonly object BusDatosP1 = new object();
-        public static readonly object BusInstruccionesP1 = new object();
-        public static readonly object BusDatosP2 = new object();
-        public static readonly object BusInstruccionesP2 = new object();
-
+        
         //cola que tendra los hilillos listos para ser ejecutados en los nucleos
         public static Queue<Hilillo> ColaHilillos = new Queue<Hilillo>();
 
@@ -94,40 +93,17 @@ namespace ProyectoArqui
         [STAThread]
         static void Main()
         {
-            
-            /*
-            Queue<int> q1 = new Queue<int>();
-            Queue<int> q2 = new Queue<int>();
 
-
-            for(int i = 0; i < 1000000; ++i)
+            for (int i = 0; i < 2;++i)
             {
-                q1.Enqueue(i);
-                q2.Enqueue(i+3000000);
+                BusDatos[i] = new object();
             }
-            
-            Shared s = new Shared();
-            s.lista = new List<int>();
 
-            Hilo h1 = new Hilo(0, q1);
-            Hilo h2 = new Hilo(1, q2);
-
-            Thread t1 = new Thread(h1.iniciar);
-            t1.Start(s);
-            Thread t2 = new Thread(h2.iniciar);
-            t2.Start(s);
-
-            t1.Join();
-            t2.Join();
-
-            foreach(int element in s.lista)
+            for (int i = 0; i < 2; ++i)
             {
-                Console.Write(element + " ");
+                BusInstrucciones[i] = new object();
             }
-  
-            
-            */
-    
+        
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
