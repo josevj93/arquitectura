@@ -1125,8 +1125,17 @@ namespace ProyectoArqui.Logica
 
             //hilillo que se va a ejecutar en el nucleo
             ContextoHilillo proximo;
+            //Probar bloqueo de hilos finalizados
 
-            while (shared.hilosTotales[IdProce] != shared.hilosFinalizados.ElementAt(IdProce).Count())
+            int hfin;
+
+            lock (Program.BusFinalizados)
+            {
+                hfin = shared.hilosFinalizados.ElementAt(IdProce).Count();
+            }
+            
+
+            while (shared.hilosTotales[IdProce] != hfin)
             {
 
                 proximo = null;
@@ -1238,21 +1247,28 @@ namespace ProyectoArqui.Logica
 
                     if (proximo.Finalizado)
                     {
-                        //lock (shared.hilosFinalizados.ElementAt(IdProce))
+                        lock (Program.BusFinalizados)
                         {
                             shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
                         }
                     }
                     else
                     {
-                        //lock (shared.colasContextos.ElementAt(IdProce))
+                        lock (Program.BusContextos)
                         {
+                            proximo.IR = IR;
                             proximo.PC = PC;
                             shared.colasContextos.ElementAt(IdProce).Enqueue(proximo);
                         }
                     }
 
                 }
+
+                lock (Program.BusFinalizados)
+                {
+                    hfin = shared.hilosFinalizados.ElementAt(IdProce).Count();
+                }
+
             }
         }
     }

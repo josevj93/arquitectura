@@ -15,7 +15,7 @@ namespace ProyectoArqui.Logica
         public int PC { get; set; }
 
         //registro de instruccion
-        public Utilidades.CodigosInst IR { get; set; }
+        public Instruccion IR { get; set; }
 
         //identificador del nucleo donde fue ejecutado
         public int IdNucleo { get; set; }

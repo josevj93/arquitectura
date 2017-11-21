@@ -151,7 +151,7 @@ namespace ProyectoArqui
                 Console.Write("memoria: {0}\n", shared.memoriasCompartida.ElementAt(0)[i]);
             }
             Console.Write("antes del load: {0}\n", nucleo.Registros[11]);
-            nucleo.EjecutarLW(instr, shared.cachesDatos.ElementAt(0));
+            nucleo.EjecutarSW(instr, shared.cachesDatos.ElementAt(0));
             Console.Write("despues del load: {0}\n", nucleo.Registros[11]);
             Instruccion instr2 = new Instruccion
             {
@@ -161,7 +161,7 @@ namespace ProyectoArqui
                 RF2_RD = 11,
                 RD_IMM = 0
             };
-            nucleo.EjecutarLW(instr2, shared.cachesDatos.ElementAt(0));
+            nucleo.EjecutarSW(instr2, shared.cachesDatos.ElementAt(0));
             Console.Write("load con hit: {0}\n", nucleo.Registros[11]);
         }
 

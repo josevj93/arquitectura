@@ -16,6 +16,7 @@ namespace ProyectoArqui
         public static readonly object[] BusDatos = new object[2];
         public static readonly object[] BusInstrucciones = new object[2];
         public static readonly object BusContextos = new object();
+        public static readonly object BusFinalizados = new object();
 
         public static Form1 Vista;
         public static Shared shared = new Shared();

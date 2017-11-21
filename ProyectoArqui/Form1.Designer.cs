@@ -134,6 +134,7 @@
             this.txtMemInstrucciones1.Location = new System.Drawing.Point(329, 232);
             this.txtMemInstrucciones1.Multiline = true;
             this.txtMemInstrucciones1.Name = "txtMemInstrucciones1";
+            this.txtMemInstrucciones1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtMemInstrucciones1.Size = new System.Drawing.Size(312, 137);
             this.txtMemInstrucciones1.TabIndex = 6;
             // 
@@ -142,6 +143,7 @@
             this.txtMemInstrucciones2.Location = new System.Drawing.Point(652, 232);
             this.txtMemInstrucciones2.Multiline = true;
             this.txtMemInstrucciones2.Name = "txtMemInstrucciones2";
+            this.txtMemInstrucciones2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtMemInstrucciones2.Size = new System.Drawing.Size(312, 137);
             this.txtMemInstrucciones2.TabIndex = 7;
             // 
@@ -178,6 +180,7 @@
             this.txtHilillosFinalizados.Location = new System.Drawing.Point(329, 411);
             this.txtHilillosFinalizados.Multiline = true;
             this.txtHilillosFinalizados.Name = "txtHilillosFinalizados";
+            this.txtHilillosFinalizados.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtHilillosFinalizados.Size = new System.Drawing.Size(635, 87);
             this.txtHilillosFinalizados.TabIndex = 10;
             // 
