@@ -10,7 +10,7 @@ namespace ProyectoArqui
 {
     static class Program
     {
-
+         
 
         //buses
         public static readonly object[] BusDatos = new object[2];
