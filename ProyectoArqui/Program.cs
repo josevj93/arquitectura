@@ -17,6 +17,9 @@ namespace ProyectoArqui
         public static readonly object[] BusInstrucciones = new object[2];
         public static readonly object BusContextos = new object();
         public static readonly object BusFinalizados = new object();
+        public static readonly object[] BusMemorias = new object[2];
+        public static readonly object[] BusDirectorios = new object[2];
+        public static readonly object[] BusCaches = new object[3];
 
         public static Form1 Vista;
         //public static Shared shared = new Shared();
@@ -152,6 +155,12 @@ namespace ProyectoArqui
             {
                 BusInstrucciones[i] = new object();
                 BusDatos[i] = new object();
+                BusMemorias[i] = new object();
+                BusDirectorios[i] = new object();
+            }
+            for (int i = 0; i<3; i++)
+            {
+                BusCaches[i] = new object();
             }
 
             Application.EnableVisualStyles();
