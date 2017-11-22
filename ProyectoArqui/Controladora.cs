@@ -99,6 +99,8 @@ namespace ProyectoArqui
 
         public void iniciarLoad()
         {
+            Console.Write("\nPrueba del Load: \n\n");
+
             Instruccion instr = new Instruccion
             {
                 //35 4 11 4
@@ -116,9 +118,10 @@ namespace ProyectoArqui
             {
                 Console.Write("memoria: {0}\n", shared.memoriasCompartida.ElementAt(0)[i]);
             }
-            Console.Write("antes del load: {0}\n", nucleo.Registros[11]);
+            Console.Write("Registro11 antes del load: {0}\n", nucleo.Registros[11]);
+            //Lee la palabra 2 del cache y la guarda en Registro 11
             nucleo.EjecutarLW(instr, shared.cachesDatos.ElementAt(0));
-            Console.Write("despues del load: {0}\n", nucleo.Registros[11]);
+            Console.Write("Registro11 despues del load: {0}\n", nucleo.Registros[11]);
             Instruccion instr2 = new Instruccion
             {
                 //35 4 11 0
@@ -127,12 +130,16 @@ namespace ProyectoArqui
                 RF2_RD = 11,
                 RD_IMM = 0
             };
+            //Lee la palabra 1 del cache y la guarda en Registro 11
             nucleo.EjecutarLW(instr2, shared.cachesDatos.ElementAt(0));
-            Console.Write("load con hit: {0}\n", nucleo.Registros[11]);
+            Console.Write("Registro11 load con hit: {0}\n", nucleo.Registros[11]);
+            Console.Write("Fin de Prueba del Load\n\n");
         }
 
         public void iniciarStore()
         {
+            Console.Write("\nPrueba del Store: \n\n");
+
             Instruccion instr = new Instruccion
             {
                 //43 4 11 4
@@ -151,10 +158,10 @@ namespace ProyectoArqui
             {
                 Console.Write("memoria: {0}\n", shared.memoriasCompartida.ElementAt(0)[i]);
             }
-            Console.Write("antes del store: {0}\n", shared.cachesDatos.ElementAt(0)[2, 0]); //debe de tener un 0
+            Console.Write("Palabra2 antes del store: {0}\n", shared.cachesDatos.ElementAt(0)[2, 0]); //debe de tener un 0
             //escribe 100 en la palabra 2 del cache 0
             nucleo.EjecutarSW(instr, shared.cachesDatos.ElementAt(0));
-            Console.Write("despues del store: {0}\n", shared.cachesDatos.ElementAt(0)[2, 0]); //debe de tener un 100
+            Console.Write("Palabra2 despues del store: {0}\n", shared.cachesDatos.ElementAt(0)[2, 0]); //debe de tener un 100
             Instruccion instr2 = new Instruccion
             {
                 //43 4 11 8
@@ -166,11 +173,13 @@ namespace ProyectoArqui
             nucleo.Registros[11] = 200;
             //escribe 200 en la palabra 3 del cache 0
             nucleo.EjecutarSW(instr2, shared.cachesDatos.ElementAt(0));
-            Console.Write("store con hit: {0}\n", shared.cachesDatos.ElementAt(0)[3, 0]);
+            Console.Write("Palabra3 store con hit: {0}\n", shared.cachesDatos.ElementAt(0)[3, 0]);
             for (int i = 0; i < 4; i++)
             {
                 Console.Write("CacheDatos: {0}\n", shared.cachesDatos.ElementAt(0)[i, 0]);
             }
+
+            Console.Write("Fin de Prueba del Store\n\n");
         }
 
     }
