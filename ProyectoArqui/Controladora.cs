@@ -108,9 +108,9 @@ namespace ProyectoArqui
                 RD_IMM = 4
             };
             Nucleo nucleo = new Nucleo(1, 1, this);
-            shared.memoriasCompartida.ElementAt(0)[2] = 10;
-            shared.memoriasCompartida.ElementAt(0)[1] = 15;
             shared.memoriasCompartida.ElementAt(0)[0] = 2;
+            shared.memoriasCompartida.ElementAt(0)[1] = 15;
+            shared.memoriasCompartida.ElementAt(0)[2] = 10;
             //imprime bloque de memoria
             for (int i = 0; i < 4; i++)
             {
@@ -135,34 +135,42 @@ namespace ProyectoArqui
         {
             Instruccion instr = new Instruccion
             {
-                //35 4 11 4
-                CodigoOp = 35,
+                //43 4 11 4
+                CodigoOp = 43,
                 RF1 = 4,
                 RF2_RD = 11,
                 RD_IMM = 4
             };
-            Nucleo nucleo = new Nucleo(1, 1, this);
-            shared.memoriasCompartida.ElementAt(0)[2] = 10;
-            shared.memoriasCompartida.ElementAt(0)[1] = 15;
+            Nucleo nucleo = new Nucleo(0, 0, this);
             shared.memoriasCompartida.ElementAt(0)[0] = 2;
+            shared.memoriasCompartida.ElementAt(0)[1] = 15;
+            shared.memoriasCompartida.ElementAt(0)[2] = 10;
+            nucleo.Registros[11] = 100;
             //imprime bloque de memoria
             for (int i = 0; i < 4; i++)
             {
                 Console.Write("memoria: {0}\n", shared.memoriasCompartida.ElementAt(0)[i]);
             }
-            Console.Write("antes del load: {0}\n", nucleo.Registros[11]);
+            Console.Write("antes del store: {0}\n", shared.cachesDatos.ElementAt(0)[2, 0]); //debe de tener un 0
+            //escribe 100 en la palabra 2 del cache 0
             nucleo.EjecutarSW(instr, shared.cachesDatos.ElementAt(0));
-            Console.Write("despues del load: {0}\n", nucleo.Registros[11]);
+            Console.Write("despues del store: {0}\n", shared.cachesDatos.ElementAt(0)[2, 0]); //debe de tener un 100
             Instruccion instr2 = new Instruccion
             {
-                //35 4 11 0
-                CodigoOp = 35,
+                //43 4 11 8
+                CodigoOp = 43,
                 RF1 = 4,
                 RF2_RD = 11,
-                RD_IMM = 0
+                RD_IMM = 8
             };
+            nucleo.Registros[11] = 200;
+            //escribe 200 en la palabra 3 del cache 0
             nucleo.EjecutarSW(instr2, shared.cachesDatos.ElementAt(0));
-            Console.Write("load con hit: {0}\n", nucleo.Registros[11]);
+            Console.Write("store con hit: {0}\n", shared.cachesDatos.ElementAt(0)[3, 0]);
+            for (int i = 0; i < 4; i++)
+            {
+                Console.Write("CacheDatos: {0}\n", shared.cachesDatos.ElementAt(0)[i, 0]);
+            }
         }
 
     }
