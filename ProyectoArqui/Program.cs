@@ -19,7 +19,7 @@ namespace ProyectoArqui
         public static readonly object BusFinalizados = new object();
 
         public static Form1 Vista;
-        public static Shared shared = new Shared();
+        //public static Shared shared = new Shared();
         //public static Controladora controladora = new Controladora();
 
         /*

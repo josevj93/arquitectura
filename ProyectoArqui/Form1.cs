@@ -16,13 +16,13 @@ namespace ProyectoArqui
     public partial class Form1 : Form
     {
 
-        Controladora controladora;
+        //Controladora controladora;
 
         public Form1()
         {
             InitializeComponent();
-            controladora = new Controladora();
-            
+            //controladora = new Controladora();
+
         }
 
         //este es un push de prueba hecho por jose valverde
@@ -39,7 +39,9 @@ namespace ProyectoArqui
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
-            if (txtQuantum.Text != "")
+            Controladora controladora = new Controladora();
+
+            if (txtQuantum.Text != "" || txtArchivo.Text != "")
             {
                 try
                 {
@@ -53,7 +55,7 @@ namespace ProyectoArqui
             }
             else
             {
-                MessageBox.Show("Debe ingresar un valor para el Quantum.");
+                MessageBox.Show("Debe ingresar un valor para el Quantum y cargar los archivos.");
             }
 
             /*
@@ -81,8 +83,7 @@ namespace ProyectoArqui
                 txtMemInstrucciones2.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(1)[i] + "-");
 
             }
-            //Controladora.cargar(listaHilillos.ElementAt(0), listaHilillos.ElementAt(1));
-
+           
             //AQUII COMIENZA HACIENDO LOS PROCES
 
             controladora.iniciar();
@@ -110,7 +111,7 @@ namespace ProyectoArqui
                 cont++;
             }
             //controladora.shared.hilosFinalizados;
-           
+
 
         }
 
@@ -122,15 +123,6 @@ namespace ProyectoArqui
         {
             openFileDialog1.Multiselect = true;
             openFileDialog1.ShowDialog();
-
-            /*char[] delimiters = new char[] { '\r', '\n' };
-            string[] parts = value.Split(delimiters,
-                             StringSplitOptions.RemoveEmptyEntries);
-            Console.WriteLine(":::SPLIT, CHAR ARRAY:::");
-            for (int i = 0; i < parts.Length; i++)
-            {
-                Console.WriteLine(parts[i]);
-            }*/
 
             try
             {
@@ -193,7 +185,18 @@ namespace ProyectoArqui
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            //shared.hilosFinalizados.ElementAt(IdProce).Add(proximo);
+            txtQuantum.Text = String.Empty;
+
+            txtVerLista.Text = String.Empty;
+            txtArchivo.Text = String.Empty;
+
+            txtMemInstrucciones1.Text = String.Empty;
+            txtMemInstrucciones2.Text = String.Empty;
+
+            txtHilillosFinalizados.Text = String.Empty;
+
+            openFileDialog1.Reset();
+            listaHilillos.Clear();
         }
     }
 }

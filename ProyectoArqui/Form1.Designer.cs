@@ -89,9 +89,9 @@
             // 
             // btnIniciar
             // 
-            this.btnIniciar.Location = new System.Drawing.Point(120, 104);
+            this.btnIniciar.Location = new System.Drawing.Point(91, 134);
             this.btnIniciar.Name = "btnIniciar";
-            this.btnIniciar.Size = new System.Drawing.Size(75, 23);
+            this.btnIniciar.Size = new System.Drawing.Size(134, 23);
             this.btnIniciar.TabIndex = 0;
             this.btnIniciar.Text = "Iniciar";
             this.btnIniciar.UseVisualStyleBackColor = true;
@@ -99,7 +99,7 @@
             // 
             // btnCargarArchivos
             // 
-            this.btnCargarArchivos.Location = new System.Drawing.Point(92, 143);
+            this.btnCargarArchivos.Location = new System.Drawing.Point(91, 105);
             this.btnCargarArchivos.Name = "btnCargarArchivos";
             this.btnCargarArchivos.Size = new System.Drawing.Size(134, 23);
             this.btnCargarArchivos.TabIndex = 4;
@@ -197,7 +197,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(980, 539);
+            this.ClientSize = new System.Drawing.Size(980, 534);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtHilillosFinalizados);
             this.Controls.Add(this.btnReset);
