@@ -751,6 +751,9 @@ namespace ProyectoArqui.Logica
                     PC = proximo.PC;
                     Registros = proximo.Registros;
 
+                    proximo.horaInicio = DateTime.Now;
+
+
                     while (numInst > 0 && !proximo.Finalizado)
                     {
 
@@ -806,7 +809,7 @@ namespace ProyectoArqui.Logica
                         if (ejecutarInstruccion(IR))
                         {
                             proximo.Finalizado = true;
-
+                            proximo.horaFin = DateTime.Now;
                         }
 
                         numInst--;
