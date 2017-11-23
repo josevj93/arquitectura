@@ -398,6 +398,16 @@ namespace ProyectoArqui.Logica
                 procesador = 1;
             }
 
+            int accesoDirMem;
+            if (bloque < 16) //significa que son del directorio 0 y la memoria 0
+            {
+                accesoDirMem = bloque;
+            }
+            else //memoria y directorio 1
+            {
+                accesoDirMem = bloque - 16;
+            }
+
             //se trata de bloquear el caché
             lock (CacheDatos)
             {
