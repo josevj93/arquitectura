@@ -27,6 +27,9 @@ namespace ProyectoArqui.Logica
         //booleano que indica si no se ha finalizado (al ejecutarse la ultima instruccion se pone en true)
         public bool Finalizado { get; set; }
 
+        public DateTime horaInicio { get; set; }
+        public DateTime horaFin { get; set; }
+
 
         public ContextoHilillo(int DireccionInicial)
         {
