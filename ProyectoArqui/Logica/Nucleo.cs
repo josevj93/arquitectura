@@ -172,6 +172,16 @@ namespace ProyectoArqui.Logica
                 procesador = 1;
             }
 
+            int accesoDirMem;
+            if (bloque < 16) //significa que son del directorio 0 y la memoria 0
+            {
+                accesoDirMem = bloque;
+            }
+            else //memoria y directorio 1
+            {
+                accesoDirMem = bloque - 16;
+            }
+
             //Se trata de bloquear la cache
             lock (CacheDatos)
             {
@@ -205,6 +215,15 @@ namespace ProyectoArqui.Logica
                     else //memoria y directorio 1
                     {
                         procesadorVictima = 1;
+                    }
+                    int accesoDirMemVictima;
+                    if (bloque < 16) //significa que son del directorio 0 y la memoria 0
+                    {
+                        accesoDirMemVictima = bloque;
+                    }
+                    else //memoria y directorio 1
+                    {
+                        accesoDirMemVictima = bloque - 16;
                     }
 
                     //se debe de revisar el estado del bloque para saber si esta modificado
@@ -490,6 +509,15 @@ namespace ProyectoArqui.Logica
                     else //memoria y directorio 1
                     {
                         procesadorVictima = 1;
+                    }
+                    int accesoDirMemVictima;
+                    if (bloque < 16) //significa que son del directorio 0 y la memoria 0
+                    {
+                        accesoDirMemVictima = bloque;
+                    }
+                    else //memoria y directorio 1
+                    {
+                        accesoDirMemVictima = bloque - 16;
                     }
                     //se debe de revisar el estado del bloque para saber si esta modificado
                     if (CacheDatos[5, posCache] == 1)
