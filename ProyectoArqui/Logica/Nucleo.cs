@@ -245,14 +245,14 @@ namespace ProyectoArqui.Logica
                                     //se actualiza el valor en memoria del bloque victima
                                     for (int i = 0; i < 4; i++)
                                     {
-                                        shared.memoriasCompartida.ElementAt(procesadorVictima)[((bloqueVictima * 16) / 4) + i] = CacheDatos[i, posCache];
+                                        shared.memoriasCompartida.ElementAt(procesadorVictima)[((accesoDirMemVictima * 16) / 4) + i] = CacheDatos[i, posCache];
                                     }
 
                                     //se actualiza el directorio casa con 0´s y una U en el estado del bloque victima
-                                    shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, 0] = -1;
+                                    shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, 0] = -1;
                                     for (int i = 1; i < 4; i++)
                                     {
-                                        shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, i] = 0;
+                                        shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, i] = 0;
                                     }
                                     //se invalida el estado de la cache del bloque victima
                                     CacheDatos[5, posCache] = -1;
@@ -267,18 +267,20 @@ namespace ProyectoArqui.Logica
                         lock (Program.BusDirectorios[procesadorVictima])
                         {
                             //pone un 0 en el directorio casa del bloque victima
-                            shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, IdNucleo] = 0;
+                            shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, IdNucleo] = 0;
                             CacheDatos[5, posCache] = -1;
                             //se debe de actualizar el valor del directorio por si todo esta en 0
-                            if (shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, 1] == 0 &&
-                               shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, 2] == 0 &&
-                               shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, 3] == 0)
+                            if (shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, 1] == 0 &&
+                               shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, 2] == 0 &&
+                               shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, 3] == 0)
                             {
                                 //Si entra aqui es porque el bloque esta uncached y se debe actualizar el estado con un -1
-                                shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, 0] = -1;
+                                shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, 0] = -1;
                             }
                         }
                     }
+                    //Ya termino de analizar el bloque victima, si es invalido se le puede caer encima sin problema
+
                     //se bloquea el bus
                     lock (Program.BusDatos[procesador])
                     {
@@ -292,12 +294,12 @@ namespace ProyectoArqui.Logica
                             {
                                 //se debe de mandar a escribir a memoria
                                 //se debe de preguntar en el directorio si el bloque fuente está modificado en alguna otra caché
-                                if (shared.directorios.ElementAt(procesador)[bloque, 0] == 1)
+                                if (shared.directorios.ElementAt(procesador)[accesoDirMem, 0] == 1)
                                 {
                                     //tick de reloj
                                     //Controladora.barreraReloj.SignalAndWait();
                                     //se debe de preguntar en cual caché está modificado, además se debe de bloquear esa caché
-                                    if (shared.directorios.ElementAt(procesador)[bloque, 1] == 1) //Nucleo0
+                                    if (shared.directorios.ElementAt(procesador)[accesoDirMem, 1] == 1) //Nucleo0
                                     {
                                         //tick de reloj
                                         //Controladora.barreraReloj.SignalAndWait();
@@ -307,16 +309,16 @@ namespace ProyectoArqui.Logica
                                             //se actualiza el valor en memoria del bloque
                                             for (int i = 0; i < 4; i++)
                                             {
-                                                shared.memoriasCompartida.ElementAt(procesador)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(0)[i, posCache];
+                                                shared.memoriasCompartida.ElementAt(procesador)[((accesoDirMem * 16) / 4) + i] = shared.cachesDatos.ElementAt(0)[i, posCache];
                                             }
                                             //Se actualiza el estado del bloque a compartido
                                             shared.cachesDatos.ElementAt(0)[5, posCache] = 0;
                                             //Se actualiza el estado del directorio como compartido
-                                            shared.directorios.ElementAt(procesador)[bloque, 0] = 0;
+                                            shared.directorios.ElementAt(procesador)[accesoDirMem, 0] = 0;
                                             //se deja el 1 que ya estaba en el directorio
                                         }
                                     }
-                                    else if (shared.directorios.ElementAt(procesador)[bloque, 2] == 1) //Nucleo 1
+                                    else if (shared.directorios.ElementAt(procesador)[accesoDirMem, 2] == 1) //Nucleo 1
                                     {
                                         //tick de reloj
                                         //Controladora.barreraReloj.SignalAndWait();
@@ -326,12 +328,12 @@ namespace ProyectoArqui.Logica
                                             //se actualiza el valor en memoria del bloque
                                             for (int i = 0; i < 4; i++)
                                             {
-                                                shared.memoriasCompartida.ElementAt(procesador)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(1)[i, posCache];
+                                                shared.memoriasCompartida.ElementAt(procesador)[((accesoDirMem * 16) / 4) + i] = shared.cachesDatos.ElementAt(1)[i, posCache];
                                             }
                                             //Se actualiza el estado del bloque a compartido
                                             shared.cachesDatos.ElementAt(1)[5, posCache] = 0;
                                             //Se actualiza el estado del directorio como compartido
-                                            shared.directorios.ElementAt(procesador)[bloque, 0] = 0;
+                                            shared.directorios.ElementAt(procesador)[accesoDirMem, 0] = 0;
                                             //se deja el 1 que ya estaba en el directorio
                                         }
                                     }
@@ -345,12 +347,12 @@ namespace ProyectoArqui.Logica
                                             //se actualiza el valor en memoria del bloque
                                             for (int i = 0; i < 4; i++)
                                             {
-                                                shared.memoriasCompartida.ElementAt(procesador)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(2)[i, posCache];
+                                                shared.memoriasCompartida.ElementAt(procesador)[((accesoDirMem * 16) / 4) + i] = shared.cachesDatos.ElementAt(2)[i, posCache];
                                             }
                                             //Se actualiza el estado del bloque a compartido
                                             shared.cachesDatos.ElementAt(2)[5, posCache] = 0;
                                             //Se actualiza el estado del directorio como compartido
-                                            shared.directorios.ElementAt(procesador)[bloque, 0] = 0;
+                                            shared.directorios.ElementAt(procesador)[accesoDirMem, 0] = 0;
                                             //se deja el 1 que ya estaba en el directorio
                                         }
                                     }
@@ -364,7 +366,7 @@ namespace ProyectoArqui.Logica
                                 //subo el bloque a cache
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(procesador)[((bloque * 16) / 4) + i];
+                                    CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(procesador)[((accesoDirMem * 16) / 4) + i];
                                     Console.Write("CacheDatos: {0}\n", CacheDatos[i, posCache]);
                                 }
                                 //actualizo el valor del bloque y el del estado
@@ -373,8 +375,8 @@ namespace ProyectoArqui.Logica
 
                                 //actualizo el directorio casa
                                 //pongo un 0 en estado, que significa que esta compartido
-                                shared.directorios.ElementAt(procesador)[bloque, 0] = 0;
-                                shared.directorios.ElementAt(procesador)[bloque, IdNucleo] = 1;
+                                shared.directorios.ElementAt(procesador)[accesoDirMem, 0] = 0;
+                                shared.directorios.ElementAt(procesador)[accesoDirMem, IdNucleo] = 1;
                             }
                         }
                         //finalmente puedo leer
@@ -450,34 +452,34 @@ namespace ProyectoArqui.Logica
                         lock (Program.BusDirectorios[procesador])
                         {
                             //se debe de preguntar si se encuentra compartido en otra cache (como es compartido puede estar en las 3, pero minimo en una, la actual)
-                            if (shared.directorios.ElementAt(procesador)[bloque, 1] == 1)//Nucleo0
+                            if (shared.directorios.ElementAt(procesador)[accesoDirMem, 1] == 1)//Nucleo0
                             {
                                 //se bloquea la cache donde esta el bloque
                                 lock (Program.BusCaches[0])
                                 {
                                     //invalida el bloque de la cache y el directorio
                                     shared.cachesDatos.ElementAt(0)[5, posCache] = -1;
-                                    shared.directorios.ElementAt(procesador)[bloque, 1] = 0;
+                                    shared.directorios.ElementAt(procesador)[accesoDirMem, 1] = 0;
                                 }
                             }
-                            if (shared.directorios.ElementAt(procesador)[bloque, 2] == 1)//Nucleo1
+                            if (shared.directorios.ElementAt(procesador)[accesoDirMem, 2] == 1)//Nucleo1
                             {
                                 //se bloquea la cache donde esta el bloque
                                 lock (Program.BusCaches[1])
                                 {
                                     //invalida el bloque de la cache y el directorio
                                     shared.cachesDatos.ElementAt(1)[5, posCache] = -1;
-                                    shared.directorios.ElementAt(procesador)[bloque, 1] = 0;
+                                    shared.directorios.ElementAt(procesador)[accesoDirMem, 1] = 0;
                                 }
                             }
-                            if (shared.directorios.ElementAt(procesador)[bloque, 3] == 1)//Nucleo2
+                            if (shared.directorios.ElementAt(procesador)[accesoDirMem, 3] == 1)//Nucleo2
                             {
                                 //se bloquea la cache donde esta el bloque
                                 lock (Program.BusCaches[2])
                                 {
                                     //invalida el bloque de la cache y el directorio
                                     shared.cachesDatos.ElementAt(2)[5, posCache] = -1;
-                                    shared.directorios.ElementAt(procesador)[bloque, 1] = 0;
+                                    shared.directorios.ElementAt(procesador)[accesoDirMem, 1] = 0;
                                 }
                             }
                             //Cuando llega aquí ya invalidó todos los posibles bloques compartidos y ya puede se modificar
@@ -487,8 +489,8 @@ namespace ProyectoArqui.Logica
                             CacheDatos[5, posCache] = 1;
                             result = true;
                             //se actualiza el directorio
-                            shared.directorios.ElementAt(procesador)[bloque, 0] = 1;
-                            shared.directorios.ElementAt(procesador)[bloque, IdNucleo] = 1;
+                            shared.directorios.ElementAt(procesador)[accesoDirMem, 0] = 1;
+                            shared.directorios.ElementAt(procesador)[accesoDirMem, IdNucleo] = 1;
                         }
                     }
                 }
@@ -539,14 +541,14 @@ namespace ProyectoArqui.Logica
                                     //se actualiza el valor en memoria del bloque victima
                                     for (int i = 0; i < 4; i++)
                                     {
-                                        shared.memoriasCompartida.ElementAt(procesadorVictima)[((bloqueVictima * 16) / 4) + i] = CacheDatos[i, posCache];
+                                        shared.memoriasCompartida.ElementAt(procesadorVictima)[((accesoDirMemVictima * 16) / 4) + i] = CacheDatos[i, posCache];
                                     }
 
                                     //se actualiza el directorio casa con 0´s y una U en el estado del bloque victima
-                                    shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, 0] = -1;
+                                    shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, 0] = -1;
                                     for (int i = 1; i < 4; i++)
                                     {
-                                        shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, i] = 0;
+                                        shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, i] = 0;
                                     }
                                     //se invalida el estado de la cache del bloque victima
                                     CacheDatos[5, posCache] = -1;
@@ -562,15 +564,15 @@ namespace ProyectoArqui.Logica
                         lock (Program.BusDirectorios[procesadorVictima])
                         {
                             //pone un 0 en el directorio casa del bloque victima
-                            shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, IdNucleo] = 0;
+                            shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, IdNucleo] = 0;
                             CacheDatos[5, posCache] = -1;
                             //se debe de actualizar el valor del directorio por si todo esta en 0
-                            if (shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, 1] == 0 &&
-                               shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, 2] == 0 &&
-                               shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, 3] == 0)
+                            if (shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, 1] == 0 &&
+                               shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, 2] == 0 &&
+                               shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, 3] == 0)
                             {
                                 //Si entra aqui es porque el bloque esta uncached y se debe actualizar el estado con un -1
-                                shared.directorios.ElementAt(procesadorVictima)[bloqueVictima, 0] = -1;
+                                shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, 0] = -1;
                             }
                         }
                     }
@@ -591,9 +593,9 @@ namespace ProyectoArqui.Logica
                             lock (Program.BusMemorias[procesador])
                             {
                                 //se debe de preguntar en el directorio si el bloque fuente está modificado en alguna otra caché
-                                if (shared.directorios.ElementAt(procesador)[bloque, 0] == 1)
+                                if (shared.directorios.ElementAt(procesador)[accesoDirMem, 0] == 1)
                                 {
-                                    if (shared.directorios.ElementAt(procesador)[bloque, 1] == 1) //Nucleo0
+                                    if (shared.directorios.ElementAt(procesador)[accesoDirMem, 1] == 1) //Nucleo0
                                     {
                                         //tick de reloj
                                         //Controladora.barreraReloj.SignalAndWait();
@@ -603,18 +605,18 @@ namespace ProyectoArqui.Logica
                                             //se actualiza el valor en memoria del bloque
                                             for (int i = 0; i < 4; i++)
                                             {
-                                                shared.memoriasCompartida.ElementAt(procesador)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(0)[i, posCache];
+                                                shared.memoriasCompartida.ElementAt(procesador)[((accesoDirMem * 16) / 4) + i] = shared.cachesDatos.ElementAt(0)[i, posCache];
                                             }
                                             //Se invalida el bloque
                                             shared.cachesDatos.ElementAt(0)[5, posCache] = -1;
                                             //Se pone 0 en el nucleo invalidado
-                                            shared.directorios.ElementAt(procesador)[bloque, 1] = 0;
+                                            shared.directorios.ElementAt(procesador)[accesoDirMem, 1] = 0;
                                             //Pongo como uncached
-                                            shared.directorios.ElementAt(procesador)[bloque, 0] = -1;
+                                            shared.directorios.ElementAt(procesador)[accesoDirMem, 0] = -1;
 
                                         }
                                     }
-                                    else if (shared.directorios.ElementAt(procesador)[bloque, 2] == 1) //Nucleo 1
+                                    else if (shared.directorios.ElementAt(procesador)[accesoDirMem, 2] == 1) //Nucleo 1
                                     {
                                         //tick de reloj
                                         //Controladora.barreraReloj.SignalAndWait();
@@ -624,14 +626,14 @@ namespace ProyectoArqui.Logica
                                             //se actualiza el valor en memoria del bloque
                                             for (int i = 0; i < 4; i++)
                                             {
-                                                shared.memoriasCompartida.ElementAt(procesador)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(1)[i, posCache];
+                                                shared.memoriasCompartida.ElementAt(procesador)[((accesoDirMem * 16) / 4) + i] = shared.cachesDatos.ElementAt(1)[i, posCache];
                                             }
                                             //Se invalida el bloque
                                             shared.cachesDatos.ElementAt(1)[5, posCache] = -1;
                                             //Se pone 0 en el nucleo invalidado
-                                            shared.directorios.ElementAt(procesador)[bloque, 2] = 0;
+                                            shared.directorios.ElementAt(procesador)[accesoDirMem, 2] = 0;
                                             //Pongo como uncached
-                                            shared.directorios.ElementAt(procesador)[bloque, 0] = -1;
+                                            shared.directorios.ElementAt(procesador)[accesoDirMem, 0] = -1;
 
                                         }
                                     }
@@ -645,14 +647,14 @@ namespace ProyectoArqui.Logica
                                             //se actualiza el valor en memoria del bloque
                                             for (int i = 0; i < 4; i++)
                                             {
-                                                shared.memoriasCompartida.ElementAt(procesador)[((bloque * 16) / 4) + i] = shared.cachesDatos.ElementAt(2)[i, posCache];
+                                                shared.memoriasCompartida.ElementAt(procesador)[((accesoDirMem * 16) / 4) + i] = shared.cachesDatos.ElementAt(2)[i, posCache];
                                             }
                                             //Se invalida el bloque
                                             shared.cachesDatos.ElementAt(2)[5, posCache] = -1;
                                             //Se pone 0 en el nucleo invalidado
-                                            shared.directorios.ElementAt(procesador)[bloque, 3] = 0;
+                                            shared.directorios.ElementAt(procesador)[accesoDirMem, 3] = 0;
                                             //Pongo como uncached
-                                            shared.directorios.ElementAt(procesador)[bloque, 0] = -1;
+                                            shared.directorios.ElementAt(procesador)[accesoDirMem, 0] = -1;
                                         }
                                     }
                                 }
@@ -665,7 +667,7 @@ namespace ProyectoArqui.Logica
                                 //subo el bloque a cache
                                 for (int i = 0; i < 4; i++)
                                 {
-                                    CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(procesador)[((bloque * 16) / 4) + i];
+                                    CacheDatos[i, posCache] = shared.memoriasCompartida.ElementAt(procesador)[((accesoDirMem * 16) / 4) + i];
                                     Console.Write("CacheDatos: {0}\n", CacheDatos[i, posCache]);
                                 }
                                 //actualizo el valor del bloque y el del estado
@@ -683,8 +685,8 @@ namespace ProyectoArqui.Logica
 
                                 //actualizo el directorio casa
                                 //pongo un 1 en estado, que significa que esta modificado
-                                shared.directorios.ElementAt(procesador)[bloque, 0] = 1;
-                                shared.directorios.ElementAt(procesador)[bloque, IdNucleo] = 1;
+                                shared.directorios.ElementAt(procesador)[accesoDirMem, 0] = 1;
+                                shared.directorios.ElementAt(procesador)[accesoDirMem, IdNucleo] = 1;
                             }
                         }
                     }
