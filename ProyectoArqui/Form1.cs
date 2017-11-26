@@ -54,7 +54,7 @@ namespace ProyectoArqui
                 }
             }
             else
-            {
+            {    
                 MessageBox.Show("Debe ingresar un valor para el Quantum y cargar los archivos.");
             }
 
