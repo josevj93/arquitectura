@@ -39,13 +39,13 @@ namespace ProyectoArqui.Logica
             memoriasCompartida.Add(new int[64]);     //Memoria compartida del procesador 1
             for (int i = 0; i < 64; i++)
             {
-                memoriasCompartida.ElementAt(0)[i] = 0;
+                memoriasCompartida.ElementAt(0)[i] = 1;
             }
             //8 bloques [256-380] = 8 bloques x 4 entradas = 32 enteros
             memoriasCompartida.Add(new int[32]);     //Memoria compartida del procesador 2
             for (int i = 0; i < 32; i++)
             {
-                memoriasCompartida.ElementAt(1)[i] = 0;
+                memoriasCompartida.ElementAt(1)[i] = 1;
             }
 
             // crea una lista de memorias de instrucciones (cada memoria es de un procesador)

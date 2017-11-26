@@ -29,7 +29,7 @@ namespace ProyectoArqui
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            txtQuantum.Text = "10";
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -87,30 +87,40 @@ namespace ProyectoArqui
             //AQUII COMIENZA HACIENDO LOS PROCES
 
             controladora.iniciar();
+            controladora.iniciarLoad();
             controladora.iniciarStore();
-            //controladora.iniciarLoad();
 
-            int cont = 1;
+            int cont = 0;
+            int contArchivo = 0;
             foreach (List<ContextoHilillo> contexto in controladora.shared.hilosFinalizados)
             {
-                txtHilillosFinalizados.AppendText("Lista" + cont);
+                txtHilillosFinalizados.AppendText("Procesador " + cont +"\n");
                 for (int i = 0; i <= contexto.Count() - 1; i++)
                 {
+                    
+                    txtHilillosFinalizados.AppendText("Archivo " + contArchivo +"\n");
+                    txtHilillosFinalizados.AppendText("IdProcesador: " + contexto.ElementAt(i).IdProcesador +"IdNucleo: "+ contexto.ElementAt(i).IdNucleo +"\n");
                     for (int j = 0; j <= contexto.ElementAt(i).Registros.Count() - 1; j++)
                     {
                         if (j % 8 == 0)
                         {
-                            txtHilillosFinalizados.AppendText("\n");
+                           txtHilillosFinalizados.AppendText("\n");
                         }
                         txtHilillosFinalizados.AppendText(contexto.ElementAt(i).Registros[j] + "-");
+                        //txtHilillosFinalizados.AppendText(contexto.ElementAt(i).horaFin.ToShortTimeString());
+                        
                     }
+                    contArchivo++;
+                    txtHilillosFinalizados.AppendText("\n");
+                    txtHilillosFinalizados.AppendText("Inicio: "+contexto.ElementAt(i).horaInicio.ToLongTimeString()+"/ Fin:"+contexto.ElementAt(i).horaFin.ToLongTimeString() +"\n");
+                    txtHilillosFinalizados.AppendText("PC"+contexto.ElementAt(i).PC);
+                    txtHilillosFinalizados.AppendText("\n");
                 }
-                txtHilillosFinalizados.AppendText("\n");
-
-
+                //txtHilillosFinalizados.AppendText("\n");
+                contArchivo = 0;
                 cont++;
+                
             }
-            //controladora.shared.hilosFinalizados;
 
 
         }
