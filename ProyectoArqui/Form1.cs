@@ -90,6 +90,77 @@ namespace ProyectoArqui
             controladora.iniciarLoad();
             controladora.iniciarStore();
 
+            //Cargar procesador 0
+
+
+            //cargar directorios
+            for (int i = 0; i < 16; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (j != 3)
+                    {
+                        txtdir0.AppendText(controladora.shared.directorios.ElementAt(0)[i, j].ToString() + "/");
+                    }
+                    else{
+                        txtdir0.AppendText(controladora.shared.directorios.ElementAt(0)[i, j].ToString());
+
+                    }
+                }
+                txtdir0.AppendText("\n");
+            }
+
+            //cargar cache 0
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    txtCache00.AppendText(controladora.shared.cachesDatos.ElementAt(0)[i, j].ToString() + "/");
+                }
+            }
+
+            //carga cache 1
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    txtCache01.AppendText(controladora.shared.cachesDatos.ElementAt(1)[i, j].ToString() + "/");
+                }
+            }
+
+
+            // Cargar procesador 1
+
+            //Cargar directorios
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (j != 3)
+                    {
+                        txtdir1.AppendText(controladora.shared.directorios.ElementAt(1)[i, j].ToString() + "/");
+                    }
+                    else
+                    {
+                        txtdir1.AppendText(controladora.shared.directorios.ElementAt(1)[i, j].ToString());
+
+                    }
+                }
+                txtdir1.AppendText("\n");
+            }
+
+            //carga cache 0 proce 1
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    txtCache10.AppendText(controladora.shared.cachesDatos.ElementAt(2)[i, j].ToString() + "/");
+                }
+            }
+
+
+
+
             int cont = 0;
             int contArchivo = 0;
             foreach (List<ContextoHilillo> contexto in controladora.shared.hilosFinalizados)
@@ -203,10 +274,27 @@ namespace ProyectoArqui
             txtMemInstrucciones1.Text = String.Empty;
             txtMemInstrucciones2.Text = String.Empty;
 
+            txtdir0.Text = String.Empty;
+            txtdir1.Text = String.Empty;
+
+            txtCache00.Text = String.Empty;
+            txtCache01.Text = String.Empty;
+            txtCache10.Text = String.Empty;
+
             txtHilillosFinalizados.Text = String.Empty;
 
             openFileDialog1.Reset();
             listaHilillos.Clear();
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnInicioLento_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

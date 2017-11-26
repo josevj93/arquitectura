@@ -59,6 +59,7 @@ namespace ProyectoArqui
                     foreach (int dato in archivo)
                     {
                         shared.memoriaInstrucciones.ElementAt(0)[contadorP1++] = dato;
+                        
                     }
 
                 }

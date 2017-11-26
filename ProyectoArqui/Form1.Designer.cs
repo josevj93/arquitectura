@@ -44,11 +44,23 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.txtHilillosFinalizados = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.txtCache00 = new System.Windows.Forms.TextBox();
+            this.txtCache10 = new System.Windows.Forms.TextBox();
+            this.txtdir0 = new System.Windows.Forms.TextBox();
+            this.txtdir1 = new System.Windows.Forms.TextBox();
+            this.txtCache01 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.btnInicioLento = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnInicioLento);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.txtQuantum);
@@ -89,11 +101,11 @@
             // 
             // btnIniciar
             // 
-            this.btnIniciar.Location = new System.Drawing.Point(91, 134);
+            this.btnIniciar.Location = new System.Drawing.Point(24, 134);
             this.btnIniciar.Name = "btnIniciar";
             this.btnIniciar.Size = new System.Drawing.Size(134, 23);
             this.btnIniciar.TabIndex = 0;
-            this.btnIniciar.Text = "Iniciar";
+            this.btnIniciar.Text = "Inicio Rapido";
             this.btnIniciar.UseVisualStyleBackColor = true;
             this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
             // 
@@ -126,12 +138,12 @@
             this.txtVerLista.Multiline = true;
             this.txtVerLista.Name = "txtVerLista";
             this.txtVerLista.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtVerLista.Size = new System.Drawing.Size(294, 357);
+            this.txtVerLista.Size = new System.Drawing.Size(294, 189);
             this.txtVerLista.TabIndex = 5;
             // 
             // txtMemInstrucciones1
             // 
-            this.txtMemInstrucciones1.Location = new System.Drawing.Point(329, 232);
+            this.txtMemInstrucciones1.Location = new System.Drawing.Point(101, 232);
             this.txtMemInstrucciones1.Multiline = true;
             this.txtMemInstrucciones1.Name = "txtMemInstrucciones1";
             this.txtMemInstrucciones1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -140,7 +152,7 @@
             // 
             // txtMemInstrucciones2
             // 
-            this.txtMemInstrucciones2.Location = new System.Drawing.Point(652, 232);
+            this.txtMemInstrucciones2.Location = new System.Drawing.Point(546, 232);
             this.txtMemInstrucciones2.Multiline = true;
             this.txtMemInstrucciones2.Name = "txtMemInstrucciones2";
             this.txtMemInstrucciones2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -150,7 +162,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(329, 216);
+            this.label3.Location = new System.Drawing.Point(101, 216);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(140, 13);
             this.label3.TabIndex = 8;
@@ -159,7 +171,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(649, 216);
+            this.label4.Location = new System.Drawing.Point(543, 216);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(140, 13);
             this.label4.TabIndex = 9;
@@ -167,7 +179,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(889, 504);
+            this.btnReset.Location = new System.Drawing.Point(893, 644);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 23);
             this.btnReset.TabIndex = 5;
@@ -177,27 +189,138 @@
             // 
             // txtHilillosFinalizados
             // 
-            this.txtHilillosFinalizados.Location = new System.Drawing.Point(329, 411);
+            this.txtHilillosFinalizados.Location = new System.Drawing.Point(104, 580);
             this.txtHilillosFinalizados.Multiline = true;
             this.txtHilillosFinalizados.Name = "txtHilillosFinalizados";
             this.txtHilillosFinalizados.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtHilillosFinalizados.Size = new System.Drawing.Size(635, 87);
+            this.txtHilillosFinalizados.Size = new System.Drawing.Size(754, 87);
             this.txtHilillosFinalizados.TabIndex = 10;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(326, 395);
+            this.label5.Location = new System.Drawing.Point(98, 564);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(88, 13);
             this.label5.TabIndex = 11;
             this.label5.Text = "Hilillos finalizados";
             // 
+            // txtCache00
+            // 
+            this.txtCache00.Location = new System.Drawing.Point(101, 394);
+            this.txtCache00.Multiline = true;
+            this.txtCache00.Name = "txtCache00";
+            this.txtCache00.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtCache00.Size = new System.Drawing.Size(140, 137);
+            this.txtCache00.TabIndex = 12;
+            // 
+            // txtCache10
+            // 
+            this.txtCache10.Location = new System.Drawing.Point(546, 395);
+            this.txtCache10.Multiline = true;
+            this.txtCache10.Name = "txtCache10";
+            this.txtCache10.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtCache10.Size = new System.Drawing.Size(312, 137);
+            this.txtCache10.TabIndex = 13;
+            // 
+            // txtdir0
+            // 
+            this.txtdir0.Location = new System.Drawing.Point(16, 232);
+            this.txtdir0.Multiline = true;
+            this.txtdir0.Name = "txtdir0";
+            this.txtdir0.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtdir0.Size = new System.Drawing.Size(79, 137);
+            this.txtdir0.TabIndex = 14;
+            // 
+            // txtdir1
+            // 
+            this.txtdir1.Location = new System.Drawing.Point(461, 232);
+            this.txtdir1.Multiline = true;
+            this.txtdir1.Name = "txtdir1";
+            this.txtdir1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtdir1.Size = new System.Drawing.Size(79, 137);
+            this.txtdir1.TabIndex = 15;
+            // 
+            // txtCache01
+            // 
+            this.txtCache01.Location = new System.Drawing.Point(273, 394);
+            this.txtCache01.Multiline = true;
+            this.txtCache01.Name = "txtCache01";
+            this.txtCache01.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtCache01.Size = new System.Drawing.Size(140, 137);
+            this.txtCache01.TabIndex = 16;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(98, 378);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(47, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Caché 0";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(270, 378);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(47, 13);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Caché 1";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(543, 378);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(47, 13);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Caché 0";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(13, 216);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(61, 13);
+            this.label9.TabIndex = 20;
+            this.label9.Text = "Directorio 0";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(458, 216);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(61, 13);
+            this.label10.TabIndex = 21;
+            this.label10.Text = "Directorio 1";
+            // 
+            // btnInicioLento
+            // 
+            this.btnInicioLento.Location = new System.Drawing.Point(164, 134);
+            this.btnInicioLento.Name = "btnInicioLento";
+            this.btnInicioLento.Size = new System.Drawing.Size(134, 23);
+            this.btnInicioLento.TabIndex = 5;
+            this.btnInicioLento.Text = "Inicio lento";
+            this.btnInicioLento.UseVisualStyleBackColor = true;
+            this.btnInicioLento.Click += new System.EventHandler(this.btnInicioLento_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(980, 534);
+            this.ClientSize = new System.Drawing.Size(980, 678);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtCache01);
+            this.Controls.Add(this.txtdir1);
+            this.Controls.Add(this.txtdir0);
+            this.Controls.Add(this.txtCache10);
+            this.Controls.Add(this.txtCache00);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtHilillosFinalizados);
             this.Controls.Add(this.btnReset);
@@ -239,6 +362,17 @@
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.TextBox txtHilillosFinalizados;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtCache00;
+        private System.Windows.Forms.TextBox txtCache10;
+        private System.Windows.Forms.TextBox txtdir0;
+        private System.Windows.Forms.TextBox txtdir1;
+        private System.Windows.Forms.TextBox txtCache01;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button btnInicioLento;
     }
 }
 
