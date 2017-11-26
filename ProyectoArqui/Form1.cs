@@ -87,8 +87,8 @@ namespace ProyectoArqui
             //AQUII COMIENZA HACIENDO LOS PROCES
 
             controladora.iniciar();
-            controladora.iniciarLoad();
-            controladora.iniciarStore();
+            //controladora.iniciarLoad();
+            //controladora.iniciarStore();
 
             //Cargar procesador 0
 
