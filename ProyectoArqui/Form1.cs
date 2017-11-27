@@ -129,7 +129,7 @@ namespace ProyectoArqui
                 {
                     if (j != 3)
                     {
-                        txtdir0.AppendText(controladora.shared.directorios.ElementAt(0)[i, j].ToString() + "/");
+                        txtdir0.AppendText(controladora.shared.directorios.ElementAt(0)[i, j].ToString() + " | ");
                     }
                     else{
                         txtdir0.AppendText(controladora.shared.directorios.ElementAt(0)[i, j].ToString());
@@ -146,7 +146,7 @@ namespace ProyectoArqui
                 {
                     if (j != 3)
                     {
-                        txtCache00.AppendText(controladora.shared.cachesDatos.ElementAt(0)[i, j].ToString() + "/");
+                        txtCache00.AppendText(controladora.shared.cachesDatos.ElementAt(0)[i, j].ToString() + " | ");
                     }
                     else
                     {
@@ -164,7 +164,7 @@ namespace ProyectoArqui
                 {
                     if (j != 3)
                     {
-                        txtCache01.AppendText(controladora.shared.cachesDatos.ElementAt(1)[i, j].ToString() + "/");
+                        txtCache01.AppendText(controladora.shared.cachesDatos.ElementAt(1)[i, j].ToString() + " | ");
                     }
                     else {
 
@@ -186,7 +186,7 @@ namespace ProyectoArqui
                 {
                     if (j != 3)
                     {
-                        txtdir1.AppendText(controladora.shared.directorios.ElementAt(1)[i, j].ToString() + "/");
+                        txtdir1.AppendText(controladora.shared.directorios.ElementAt(1)[i, j].ToString() + " | ");
                     }
                     else
                     {
@@ -204,7 +204,7 @@ namespace ProyectoArqui
                 {
                     if (j != 3)
                     {
-                        txtCache10.AppendText(controladora.shared.cachesDatos.ElementAt(2)[i, j].ToString() + "/");
+                        txtCache10.AppendText(controladora.shared.cachesDatos.ElementAt(2)[i, j].ToString() + " | ");
                     }
                     else
                     {
@@ -232,7 +232,7 @@ namespace ProyectoArqui
                         {
                            txtHilillosFinalizados.AppendText("\n");
                         }
-                        txtHilillosFinalizados.AppendText(contexto.ElementAt(i).Registros[j] + "-");
+                        txtHilillosFinalizados.AppendText("R" + j + " = " + contexto.ElementAt(i).Registros[j] + " | ");
                         //txtHilillosFinalizados.AppendText(contexto.ElementAt(i).horaFin.ToShortTimeString());
                         
                     }
@@ -358,6 +358,11 @@ namespace ProyectoArqui
         }
 
         private void btnInicioLento_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtHilillosFinalizados_TextChanged(object sender, EventArgs e)
         {
 
         }

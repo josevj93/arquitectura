@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnInicioLento = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtQuantum = new System.Windows.Forms.TextBox();
@@ -54,7 +55,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.btnInicioLento = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,6 +70,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(312, 189);
             this.panel1.TabIndex = 0;
+            // 
+            // btnInicioLento
+            // 
+            this.btnInicioLento.Location = new System.Drawing.Point(164, 134);
+            this.btnInicioLento.Name = "btnInicioLento";
+            this.btnInicioLento.Size = new System.Drawing.Size(134, 23);
+            this.btnInicioLento.TabIndex = 5;
+            this.btnInicioLento.Text = "Inicio lento";
+            this.btnInicioLento.UseVisualStyleBackColor = true;
+            this.btnInicioLento.Click += new System.EventHandler(this.btnInicioLento_Click);
             // 
             // label2
             // 
@@ -195,6 +205,7 @@
             this.txtHilillosFinalizados.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtHilillosFinalizados.Size = new System.Drawing.Size(754, 87);
             this.txtHilillosFinalizados.TabIndex = 10;
+            this.txtHilillosFinalizados.TextChanged += new System.EventHandler(this.txtHilillosFinalizados_TextChanged);
             // 
             // label5
             // 
@@ -295,16 +306,6 @@
             this.label10.Size = new System.Drawing.Size(61, 13);
             this.label10.TabIndex = 21;
             this.label10.Text = "Directorio 1";
-            // 
-            // btnInicioLento
-            // 
-            this.btnInicioLento.Location = new System.Drawing.Point(164, 134);
-            this.btnInicioLento.Name = "btnInicioLento";
-            this.btnInicioLento.Size = new System.Drawing.Size(134, 23);
-            this.btnInicioLento.TabIndex = 5;
-            this.btnInicioLento.Text = "Inicio lento";
-            this.btnInicioLento.UseVisualStyleBackColor = true;
-            this.btnInicioLento.Click += new System.EventHandler(this.btnInicioLento_Click);
             // 
             // Form1
             // 
