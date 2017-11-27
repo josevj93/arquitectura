@@ -73,7 +73,7 @@ namespace ProyectoArqui
 
             controladora.cargar(listaHilillos);
 
-
+            
             controladora.iniciar();
 
             for (int i = 0; i <= controladora.shared.memoriasCompartida.ElementAt(0).Count() - 1; i++)

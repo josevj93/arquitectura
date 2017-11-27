@@ -31,7 +31,7 @@ namespace ProyectoArqui.Logica
         public DateTime horaFin { get; set; }
 
 
-        public ContextoHilillo(int DireccionInicial)
+        public ContextoHilillo(int DireccionInicial,int proce)
         {
             this.DireccionInicial = DireccionInicial;
             PC = DireccionInicial;
@@ -40,6 +40,7 @@ namespace ProyectoArqui.Logica
             {
                 Registros[i] = 0;
             }
+            IdProcesador = proce;
         }
     }
 }
