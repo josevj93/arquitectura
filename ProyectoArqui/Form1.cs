@@ -74,13 +74,37 @@ namespace ProyectoArqui
 
             for (int i = 0; i <= controladora.shared.memoriaInstrucciones.ElementAt(0).Count() - 1; i++)
             {
-                txtMemInstrucciones1.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(0)[i] + "-");
+                if ((i + 1) % 16 == 0)
+                {
+                    txtMemInstrucciones1.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(0)[i] + "\n");
+
+                }
+                //if ((i + 1) % 64 == 0) {
+                //    txtMemInstrucciones1.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(0)[i] + "\n");
+                //}
+                else {
+
+                    txtMemInstrucciones1.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(0)[i] + " | ");
+                }
+                
 
             }
 
             for (int i = 0; i <= controladora.shared.memoriaInstrucciones.ElementAt(1).Count() - 1; i++)
             {
-                txtMemInstrucciones2.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(1)[i] + "-");
+                if ((i + 1) % 16 == 0)
+                {
+                    txtMemInstrucciones2.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(1)[i] + "\n");
+
+                }
+                //if ((i + 1) % 64 == 0) {
+                //    txtMemInstrucciones1.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(0)[i] + "\n");
+                //}
+                else
+                {
+
+                    txtMemInstrucciones2.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(1)[i] + " | ");
+                }
 
             }
            
@@ -115,8 +139,17 @@ namespace ProyectoArqui
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    txtCache00.AppendText(controladora.shared.cachesDatos.ElementAt(0)[i, j].ToString() + "/");
+                    if (j != 3)
+                    {
+                        txtCache00.AppendText(controladora.shared.cachesDatos.ElementAt(0)[i, j].ToString() + "/");
+                    }
+                    else
+                    {
+
+                        txtCache00.AppendText(controladora.shared.cachesDatos.ElementAt(0)[i, j].ToString());
+                    }
                 }
+                txtCache00.AppendText("\n");
             }
 
             //carga cache 1
@@ -124,9 +157,19 @@ namespace ProyectoArqui
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    txtCache01.AppendText(controladora.shared.cachesDatos.ElementAt(1)[i, j].ToString() + "/");
+                    if (j != 3)
+                    {
+                        txtCache01.AppendText(controladora.shared.cachesDatos.ElementAt(1)[i, j].ToString() + "/");
+                    }
+                    else {
+
+                        txtCache01.AppendText(controladora.shared.cachesDatos.ElementAt(1)[i, j].ToString());
+                    }
                 }
+                txtCache01.AppendText("\n");
             }
+
+         
 
 
             // Cargar procesador 1
@@ -154,8 +197,16 @@ namespace ProyectoArqui
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    txtCache10.AppendText(controladora.shared.cachesDatos.ElementAt(2)[i, j].ToString() + "/");
+                    if (j != 3)
+                    {
+                        txtCache10.AppendText(controladora.shared.cachesDatos.ElementAt(2)[i, j].ToString() + "/");
+                    }
+                    else
+                    {
+                        txtCache10.AppendText(controladora.shared.cachesDatos.ElementAt(2)[i, j].ToString());
+                    }
                 }
+                txtCache10.AppendText("\n");
             }
 
 

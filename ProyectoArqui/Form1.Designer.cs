@@ -152,7 +152,7 @@
             // 
             // txtMemInstrucciones2
             // 
-            this.txtMemInstrucciones2.Location = new System.Drawing.Point(546, 232);
+            this.txtMemInstrucciones2.Location = new System.Drawing.Point(652, 232);
             this.txtMemInstrucciones2.Multiline = true;
             this.txtMemInstrucciones2.Name = "txtMemInstrucciones2";
             this.txtMemInstrucciones2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -171,7 +171,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(543, 216);
+            this.label4.Location = new System.Drawing.Point(649, 216);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(140, 13);
             this.label4.TabIndex = 9;
@@ -234,7 +234,7 @@
             // 
             // txtdir1
             // 
-            this.txtdir1.Location = new System.Drawing.Point(461, 232);
+            this.txtdir1.Location = new System.Drawing.Point(567, 232);
             this.txtdir1.Multiline = true;
             this.txtdir1.Name = "txtdir1";
             this.txtdir1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -290,7 +290,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(458, 216);
+            this.label10.Location = new System.Drawing.Point(564, 216);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(61, 13);
             this.label10.TabIndex = 21;
