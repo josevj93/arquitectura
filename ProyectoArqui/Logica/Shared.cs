@@ -24,7 +24,9 @@ namespace ProyectoArqui.Logica
         public int quantum { get; set; }
 
         public int[] hilosTotales { get; set; }
-        
+
+        public List<string> listaNombreArchivos;
+
         /// <summary>
         /// se va a inicializar todo con 0´s
         /// </summary>

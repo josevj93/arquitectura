@@ -111,6 +111,9 @@ namespace ProyectoArqui
             //AQUII COMIENZA HACIENDO LOS PROCES
 
             controladora.iniciar();
+
+
+            controladora.shared.listaNombreArchivos = nombreArchivos;
             //controladora.iniciarLoad();
             //controladora.iniciarStore();
 
@@ -135,7 +138,7 @@ namespace ProyectoArqui
             }
 
             //cargar cache 0
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i <= 5; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
@@ -153,7 +156,7 @@ namespace ProyectoArqui
             }
 
             //carga cache 1
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i <= 5; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
@@ -193,7 +196,7 @@ namespace ProyectoArqui
             }
 
             //carga cache 0 proce 1
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i <= 5; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
@@ -249,7 +252,7 @@ namespace ProyectoArqui
 
 
         List<List<int>> listaHilillos = new List<List<int>>();
-
+        List<string> nombreArchivos = new List<string>();
 
         private void btnCargarArchivos_Click(object sender, EventArgs e)
         {
@@ -259,15 +262,23 @@ namespace ProyectoArqui
             try
             {
                 System.IO.Stream fileStream = openFileDialog1.OpenFile();
-                int cont = 1;
+                int cont = 0;
+
+                
+                foreach (string filename in openFileDialog1.FileNames)
+                {
+                    nombreArchivos.Add(filename);
+                }
+
                 foreach (String file in openFileDialog1.FileNames)
                 {
+                    
                     //para enviarlo al controlador de hilillos.
                     List<int> lista = new List<int>();
                     string lineasTodoElArchivo = String.Empty;
 
                     //para mostrar en pantalla.
-                    txtArchivo.AppendText("Archivo " + cont + "\n");
+                    txtArchivo.AppendText("Archivo " + nombreArchivos.ElementAt(cont)+ "\n");
                     string[] lines = System.IO.File.ReadAllLines(file);
                     string[] parts;
                     foreach (string line in lines)
@@ -292,10 +303,10 @@ namespace ProyectoArqui
                 }
                 fileStream.Close();
 
-                int cont2 = 1;
+                int cont2 = 0;
                 foreach (List<int> listaDatosArchivos in listaHilillos)
                 {
-                    txtVerLista.AppendText("Archivo " + cont2 + "\n");
+                    txtVerLista.AppendText("Archivo " + nombreArchivos.ElementAt(cont2) + "\n");
                     for (int i = 0; i <= listaDatosArchivos.Count() - 1; i++)
                     {
                         txtVerLista.AppendText(listaDatosArchivos[i] + " ");
@@ -305,6 +316,8 @@ namespace ProyectoArqui
                     txtVerLista.AppendText("\n");
                     cont2++;
                 }
+
+
 
             }
             catch (Exception Ex)
