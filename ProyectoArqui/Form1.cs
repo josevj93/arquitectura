@@ -221,12 +221,11 @@ namespace ProyectoArqui
             int contArchivo = 0;
             foreach (List<ContextoHilillo> contexto in controladora.shared.hilosFinalizados)
             {
-                txtHilillosFinalizados.AppendText("Procesador " + cont +"\n");
+                //txtHilillosFinalizados.AppendText("Procesador " + cont +"\n");
                 for (int i = 0; i <= contexto.Count() - 1; i++)
                 {
-                    
+                    txtHilillosFinalizados.AppendText("Id Procesador: " + contexto.ElementAt(i).IdProcesador +"\n");
                     txtHilillosFinalizados.AppendText("Archivo " + contArchivo +"\n");
-                    txtHilillosFinalizados.AppendText("IdProcesador: " + contexto.ElementAt(i).IdProcesador +"IdNucleo: "+ contexto.ElementAt(i).IdNucleo +"\n");
                     for (int j = 0; j <= contexto.ElementAt(i).Registros.Count() - 1; j++)
                     {
                         if (j % 8 == 0)
@@ -239,7 +238,7 @@ namespace ProyectoArqui
                     }
                     contArchivo++;
                     txtHilillosFinalizados.AppendText("\n");
-                    txtHilillosFinalizados.AppendText("Inicio: "+contexto.ElementAt(i).horaInicio.ToLongTimeString()+"/ Fin:"+contexto.ElementAt(i).horaFin.ToLongTimeString() +"\n");
+                    //txtHilillosFinalizados.AppendText("Inicio: "+contexto.ElementAt(i).horaInicio.ToLongTimeString()+"/ Fin:"+contexto.ElementAt(i).horaFin.ToLongTimeString() +"\n");
                     txtHilillosFinalizados.AppendText("PC"+contexto.ElementAt(i).PC);
                     txtHilillosFinalizados.AppendText("\n");
                 }
