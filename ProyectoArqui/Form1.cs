@@ -70,13 +70,17 @@ namespace ProyectoArqui
              
              */
 
+
             controladora.cargar(listaHilillos);
 
-            for (int i = 0; i <= controladora.shared.memoriaInstrucciones.ElementAt(0).Count() - 1; i++)
+
+            controladora.iniciar();
+
+            for (int i = 0; i <= controladora.shared.memoriasCompartida.ElementAt(0).Count() - 1; i++)
             {
                 if ((i + 1) % 16 == 0)
                 {
-                    txtMemInstrucciones1.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(0)[i] + "\n");
+                    txtMemInstrucciones1.AppendText(controladora.shared.memoriasCompartida.ElementAt(0)[i] + "\n");
 
                 }
                 //if ((i + 1) % 64 == 0) {
@@ -84,17 +88,17 @@ namespace ProyectoArqui
                 //}
                 else {
 
-                    txtMemInstrucciones1.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(0)[i] + " | ");
+                    txtMemInstrucciones1.AppendText(controladora.shared.memoriasCompartida.ElementAt(0)[i] + " | ");
                 }
                 
 
             }
 
-            for (int i = 0; i <= controladora.shared.memoriaInstrucciones.ElementAt(1).Count() - 1; i++)
+            for (int i = 0; i <= controladora.shared.memoriasCompartida.ElementAt(1).Count() - 1; i++)
             {
                 if ((i + 1) % 16 == 0)
                 {
-                    txtMemInstrucciones2.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(1)[i] + "\n");
+                    txtMemInstrucciones2.AppendText(controladora.shared.memoriasCompartida.ElementAt(1)[i] + "\n");
 
                 }
                 //if ((i + 1) % 64 == 0) {
@@ -103,14 +107,12 @@ namespace ProyectoArqui
                 else
                 {
 
-                    txtMemInstrucciones2.AppendText(controladora.shared.memoriaInstrucciones.ElementAt(1)[i] + " | ");
+                    txtMemInstrucciones2.AppendText(controladora.shared.memoriasCompartida.ElementAt(1)[i] + " | ");
                 }
 
             }
            
             //AQUII COMIENZA HACIENDO LOS PROCES
-
-            controladora.iniciar();
 
 
             controladora.shared.listaNombreArchivos = nombreArchivos;

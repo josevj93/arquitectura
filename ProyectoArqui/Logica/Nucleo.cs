@@ -217,13 +217,13 @@ namespace ProyectoArqui.Logica
                         procesadorVictima = 1;
                     }
                     int accesoDirMemVictima;
-                    if (bloque < 16) //significa que son del directorio 0 y la memoria 0
+                    if (bloqueVictima < 16) //significa que son del directorio 0 y la memoria 0
                     {
-                        accesoDirMemVictima = bloque;
+                        accesoDirMemVictima = bloqueVictima;
                     }
                     else //memoria y directorio 1
                     {
-                        accesoDirMemVictima = bloque - 16;
+                        accesoDirMemVictima = bloqueVictima - 16;
                     }
 
                     //se debe de revisar el estado del bloque para saber si esta modificado
@@ -401,7 +401,7 @@ namespace ProyectoArqui.Logica
             bool result = false;
 
             //se obtiene direccion de memoria
-            int direccion = instruccion.RF1 + instruccion.RD_IMM;
+            int direccion = Registros[instruccion.RF1] + instruccion.RD_IMM;
 
             //se convierte a bloque y palabra posicion en cache
             int bloque = direccion / 16;
@@ -490,7 +490,7 @@ namespace ProyectoArqui.Logica
                             result = true;
                             //se actualiza el directorio
                             shared.directorios.ElementAt(procesador)[accesoDirMem, 0] = 1;
-                            shared.directorios.ElementAt(procesador)[accesoDirMem, IdNucleo] = 1;
+                            shared.directorios.ElementAt(procesador)[accesoDirMem, IdNucleo+1] = 1;
                         }
                     }
                 }
@@ -513,13 +513,13 @@ namespace ProyectoArqui.Logica
                         procesadorVictima = 1;
                     }
                     int accesoDirMemVictima;
-                    if (bloque < 16) //significa que son del directorio 0 y la memoria 0
+                    if (bloqueVictima < 16) //significa que son del directorio 0 y la memoria 0
                     {
-                        accesoDirMemVictima = bloque;
+                        accesoDirMemVictima = bloqueVictima;
                     }
                     else //memoria y directorio 1
                     {
-                        accesoDirMemVictima = bloque - 16;
+                        accesoDirMemVictima = bloqueVictima - 16;
                     }
                     //se debe de revisar el estado del bloque para saber si esta modificado
                     if (CacheDatos[5, posCache] == 1)
@@ -564,7 +564,7 @@ namespace ProyectoArqui.Logica
                         lock (Program.BusDirectorios[procesadorVictima])
                         {
                             //pone un 0 en el directorio casa del bloque victima
-                            shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, IdNucleo] = 0;
+                            shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, IdNucleo+1] = 0;
                             CacheDatos[5, posCache] = -1;
                             //se debe de actualizar el valor del directorio por si todo esta en 0
                             if (shared.directorios.ElementAt(procesadorVictima)[accesoDirMemVictima, 1] == 0 &&
@@ -686,10 +686,11 @@ namespace ProyectoArqui.Logica
                                 //actualizo el directorio casa
                                 //pongo un 1 en estado, que significa que esta modificado
                                 shared.directorios.ElementAt(procesador)[accesoDirMem, 0] = 1;
-                                shared.directorios.ElementAt(procesador)[accesoDirMem, IdNucleo] = 1;
+                                shared.directorios.ElementAt(procesador)[accesoDirMem, IdNucleo+1] = 1;
                             }
                         }
                     }
+                   // int a = 0; // para efectos de depurar y poner BP
                     //se libera todo
                 }
             }
